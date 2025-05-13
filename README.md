@@ -68,6 +68,73 @@ Ask: docs: reorganizar documentación en múltiples archivos
 Ask: feat(payment): implementar lógica de reintento automático en fallos
 ```
 
+# 📦 Instalación y ejecución del frontend
+
+A continuación se detallan las instrucciones para clonar el repositorio, instalar las dependencias y ejecutar el proyecto localmente.
+
+---
+
+## 🚀 Pasos para la instalación
+
+### 1. Clonar el repositorio
+
+Abre una terminal y ejecuta el siguiente comando:
+
+```bash
+git clone https://github.com/adrielardiles/GRUPO01-SOFTWARE_2/edit/main/README.md
+```
+
+### 2. Acceder a la carpeta, abrirla en visual studio code y instalar dependencias
+
+```bash
+npm install
+```
+
+
+### 3. Ejecutar el proyecto en modo desarrollo
+
+```bash
+npm start
+```
+
+
+# 🚀 Instalación y ejecución del Backend (Spring Boot)
+
+Este proyecto backend ha sido desarrollado utilizando **Spring Boot**.  
+A continuación, se detallan los pasos necesarios para clonar el repositorio, configurar e iniciar la aplicación de forma local.
+
+---
+
+## 📥 Instrucciones de instalación
+
+### 1. Clonar el repositorio
+
+Abre una terminal y ejecuta:
+
+```bash
+git clone https://github.com/tu-usuario/tu-repositorio-backend.git
+```
+
+### 2. Importar el proyecto en su IDE de preferencia
+
+Abre tu IDE e importar el proyecto de Spring Boot
+
+### 3. Configurar la conexión a la base de datos
+
+En application.properties, copiar y pegar este codigo:
+
+```bash
+spring.datasource.url=jdbc:postgresql://localhost:5432/nombre_de_tu_base
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### 4. Instalar dependencias y construir el proyecto
+
+```bash
+./gradlew build
+```
 
 
 
