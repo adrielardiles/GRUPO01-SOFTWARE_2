@@ -137,5 +137,8 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 
 
+# Conectarse a la base de datos
 
+Username: postgres
+Password: software2
 
