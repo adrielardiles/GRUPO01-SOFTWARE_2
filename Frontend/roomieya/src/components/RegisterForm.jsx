@@ -8,7 +8,7 @@ const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí va tu lógica para enviar datos al backend
+    //Backend
     console.log({ email, password, name });
   };
 

@@ -1,4 +1,3 @@
-// src/api/endpoints.js
 const BASE_URL = 'https://api.roomieya.com';
 
 export const API = {
@@ -15,6 +14,13 @@ export const API = {
   payments: {
     make: `${BASE_URL}/payments/make`,
     history: `${BASE_URL}/payments/history`
+  },
+  announcements: {
+    propertiesByUser: `${BASE_URL}/announcements/properties-by-user`,
+    byProperty: (propertyId, page = 1) => `${BASE_URL}/announcements/by-property/${propertyId}?page=${page}&size=5`,
+    detail: (announcementId) => `${BASE_URL}/announcements/detail/${announcementId}`,
+    markAsRead: (announcementId) => `${BASE_URL}/announcements/mark-as-read/${announcementId}`,
+    create: `${BASE_URL}/announcements/create`
   }
-  // Agrega más módulos aquí según crezca el sistema
+
 };

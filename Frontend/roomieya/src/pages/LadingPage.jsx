@@ -5,7 +5,6 @@ import Header from '../components/Header';
 const LandingPage = () => {
   return (
     <div style={{ backgroundColor: '#FAFAFA', minHeight: '100vh' }}>
-      <Header />
       <div className="container mt-5">
         {/* Aquí irá el contenido futuro */}
       </div>

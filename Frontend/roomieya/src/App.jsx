@@ -12,16 +12,13 @@ import RegisterPage from './pages/RegisterPage';
 import PaymentPage from './pages/PaymentPage';
 import PaymentHistoryPage from './pages/PaymentHistoryPage';
 
+import AnunciosPage from './pages/AnunciosPage';
+import Header from './components/Header';
+
 const App = () => {
   return (
     <BrowserRouter>
-      <nav style={{ padding: '1rem', background: '#f8f9fa', marginBottom: '1rem' }}>
-        <a href="/" style={{ marginRight: '1rem', textDecoration: 'none', color: '#007bff' }}>Inicio</a>
-        <a href="/register" style={{ marginRight: '1rem', textDecoration: 'none', color: '#007bff' }}>Registro</a>
-        <a href="/pago" style={{ marginRight: '1rem', textDecoration: 'none', color: '#007bff' }}>Realizar Pago</a>
-        <a href="/historial" style={{ textDecoration: 'none', color: '#007bff' }}>Historial</a>
-      </nav>
-
+      <Header/>
       <Routes>
         {/* Rutas ya existentes */}
         <Route path="/" element={<LandingPage />} />
@@ -30,6 +27,10 @@ const App = () => {
         {/* Rutas añadidas para módulo de pagos */}
         <Route path="/pago" element={<PaymentPage />} />
         <Route path="/historial" element={<PaymentHistoryPage />} />
+
+        <Route path="/anuncios" element={<AnunciosPage />} />
+
+
       </Routes>
     </BrowserRouter>
   );
