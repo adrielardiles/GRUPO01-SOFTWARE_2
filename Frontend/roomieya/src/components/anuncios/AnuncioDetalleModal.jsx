@@ -18,10 +18,11 @@ const AnuncioDetalleModal = ({ anuncio, onCerrar, onConfirmarLectura }) => {
       <div className="detalle-contenido">
         <div className="text-center mb-3">
           <h5 className="fw-bold mb-2">{anuncio.title}</h5>
-          {anuncio.isUrgent && (
-            <div className="badge bg-danger">URGENTE</div>
-          )}
+          <div className={`badge ${anuncio.tipo === 'Urgent' ? 'bg-danger' : 'bg-secondary'} text-capitalize`}>
+            {anuncio.tipo}
+          </div>
         </div>
+
 
         <button onClick={onCerrar} className="btn btn-close position-absolute end-0 top-0 m-3"></button>
 
@@ -29,7 +30,7 @@ const AnuncioDetalleModal = ({ anuncio, onCerrar, onConfirmarLectura }) => {
           {anuncio.message || 'Sin contenido'}
         </div>
 
-        {anuncio.isUrgent && (
+      {anuncio.tipo === 'Urgent' && (
           <div className="text-center mt-4">
             {confirmado ? (
               <div className="text-success fw-bold">

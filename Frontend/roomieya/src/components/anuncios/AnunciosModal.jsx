@@ -4,25 +4,9 @@ import CrearAnuncioModal from './CrearAnuncioModal';
 
 
 const mockAnuncios = [
-  { id: 1, title: 'Corte de agua', createdAt: '19-05-2025', isUrgent: true, isRead: false },
-  { id: 2, title: 'Nueva clave WiFi', createdAt: '18-05-2025', isUrgent: false, isRead: false },
-  { id: 3, title: 'Reunión mensual', createdAt: '16-05-2025', isUrgent: false, isRead: true },
-  { id: 4, title: 'Fumigación', createdAt: '15-05-2025', isUrgent: true, isRead: true },
-  { id: 5, title: 'Pago mantenimiento', createdAt: '14-05-2025', isUrgent: false, isRead: false },
-  { id: 6, title: 'Normas de convivencia', createdAt: '13-05-2025', isUrgent: false, isRead: true },
-  { id: 7, title: 'Fiesta piso 4', createdAt: '11-05-2025', isUrgent: false, isRead: false },
-  {
-  id: 8,
-  title: "Corte programado de electricidad",
-  createdAt: "21-05-2025",
-  isUrgent: true,
-  isRead: false,
-  message: `Estimados residentes:
-
-Este jueves 23 de mayo entre las 9:00 a.m. y 1:00 p.m. se realizará un corte de electricidad debido a trabajos de mantenimiento en el sistema eléctrico del edificio. 
-
-Les recomendamos tomar las precauciones necesarias. Este aviso requiere confirmación de lectura.`
-}
+  { id: 1, title: 'Corte de agua', createdAt: '19-05-2025', tipo: 'Urgent', isRead: false },
+  { id: 2, title: 'Nueva clave WiFi', createdAt: '18-05-2025', tipo: 'General', isRead: false },
+  { id: 3, title: 'Reunión mensual', createdAt: '16-05-2025', tipo: 'Evento', isRead: true },
 
 ];
 
@@ -43,12 +27,13 @@ Les recomendamos tomar las precauciones necesarias. Este aviso requiere confirma
 
   const cambiarAnuncio = (nuevoAnuncio) => {
     if (
-      anuncioSeleccionado?.isUrgent &&
+      anuncioSeleccionado?.tipo === 'Urgent' &&
       !anuncioSeleccionado?.isRead
     ) {
       setBloqueoMensaje("⚠️ Debes confirmar la lectura del anuncio actual antes de cambiar.");
       return;
     }
+
 
     setBloqueoMensaje('');
     setAnuncioSeleccionado(nuevoAnuncio);
@@ -65,10 +50,10 @@ Les recomendamos tomar las precauciones necesarias. Este aviso requiere confirma
     const anunciosOrdenados = [...anuncios].sort((a, b) => {
 
     const prioridad = (x) => {
-        if (!x.isRead && x.isUrgent) return 1;    // urgente no leído
-        if (!x.isRead && !x.isUrgent) return 2;   // normal no leído
-        if (x.isRead && x.isUrgent) return 3;     // urgente leído
-        return 4;                                 // normal leído
+      if (!x.isRead && x.tipo === 'Urgent') return 1;
+      if (!x.isRead) return 2;
+      if (x.isRead && x.tipo === 'Urgent') return 3;
+      return 4;
     };
 
     const pA = prioridad(a);
@@ -117,16 +102,15 @@ Les recomendamos tomar las precauciones necesarias. Este aviso requiere confirma
           >
 
 
-          <div className="d-flex align-items-center gap-2 mb-1">
-            {a.isUrgent && (
-                <img src="/images/warning.png" alt="urgente" width={24} />
-
-            )}
-            <strong>{a.title}</strong>
-          </div>
-          <div className="text-white-50 small">
-            Fecha: {a.createdAt}
-          </div>
+        <div className="d-flex align-items-center gap-2 mb-1">
+          {a.tipo === 'Urgent' && (
+            <img src="/images/warning.png" alt="urgente" width={24} />
+          )}
+          <strong>{a.title}</strong>
+        </div>
+        <div className="text-white-50 small">
+          Fecha: {a.createdAt}
+        </div>
         </div>
       ))}
 

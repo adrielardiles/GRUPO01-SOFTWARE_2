@@ -1,6 +1,9 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import GrupoEspecificoContainer from './components/grupos/GrupoEspecificoContainer';
+
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,6 +17,7 @@ import PaymentHistoryPage from './pages/PaymentHistoryPage';
 
 import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
+import PantallaGrupos from './pages/PantallaGrupos';
 
 const App = () => {
   return (
@@ -27,8 +31,10 @@ const App = () => {
         {/* Rutas añadidas para módulo de pagos */}
         <Route path="/pago" element={<PaymentPage />} />
         <Route path="/historial" element={<PaymentHistoryPage />} />
+        <Route path="/grupos" element={<PantallaGrupos />} />
 
         <Route path="/anuncios" element={<AnunciosPage />} />
+        <Route path="/grupo/:groupId" element={<GrupoEspecificoContainer />} />
 
 
       </Routes>
