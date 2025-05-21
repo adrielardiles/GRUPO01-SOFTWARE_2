@@ -15,53 +15,77 @@ const Header = () => {
   ];
 
   return (
-    <div className="w-100 d-flex flex-column align-items-center py-2 px-2">
-      {/* Nombre + Logo */}
-      <div className="d-flex align-items-center mb-3">
-        <img
-          src="https://res.cloudinary.com/digbatkky/image/upload/v1747712127/ROOMIEL_pueyue.png"
-          alt="RoomieYa logo"
-          style={{ height: '90px', marginRight: '0.75rem' }}
-        />
+    <>
+      {/* Barra superior con logo y botón de reseñas */}
+      <nav
+        className="navbar navbar-expand-lg"
+        style={{ backgroundColor: '#F57C00', padding: '0.75rem 2rem' }}
+      >
+        <a
+          className="navbar-brand text-white fw-bold"
+          href="/"
+          style={{ fontSize: '1.5rem' }}
+        >
+          RoomieYa
+        </a>
+
+        <div className="ms-auto d-flex align-items-center gap-3">
+          {/* 🔗 Botón para ver reseñas reportadas */}
+          <button
+            className="btn btn-light btn-sm fw-bold"
+            onClick={() => navigate('/admin/reported-reviews')}
+          >
+            Ver reseñas reportadas
+          </button>
+
+          {/* Ícono de usuario */}
+          <img
+            src="https://res.cloudinary.com/digbatkky/image/upload/v1747712127/ROOMIEL_pueyue.png"
+            alt="RoomieYa logo"
+            style={{ height: '90px', marginRight: '0.75rem' }}
+          />
+        </div>
+      </nav>
+
+      {/* Layout personalizado con botones */}
+      <div className="w-100 d-flex flex-column align-items-center py-2 px-2">
+        <div className="header-layout">
+          {/* Ícono avatar */}
+          <div
+            className="icono-avatar"
+            onClick={() => navigate('/register')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4H21.6v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+            </svg>
+          </div>
+
+          {/* Botones dinámicos */}
+          <div className="botonera">
+            {botones.map(({ texto, ruta }, idx) => (
+              <button
+                key={idx}
+                className="custom-btn"
+                onClick={() => navigate(ruta)}
+              >
+                {texto}
+              </button>
+            ))}
+          </div>
+
+          {/* Ícono casa */}
+          <div
+            className="icono-casa"
+            onClick={() => navigate('/')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+          </div>
+        </div>
       </div>
 
-      {/* Layout general */}
-      <div className="header-layout">
-        {/* Avatar */}
-        <div
-          className="icono-avatar"
-          onClick={() => navigate('/register')}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
-            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4H21.6v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-          </svg>
-        </div>
-
-        {/* Botones */}
-        <div className="botonera">
-          {botones.map(({ texto, ruta }, idx) => (
-            <button
-              key={idx}
-              className="custom-btn"
-              onClick={() => navigate(ruta)}
-            >
-              {texto}
-            </button>
-          ))}
-        </div>
-
-        {/* Casa */}
-        <div
-          className="icono-casa"
-          onClick={() => navigate('/')}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-          </svg>
-        </div>
-      </div>
-
-      {/* Estilos */}
+      {/* Estilos personalizados */}
       <style>{`
         .header-layout {
           display: flex;
@@ -113,7 +137,7 @@ const Header = () => {
           cursor: pointer;
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
