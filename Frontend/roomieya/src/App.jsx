@@ -16,6 +16,10 @@ import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
 import PantallaGrupos from './pages/PantallaGrupos';
 
+// registrarinmueblepage
+import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
+
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -31,6 +35,10 @@ const App = () => {
         <Route path="/grupos" element={<PantallaGrupos />} />
         <Route path="/anuncios" element={<AnunciosPage />} />
         <Route path="/grupo/:groupId" element={<GrupoEspecificoContainer />} />
+
+
+{/* Rutas registrarInmueblePAge*/}
+        <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
 
 
       </Routes>
