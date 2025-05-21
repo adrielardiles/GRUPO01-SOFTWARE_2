@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingPage from './pages/LadingPage';
 import RegisterPage from './pages/RegisterPage';
 import ReportedReviews from './components/ReportedReviews';
-
+import CrearPublicacionPage from './pages/CrearPublicacionPage';
 // Tus páginas de pagos
 import PaymentPage from './pages/PaymentPage';
 import PaymentHistoryPage from './pages/PaymentHistoryPage';
@@ -36,6 +36,7 @@ const App = () => {
         <Route path="/grupos" element={<PantallaGrupos />} />
         <Route path="/anuncios" element={<AnunciosPage />} />
         <Route path="/grupo/:groupId" element={<GrupoEspecificoContainer />} />
+        <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
 
 
 {/* Rutas registrarInmueblePAge*/}

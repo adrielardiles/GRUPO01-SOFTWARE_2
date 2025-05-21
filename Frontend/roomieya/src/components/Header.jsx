@@ -9,7 +9,7 @@ const Header = () => {
     { texto: 'GRUPOS', ruta: '/grupos' },
     { texto: 'PAGO', ruta: '/pago' },
     { texto: 'HISTORIAL', ruta: '/historial' },
-    { texto: 'ZONA 1', ruta: '/zona1' },
+    { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
     { texto: 'ZONA 2', ruta: '/zona2' },
     { texto: 'ZONA 3', ruta: '/zona3' },
   ];
@@ -45,7 +45,7 @@ const Header = () => {
             { texto: 'GRUPOS', ruta: '/grupos' },
             { texto: 'PAGO', ruta: '/pago' },
             { texto: 'HISTORIAL', ruta: '/historial' },
-            { texto: 'ZONA 1', ruta: '/zona1' },
+            { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
             { texto: 'ZONA 2', ruta: '/zona2' },
             { texto: 'ZONA 3', ruta: '/zona3' },
             { texto: 'RESEÑAS', ruta: '/admin/reported-reviews' }
