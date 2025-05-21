@@ -18,6 +18,7 @@ import PantallaGrupos from './pages/PantallaGrupos';
 
 // registrarinmueblepage
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
+import GrupoEspecificoContainer from './components/grupos/GrupoEspecificoContainer';
 
 
 const App = () => {
