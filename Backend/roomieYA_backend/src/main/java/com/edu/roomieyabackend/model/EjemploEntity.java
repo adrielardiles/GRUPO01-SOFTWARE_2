@@ -17,6 +17,11 @@ public class EjemploEntity {
     @Column(name = "titulo", nullable = false, length = 100)
     private String titulo;
 
+
+    @Column(name = "titulo2", nullable = false, length = 100)
+    private String titulo2;
+
+
     @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
