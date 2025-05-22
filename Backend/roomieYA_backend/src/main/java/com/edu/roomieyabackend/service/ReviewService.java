@@ -4,7 +4,6 @@ import com.edu.roomieyabackend.model.Review;
 import com.edu.roomieyabackend.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
