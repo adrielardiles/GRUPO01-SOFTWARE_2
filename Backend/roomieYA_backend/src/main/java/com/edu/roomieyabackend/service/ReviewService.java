@@ -15,23 +15,12 @@ public class ReviewService implements IReviewService {
 
     @Override
     public List<Review> getReportedReviews() {
+        // Usamos el método correcto
         return reviewRepository.findByReportadoTrue();
     }
 
     @Override
     public void deleteReviewById(Long id) {
         reviewRepository.deleteById(id);
-
-
     }
-
-    public List<Review> getReportedReviews() {
-        // Lógica para obtener reviews reportados
-        return reviewRepository.findByReportedTrue();
-    }
-
-    public void deleteReviewById(Long id) {
-        reviewRepository.deleteById(id);
-    }
-
 }
