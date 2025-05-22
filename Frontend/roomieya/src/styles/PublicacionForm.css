@@ -1,0 +1,52 @@
+.formulario-publicacion {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(240, 89, 65, 0.2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.formulario-publicacion input[type="text"],
+.formulario-publicacion input[type="number"],
+.formulario-publicacion textarea,
+.formulario-publicacion input[type="file"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0 20px 0;
+    border: 2px solid #f05941;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.formulario-publicacion input[type="text"]:focus,
+.formulario-publicacion input[type="number"]:focus,
+.formulario-publicacion textarea:focus,
+.formulario-publicacion input[type="file"]:focus {
+    border-color: #d9482a;
+    outline: none;
+}
+
+.formulario-publicacion textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.formulario-publicacion button {
+    background-color: #f05941;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-publicacion button:hover {
+    background-color: #d9482a;
+}
