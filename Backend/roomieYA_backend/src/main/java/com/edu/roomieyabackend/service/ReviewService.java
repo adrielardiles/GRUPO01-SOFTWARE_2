@@ -27,7 +27,7 @@ public class ReviewService implements IReviewService {
 
     public List<Review> getReportedReviews() {
         // Lógica para obtener reviews reportados
-        return reviewRepository.findByReportedTrue();
+//        return reviewRepository.findByReportedTrue();
     }
 
     public void deleteReviewById(Long id) {
