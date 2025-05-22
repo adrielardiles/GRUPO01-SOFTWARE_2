@@ -13,9 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class RoomieYaBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RoomieYaBackendApplication.class, args);
-	}
+
 
 	@Bean
 	public CommandLineRunner probarConexion(EjemploRepository ejemploRepository) {
