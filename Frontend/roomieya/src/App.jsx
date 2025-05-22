@@ -18,6 +18,10 @@ import Header from './components/Header';
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
 
 import RegistroEspacioPage from './pages/RegistroEspacioPage';
+// registrar disponibilidad de alquiler
+import './containers/PublicacionContainer'
+import './pages/PublicacionForm'
+import PublicacionContainer from "./containers/PublicacionContainer";
 
 
 const App = () => {
@@ -40,7 +44,8 @@ const App = () => {
 
 {/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
-
+          {/* Rutas añadidas para disponibilidad de alquiler*/}
+          <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
 
       </Routes>
     </BrowserRouter>
