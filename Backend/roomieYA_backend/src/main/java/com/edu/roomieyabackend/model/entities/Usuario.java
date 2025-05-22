@@ -1,8 +1,11 @@
 package com.edu.roomieyabackend.model.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.List;
 @Entity
+@Data
 @Table(name = "usuarios")
 public class Usuario {
 
@@ -12,19 +15,19 @@ public class Usuario {
 
     private String nombreCompleto;
 
-    @Column(unique = true, nullable = false)
-    private String correo;
+    private String telefono;
 
-    private String contrasena;
+    @Column(unique = true)
+    private String correo;
 
     private boolean activo;
 
-    // Anuncios creados
+    // Anuncios que ha creado (solo para relación inversa opcional)
     @OneToMany(mappedBy = "creador")
     private List<Anuncio> anunciosCreados;
 
-    // Anuncios leídos
-    @OneToMany(mappedBy = "roomie")
-    private List<LecturaAnuncio> lecturas;
-}
+    @OneToMany(mappedBy = "usuario")
+    private List<UsuarioInmueble> inmueblesAsociados;
 
+    // Getters y setters
+}
