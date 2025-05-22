@@ -21,5 +21,17 @@ public class ReviewService implements IReviewService {
     @Override
     public void eliminar(Long id) {
         reviewRepository.deleteById(id);
+
+
     }
+
+    public List<Review> getReportedReviews() {
+        // Lógica para obtener reviews reportados
+        return reviewRepository.findByReportedTrue();
+    }
+
+    public void deleteReviewById(Long id) {
+        reviewRepository.deleteById(id);
+    }
+
 }
