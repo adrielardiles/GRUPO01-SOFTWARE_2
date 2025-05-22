@@ -18,7 +18,7 @@ public class AnuncioFactory {
     }
 
     public Anuncio crearDesdeDTO(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
-        TipoAnuncio tipo = dto.tipo;
+        TipoAnuncio tipo = TipoAnuncio.valueOf(dto.tipo.toUpperCase());
         AnuncioTipoStrategy strategy = strategyRegistry.getStrategy(tipo);
 
         if (strategy == null) {

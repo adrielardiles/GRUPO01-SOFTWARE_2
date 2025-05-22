@@ -1,0 +1,55 @@
+# src/main/resources/application.yml
+
+spring:
+  application:
+    name: roomieYA_backend
+
+  datasource:
+    url: jdbc:postgresql://database-software.ctuaosgg6rsd.us-east-2.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: software2
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+  mail:
+    host: smtp-relay.sendinblue.com
+    port: 587
+    username: 8da294001@smtp-brevo.com
+    password: Kvpd32QnZ0m8PSw4
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false

@@ -9,8 +9,11 @@ import java.util.List;
 @Service
 public class ReviewService implements IReviewService {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
+
+    public ReviewService(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
+    }
 
     @Override
     public List<Review> getReportedReviews() {
