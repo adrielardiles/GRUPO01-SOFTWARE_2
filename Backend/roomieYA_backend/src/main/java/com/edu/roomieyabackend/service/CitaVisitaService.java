@@ -7,6 +7,8 @@ import com.edu.roomieyabackend.repository.CitaVisitaRepository;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 @Service
 public class CitaVisitaService {

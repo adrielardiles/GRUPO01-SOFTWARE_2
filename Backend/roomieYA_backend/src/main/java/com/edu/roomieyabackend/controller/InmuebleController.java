@@ -1,6 +1,6 @@
 package com.edu.roomieyabackend.controller;
 
-import com.edu.roomieyabackend.model.Inmueble;
+import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
