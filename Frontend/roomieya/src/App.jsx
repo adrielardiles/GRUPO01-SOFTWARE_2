@@ -14,11 +14,10 @@ import PaymentHistoryPage from './pages/PaymentHistoryPage';
 
 import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
-import PantallaGrupos from './pages/PantallaGrupos';
-
 // registrarinmueblepage
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
-import GrupoEspecificoContainer from './components/grupos/GrupoEspecificoContainer';
+
+import RegistroEspacioPage from './pages/RegistroEspacioPage';
 
 
 const App = () => {
@@ -33,10 +32,10 @@ const App = () => {
         {/* Rutas añadidas para módulo de pagos */}
         <Route path="/pago" element={<PaymentPage />} />
         <Route path="/historial" element={<PaymentHistoryPage />} />
-        <Route path="/grupos" element={<PantallaGrupos />} />
         <Route path="/anuncios" element={<AnunciosPage />} />
-        <Route path="/grupo/:groupId" element={<GrupoEspecificoContainer />} />
+        
         <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
+        <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
 
 
 {/* Rutas registrarInmueblePAge*/}
