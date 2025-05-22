@@ -6,12 +6,12 @@ const Header = () => {
 
   const botones = [
     { texto: 'ANUNCIOS', ruta: '/anuncios' },
-    { texto: 'GRUPOS', ruta: '/grupos' },
     { texto: 'PAGO', ruta: '/pago' },
     { texto: 'HISTORIAL', ruta: '/historial' },
     { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
     { texto: 'ZONA 2', ruta: '/zona2' },
     { texto: 'ZONA 3', ruta: '/zona3' },
+    { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
   ];
 
   return (
@@ -42,13 +42,13 @@ const Header = () => {
         <div className="botonera">
           {[
             { texto: 'ANUNCIOS', ruta: '/anuncios' },
-            { texto: 'GRUPOS', ruta: '/grupos' },
             { texto: 'PAGO', ruta: '/pago' },
             { texto: 'HISTORIAL', ruta: '/historial' },
             { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
             { texto: 'ZONA 2', ruta: '/zona2' },
             { texto: 'ZONA 3', ruta: '/zona3' },
-            { texto: 'RESEÑAS', ruta: '/admin/reported-reviews' }
+            { texto: 'RESEÑAS', ruta: '/admin/reported-reviews' },
+            { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
           ].map(({ texto, ruta }, idx) => (
             <button
               key={idx}

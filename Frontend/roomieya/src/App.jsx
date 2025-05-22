@@ -14,11 +14,14 @@ import PaymentHistoryPage from './pages/PaymentHistoryPage';
 
 import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
-import PantallaGrupos from './pages/PantallaGrupos';
-
 // registrarinmueblepage
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
-import GrupoEspecificoContainer from './components/grupos/GrupoEspecificoContainer';
+
+import RegistroEspacioPage from './pages/RegistroEspacioPage';
+// registrar disponibilidad de alquiler
+import './containers/PublicacionContainer'
+import './pages/PublicacionForm'
+import PublicacionContainer from "./containers/PublicacionContainer";
 
 // MisInmuebles
 import MisInmueblesPage from './pages/MisInmueblesPage';
@@ -39,17 +42,22 @@ const App = () => {
         {/* Rutas añadidas para módulo de pagos */}
         <Route path="/pago" element={<PaymentPage />} />
         <Route path="/historial" element={<PaymentHistoryPage />} />
-        <Route path="/grupos" element={<PantallaGrupos />} />
         <Route path="/anuncios" element={<AnunciosPage />} />
-        <Route path="/grupo/:groupId" element={<GrupoEspecificoContainer />} />
+        
         <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
+        <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
 
 
 {/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
+<<<<<<< HEAD
 
 {/* Rutas MisInmuebles*/}
         <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
+=======
+          {/* Rutas añadidas para disponibilidad de alquiler*/}
+          <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+>>>>>>> c94f6f4d8a15ba99690cc9ca9e8f642a1e09e2f2
 
         {/* Rutas EditarInmueble*/}
         <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />

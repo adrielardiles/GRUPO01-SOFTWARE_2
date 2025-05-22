@@ -12,51 +12,30 @@ public class Review {
 
     private String content;
 
-    private String user;
+    private String username; // Cambié user a username
 
     private boolean reportado;
 
     private String reason;
 
     // Getters y Setters
+    public Long getId() { return id; }
 
-    public Long getId() {
-        return id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getContent() { return content; }
 
-    public String getContent() {
-        return content;
-    }
+    public void setContent(String content) { this.content = content; }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public String getUsername() { return username; }
 
-    public String getUser() {
-        return user;
-    }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+    public boolean isReportado() { return reportado; }
 
-    public boolean isReportado() {
-        return reportado;
-    }
+    public void setReportado(boolean reportado) { this.reportado = reportado; }
 
-    public void setReportado(boolean reportado) {
-        this.reportado = reportado;
-    }
+    public String getReason() { return reason; }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    public void setReason(String reason) { this.reason = reason; }
 }

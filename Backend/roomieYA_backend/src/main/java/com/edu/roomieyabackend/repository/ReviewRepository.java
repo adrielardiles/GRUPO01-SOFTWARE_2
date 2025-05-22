@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    // Método para obtener solo las reseñas reportadas
     List<Review> findByReportadoTrue();
 }

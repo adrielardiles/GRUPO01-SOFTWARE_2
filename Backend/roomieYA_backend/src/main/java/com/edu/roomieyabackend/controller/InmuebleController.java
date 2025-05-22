@@ -1,12 +1,14 @@
 package com.edu.roomieyabackend.controller;
 
-import com.edu.roomieyabackend.model.Inmueble;
+import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/inmuebles")
@@ -16,12 +18,14 @@ public class InmuebleController {
     @Autowired
     private InmuebleRepository inmuebleRepository;
 
+    // POST: crear nuevo inmueble
     @PostMapping
     public Inmueble crearInmueble(@RequestBody Inmueble inmueble) {
         inmueble.setPrivado(true);
         return inmuebleRepository.save(inmueble);
     }
 
+    // GET: obtener inmueble por ID
     @GetMapping("/{id}")
     public ResponseEntity<Inmueble> obtenerInmueblePorId(@PathVariable Long id) {
         Optional<Inmueble> inmuebleOptional = inmuebleRepository.findById(id);
@@ -31,6 +35,7 @@ public class InmuebleController {
         return ResponseEntity.ok(inmuebleOptional.get());
     }
 
+    // PUT: actualizar inmueble por ID
     @PutMapping("/{id}")
     public ResponseEntity<Inmueble> actualizarInmueble(@PathVariable Long id, @RequestBody Inmueble inmuebleDetalles) {
         Optional<Inmueble> inmuebleOptional = inmuebleRepository.findById(id);
@@ -48,5 +53,11 @@ public class InmuebleController {
 
         Inmueble inmuebleActualizado = inmuebleRepository.save(inmueble);
         return ResponseEntity.ok(inmuebleActualizado);
+    }
+
+    // GET: listar todos los inmuebles
+    @GetMapping
+    public List<Inmueble> obtenerTodos() {
+        return inmuebleRepository.findAll();
     }
 }

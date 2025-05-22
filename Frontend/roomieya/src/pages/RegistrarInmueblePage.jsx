@@ -1,25 +1,45 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+=======
+import { useState } from "react";
+import axios from "axios";
+import { Container, Form, Button, Alert, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { API } from "../api/endpoints";
+>>>>>>> c94f6f4d8a15ba99690cc9ca9e8f642a1e09e2f2
 
-const RegistrarInmueblePage = () => {
-  const [formData, setFormData] = useState({
-    tipo: '',
-    ubicacion: '',
-    tamano: '',
-    precio: '',
-    servicios: '',
-    descripcion: ''
+export default function RegistrarInmueblePage() {
+  const [form, setForm] = useState({
+    tipo: "",
+    ubicacion: "",
+    tamano: "",
+    precio: "",
+    servicios: "",
+    descripcion: "",
+    privado: true,
   });
 
+<<<<<<< HEAD
   const [errores, setErrores] = useState({});
   const navigate = useNavigate();
+=======
+  const [exito, setExito] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+>>>>>>> c94f6f4d8a15ba99690cc9ca9e8f642a1e09e2f2
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
+<<<<<<< HEAD
   const validar = () => {
     const newErrors = {};
     if (!formData.tipo) newErrors.tipo = 'Seleccione un tipo de inmueble';
@@ -50,10 +70,25 @@ const RegistrarInmueblePage = () => {
       }
     } else {
       console.log('Errores de validación:', errores);
+=======
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      await axios.post(API.properties.create, form, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setExito(true);
+      setTimeout(() => navigate("/crear-publicacion"), 2000);
+    } catch (err) {
+      console.error(err);
+      setError("No se pudo registrar el inmueble. Verifica los datos.");
+>>>>>>> c94f6f4d8a15ba99690cc9ca9e8f642a1e09e2f2
     }
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mt-5" style={{ maxWidth: '500px' }}>
       <h1>Registrar Inmueble</h1>
       <form onSubmit={handleSubmit} noValidate>
@@ -135,7 +170,102 @@ const RegistrarInmueblePage = () => {
         <button type="submit" className="btn btn-primary">Registrar inmueble</button>
       </form>
     </div>
-  );
-};
+=======
+    <Container className="mt-5">
+      <Card className="p-4 shadow-lg mx-auto" style={{ maxWidth: "600px" }}>
+        <h3 className="mb-4 text-center">Registrar Inmueble</h3>
 
-export default RegistrarInmueblePage;
+        {exito && <Alert variant="success">✅ Inmueble registrado con éxito</Alert>}
+        {error && <Alert variant="danger">{error}</Alert>}
+
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Tipo</Form.Label>
+            <Form.Control
+              type="text"
+              name="tipo"
+              value={form.tipo}
+              onChange={handleChange}
+              placeholder="Ej. Departamento, Habitación"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Ubicación</Form.Label>
+            <Form.Control
+              type="text"
+              name="ubicacion"
+              value={form.ubicacion}
+              onChange={handleChange}
+              placeholder="Dirección o zona"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Tamaño (m²)</Form.Label>
+            <Form.Control
+              type="number"
+              name="tamano"
+              value={form.tamano}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Precio mensual (S/)</Form.Label>
+            <Form.Control
+              type="number"
+              name="precio"
+              value={form.precio}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Servicios (separados por coma)</Form.Label>
+            <Form.Control
+              type="text"
+              name="servicios"
+              value={form.servicios}
+              onChange={handleChange}
+              placeholder="Ej. WiFi, agua, luz"
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Descripción</Form.Label>
+            <Form.Control
+              as="textarea"
+              name="descripcion"
+              rows={3}
+              value={form.descripcion}
+              onChange={handleChange}
+              placeholder="Detalles del espacio"
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-4">
+            <Form.Check
+              type="checkbox"
+              name="privado"
+              checked={form.privado}
+              onChange={handleChange}
+              label="¿Es privado?"
+            />
+          </Form.Group>
+
+          <div className="d-grid">
+            <Button variant="primary" type="submit">
+              Registrar Inmueble
+            </Button>
+          </div>
+        </Form>
+      </Card>
+    </Container>
+>>>>>>> c94f6f4d8a15ba99690cc9ca9e8f642a1e09e2f2
+  );
+}
