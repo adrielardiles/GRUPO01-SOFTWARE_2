@@ -16,7 +16,7 @@ import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
 // registrarinmueblepage
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
-import GrupoEspecificoContainer from './components/grupos/GrupoEspecificoContainer';
+
 import RegistroEspacioPage from './pages/RegistroEspacioPage';
 
 

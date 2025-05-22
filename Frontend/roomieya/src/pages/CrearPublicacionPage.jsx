@@ -22,7 +22,7 @@ export default function CrearPublicacionPage() {
         { id: 1, titulo: "Roomie Express", descripcion: "Habitación y servicios básicos" },
         { id: 2, titulo: "Roomie Premium", descripcion: "Ofrezco servicios y/o espacios extra" },
       ]);
-    } else if (step === 2) {
+    } else if (step >= 2) {
       axios.get(API.properties.list, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -39,7 +39,7 @@ export default function CrearPublicacionPage() {
     axios
       .post(API.announcements.create, {
         ...selectedTemplate,
-        propertyId: selectedProperty.id,
+        propertyId: selectedProperty?.id,
       }, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -54,24 +54,12 @@ export default function CrearPublicacionPage() {
       .finally(() => setLoading(false));
   };
 
-  if (step === 4 && confirmado)
-    return (
-      <Container className="mt-5 text-center">
-        <Alert variant="success">
-          🎉 Tu publicación se ha creado exitosamente.
-        </Alert>
-        <Button variant="primary" onClick={() => navigate("/")}>
-          Volver al inicio
-        </Button>
-      </Container>
-    );
-
   return (
     <Container className="mt-5">
       <Card className="p-4 shadow-lg">
         <h2 className="text-center mb-4">Crear nueva publicación</h2>
 
-        {/* Paso 1 - Plantillas */}
+        {/* Paso 1: Selección de plantilla */}
         {step === 1 && (
           <>
             <h5 className="mb-3 text-center">Paso 1: Selecciona una plantilla</h5>
@@ -84,7 +72,7 @@ export default function CrearPublicacionPage() {
                       <Card.Text>{template.descripcion}</Card.Text>
                       <Button variant="outline-primary" onClick={() => {
                         setSelectedTemplate(template);
-                        setStep(2);
+                        setStep(3);
                       }}>Seleccionar</Button>
                     </Card.Body>
                   </Card>
@@ -94,47 +82,129 @@ export default function CrearPublicacionPage() {
           </>
         )}
 
-        {/* Paso 2 - Inmuebles */}
-        {step === 2 && (
-          <>
-            <h5 className="mb-3 text-center">Paso 2: Selecciona un inmueble</h5>
-            {properties.length === 0 ? (
-              <Alert variant="warning" className="text-center">
-                No tienes inmuebles registrados.{" "}
-                <Button variant="link" onClick={() => navigate("/registro-espacio")}>
-                  Registrar uno ahora
-                </Button>
-              </Alert>
-            ) : (
-              <Row className="justify-content-center g-3">
-                {properties.map(prop => (
-                  <Col xs={12} md={6} lg={4} key={prop.id}>
-                    <Card className="h-100">
-                      <Card.Body>
-                        <Card.Title>{prop.ubicacion || prop.nombre}</Card.Title>
-                        <Card.Text>
-                          {prop.descripcion || "Sin descripción"}<br />
-                          <strong>Capacidad:</strong> {prop.capacidad || "No definida"}
-                        </Card.Text>
-                        <Button variant="outline-primary" onClick={() => {
-                          setSelectedProperty(prop);
-                          setStep(3);
-                        }}>Seleccionar</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            )}
-          </>
-        )}
-
-        {/* Paso 3 - Confirmación */}
+        {/* Paso 2: Completa los datos */}
         {step === 3 && (
           <div className="text-center">
-            <h5 className="mb-3">Paso 3: Confirmar publicación</h5>
+            <h5 className="mb-4">Paso 2: Completa los datos</h5>
             <p><strong>Plantilla:</strong> {selectedTemplate?.titulo}</p>
-            <p><strong>Inmueble:</strong> {selectedProperty?.ubicacion || selectedProperty?.nombre}</p>
+
+            {(selectedTemplate?.titulo === "Roomie Express" || selectedTemplate?.titulo === "Roomie Premium") && (
+              <div className="mb-4 text-start mx-auto" style={{ maxWidth: "500px" }}>
+                <div className="mb-3">
+                  <label className="form-label">Nombre del arrendatario</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedTemplate.arrendatario || ""}
+                    onChange={(e) =>
+                      setSelectedTemplate({ ...selectedTemplate, arrendatario: e.target.value })
+                    }
+                    placeholder="Ej. Juan Pérez"
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Precio mensual (MXN)</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={selectedTemplate.precio || ""}
+                    onChange={(e) =>
+                      setSelectedTemplate({ ...selectedTemplate, precio: e.target.value })
+                    }
+                    placeholder="Ej. 3200"
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Servicios incluidos</label>
+                  <div className="form-check">
+                    {["WiFi", "Agua", "Luz", "Gas"].map((servicio) => (
+                      <div key={servicio}>
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={servicio}
+                          checked={selectedTemplate.servicios?.includes(servicio) || false}
+                          onChange={(e) => {
+                            const selected = selectedTemplate.servicios || [];
+                            const updated = e.target.checked
+                              ? [...selected, servicio]
+                              : selected.filter((s) => s !== servicio);
+                            setSelectedTemplate({
+                              ...selectedTemplate,
+                              servicios: updated,
+                            });
+                          }}
+                        />
+                        <label className="form-check-label ms-1" htmlFor={servicio}>
+                          {servicio}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Solo para Roomie Premium */}
+                {selectedTemplate?.titulo === "Roomie Premium" && (
+                  <>
+                    <div className="mb-3">
+                      <label className="form-label">Servicios extra</label>
+                      <textarea
+                        className="form-control"
+                        placeholder="Ej. Netflix, lavandería, estacionamiento..."
+                        rows="2"
+                        value={selectedTemplate.serviciosExtra || ""}
+                        onChange={(e) =>
+                          setSelectedTemplate({ ...selectedTemplate, serviciosExtra: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div className="mb-3">
+                      <label className="form-label">Referencias extra</label>
+                      <textarea
+                        className="form-control"
+                        placeholder="Ej. Zona tranquila, cerca del metro..."
+                        rows="2"
+                        value={selectedTemplate.referenciasExtra || ""}
+                        onChange={(e) =>
+                          setSelectedTemplate({ ...selectedTemplate, referenciasExtra: e.target.value })
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+
+                <div className="mb-3">
+                  <label className="form-label">Selecciona un inmueble</label>
+                  <select
+                    className="form-select"
+                    value={selectedProperty?.id || ""}
+                    onChange={(e) => {
+                      const inmuebleSeleccionado = properties.find(p => p.id === e.target.value);
+                      setSelectedProperty(inmuebleSeleccionado);
+                    }}
+                  >
+                    <option value="">-- Selecciona --</option>
+                    {properties.map(p => (
+                      <option key={p.id} value={p.id}>
+                        {p.nombre || p.ubicacion}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="mb-4">
+                  <Button variant="link" onClick={() => navigate("/registro-espacio")}>
+                    Registrar nuevo espacio
+                  </Button>
+                </div>
+              </div>
+            )}
+
             <Button
               variant="success"
               onClick={handleConfirm}
@@ -143,6 +213,40 @@ export default function CrearPublicacionPage() {
               {loading ? <Spinner animation="border" size="sm" /> : "Confirmar y publicar"}
             </Button>
           </div>
+        )}
+
+        {/* Paso 3: Resumen final */}
+        {step === 4 && confirmado && (
+          <Container className="mt-4">
+            <Card className="p-4 shadow-lg mx-auto" style={{ maxWidth: "600px" }}>
+              <h4 className="text-center mb-4">Resumen de la publicación</h4>
+              <p><strong>Plantilla:</strong> {selectedTemplate?.titulo}</p>
+              <p><strong>Nombre del arrendatario:</strong> {selectedTemplate?.arrendatario}</p>
+              <p><strong>Precio mensual:</strong> ${selectedTemplate?.precio}</p>
+              <p><strong>Servicios incluidos:</strong> {selectedTemplate?.servicios?.join(", ") || "Ninguno"}</p>
+
+              {selectedTemplate?.titulo === "Roomie Premium" && (
+                <>
+                  <p><strong>Servicios extra:</strong> {selectedTemplate?.serviciosExtra || "N/A"}</p>
+                  <p><strong>Referencias extra:</strong> {selectedTemplate?.referenciasExtra || "N/A"}</p>
+                </>
+              )}
+
+              <p><strong>Inmueble:</strong> {selectedProperty?.nombre || selectedProperty?.ubicacion}</p>
+
+              <div className="text-center mt-4">
+                <Button
+                  variant="success"
+                  onClick={() => {
+                    alert("🎉 Tu publicación fue registrada exitosamente");
+                    navigate("/");
+                  }}
+                >
+                  Finalizar
+                </Button>
+              </div>
+            </Card>
+          </Container>
         )}
       </Card>
     </Container>

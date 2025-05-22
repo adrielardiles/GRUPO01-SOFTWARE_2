@@ -4,54 +4,54 @@ import { API } from "../api/endpoints";
 import { Form, Button, Container, Card, Spinner, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export default function RegistrarInmueblePage() {
+export default function RegistroEspacioPage() {
   const [form, setForm] = useState({
     nombre: "",
     descripcion: "",
     ubicacion: "",
     capacidad: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post(API.properties.create, form, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(() => {
-      setMensaje({ tipo: "success", texto: "Inmueble registrado correctamente 🎉" });
-      setTimeout(() => navigate("/crear-publicacion"), 1500);
-    })
-    .catch(err => {
-      console.error(err);
-      setMensaje({ tipo: "danger", texto: "Error al registrar inmueble." });
-    })
-    .finally(() => setLoading(false));
+    axios
+      .post(API.properties.create, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setMensaje({ tipo: "success", texto: "✅ Espacio registrado correctamente" });
+        setTimeout(() => navigate("/crear-publicacion"), 1500);
+      })
+      .catch((err) => {
+        console.error(err);
+        setMensaje({ tipo: "danger", texto: "❌ Error al registrar espacio" });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
     <Container className="mt-5">
       <Card className="p-4 shadow-lg mx-auto" style={{ maxWidth: "600px" }}>
-        <h3 className="text-center mb-4">Registrar nuevo inmueble</h3>
+        <h3 className="text-center mb-4">Registrar nuevo espacio</h3>
 
-        {mensaje && (
-          <Alert variant={mensaje.tipo}>{mensaje.texto}</Alert>
-        )}
+        {mensaje && <Alert variant={mensaje.tipo}>{mensaje.texto}</Alert>}
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formNombre">
-            <Form.Label>Nombre del inmueble</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Nombre del espacio</Form.Label>
             <Form.Control
               type="text"
               name="nombre"
@@ -62,7 +62,7 @@ export default function RegistrarInmueblePage() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formUbicacion">
+          <Form.Group className="mb-3">
             <Form.Label>Ubicación</Form.Label>
             <Form.Control
               type="text"
@@ -74,7 +74,7 @@ export default function RegistrarInmueblePage() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formDescripcion">
+          <Form.Group className="mb-3">
             <Form.Label>Descripción</Form.Label>
             <Form.Control
               as="textarea"
@@ -87,7 +87,7 @@ export default function RegistrarInmueblePage() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-4" controlId="formCapacidad">
+          <Form.Group className="mb-4">
             <Form.Label>Capacidad</Form.Label>
             <Form.Control
               type="number"
@@ -102,7 +102,7 @@ export default function RegistrarInmueblePage() {
 
           <div className="d-grid">
             <Button variant="primary" type="submit" disabled={loading}>
-              {loading ? <Spinner animation="border" size="sm" /> : "Registrar Inmueble"}
+              {loading ? <Spinner animation="border" size="sm" /> : "Registrar espacio"}
             </Button>
           </div>
         </Form>
