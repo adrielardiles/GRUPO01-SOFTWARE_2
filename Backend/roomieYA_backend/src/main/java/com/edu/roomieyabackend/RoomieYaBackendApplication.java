@@ -9,6 +9,7 @@ import com.edu.roomieyabackend.repository.EjemploRepository;
 
 
 @SpringBootApplication
+@EnableScheduling
 public class RoomieYaBackendApplication {
 
 	public static void main(String[] args) {
@@ -31,6 +32,9 @@ public class RoomieYaBackendApplication {
 			// Mostrar todos los registros
 			ejemploRepository.findAll().forEach(System.out::println);
 		};
+	}
+	public static void main(String[] args) {
+		SpringApplication.run(RoomieYaBackendApplication.class, args);
 	}
 
 }
