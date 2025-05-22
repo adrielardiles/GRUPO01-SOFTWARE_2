@@ -6,7 +6,6 @@ const Header = () => {
 
   const botones = [
     { texto: 'ANUNCIOS', ruta: '/anuncios' },
-    { texto: 'GRUPOS', ruta: '/grupos' },
     { texto: 'PAGO', ruta: '/pago' },
     { texto: 'HISTORIAL', ruta: '/historial' },
     { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
@@ -42,7 +41,6 @@ const Header = () => {
         <div className="botonera">
           {[
             { texto: 'ANUNCIOS', ruta: '/anuncios' },
-            { texto: 'GRUPOS', ruta: '/grupos' },
             { texto: 'PAGO', ruta: '/pago' },
             { texto: 'HISTORIAL', ruta: '/historial' },
             { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
