@@ -20,6 +20,12 @@ import PantallaGrupos from './pages/PantallaGrupos';
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
 import GrupoEspecificoContainer from './components/grupos/GrupoEspecificoContainer';
 
+// MisInmuebles
+import MisInmueblesPage from './pages/MisInmueblesPage';
+
+// EditarInmueble
+import EditarInmueblePage from './pages/EditarInmueblePage';
+
 
 const App = () => {
   return (
@@ -42,7 +48,11 @@ const App = () => {
 {/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
 
+{/* Rutas MisInmuebles*/}
+        <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
 
+        {/* Rutas EditarInmueble*/}
+        <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
       </Routes>
     </BrowserRouter>
   );
