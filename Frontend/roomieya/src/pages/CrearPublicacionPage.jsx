@@ -205,7 +205,7 @@ export default function CrearPublicacionPage() {
               </div>
 
               <div className="mb-4">
-                <Button variant="link" onClick={() => navigate("/registro-espacio")}>
+                <Button variant="link" onClick={() => navigate("/registrar-inmueble")}>
                   Registrar nuevo espacio
                 </Button>
               </div>
