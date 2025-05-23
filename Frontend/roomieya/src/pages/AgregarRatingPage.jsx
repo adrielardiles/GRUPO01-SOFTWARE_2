@@ -32,7 +32,7 @@ const AgregarRatingPage = () => {
 
   return (
     <div className="form-container">
-      <h2>Registrar nuevo rating</h2>
+      <h2>Registrar nueva reseña</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Nombre del evaluador:
@@ -75,7 +75,7 @@ const AgregarRatingPage = () => {
             required
           />
         </label>
-        <button type="submit">Registrar Rating</button>
+        <button type="submit">Registrar Reseña</button>
       </form>
       {message && <p className="message">{message}</p>}
 
