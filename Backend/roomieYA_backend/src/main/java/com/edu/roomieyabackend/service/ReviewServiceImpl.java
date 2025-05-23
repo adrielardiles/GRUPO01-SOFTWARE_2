@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
 
-    // Obtener reseñas reportadas
+    @Override
     public List<Review> getReportedReviews() {
         return reviewRepository.findByReportadoTrue();
     }
 
-    // Eliminar reseña por ID
+    @Override
     public void deleteReviewById(Long id) {
         reviewRepository.deleteById(id);
     }
