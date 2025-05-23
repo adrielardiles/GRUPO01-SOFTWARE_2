@@ -1,44 +1,156 @@
-// src/components/anuncios/AnuncioDetalleModal.jsx
 import React, { useState, useEffect } from 'react';
+import { API } from '../../api/endpoints';
+import CrearAnuncioModal from './CrearAnuncioModal';
 
-const AnuncioDetalleModal = ({ anuncio, onCerrar, onConfirmarLectura }) => {
-  const [confirmado, setConfirmado] = useState(anuncio.isRead);
+const AnuncioDetalleModal = ({
+  anuncio,
+  usuarioId,
+  role,
+  onCerrar,
+  onConfirmarLectura,
+  onEditarConfirmado,
+  setToast
+}) => {
+  const [detalle, setDetalle] = useState(null);
+  const [mostrarEditarModal, setMostrarEditarModal] = useState(false);
+  const esUrgente = anuncio?.tipo?.toUpperCase() === 'URGENTE';
+  const esArrendador = role === 'arrendador';
+
+  const fetchDetalle = async () => {
+  try {
+    const response = await fetch(API.announcements.detail(anuncio.id, usuarioId));
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+
+    const tipoEsUrgente = data.tipo?.toUpperCase() === 'URGENTE';
+
+    setDetalle({
+      ...data,
+      isRead: data.read,
+      createdAt: data.fechaPublicacion,
+      confirmacionLectura: data.confirmacionLectura
+    });
+
+    if (!data.read && !tipoEsUrgente) {
+      const refresh = await fetch(API.announcements.detail(anuncio.id, usuarioId));
+      const data2 = await refresh.json();
+
+      setDetalle({
+        ...data2,
+        isRead: data2.read,
+        createdAt: data2.fechaPublicacion,
+        confirmacionLectura: data2.confirmacionLectura
+      });
+    }
+
+  } catch (error) {
+    console.error('Error al obtener detalle del anuncio:', error);
+  }
+};
+
 
   useEffect(() => {
-    setConfirmado(anuncio.isRead);
-  }, [anuncio]);
+    if (anuncio?.id && usuarioId) {
+      fetchDetalle();
+    }
+  }, [anuncio?.id, usuarioId]);
 
-  const handleConfirmar = () => {
-    setConfirmado(true);
-    onConfirmarLectura(anuncio.id);
+  const handleConfirmar = async () => {
+    await onConfirmarLectura(anuncio);
+    setDetalle((prev) => ({ ...prev, confirmacionLectura: true }));
+    setToast?.({ mensaje: 'Lectura confirmada con éxito.', tipo: 'success' });
   };
+
+  const handleEditar = () => {
+    setMostrarEditarModal(true);
+  };
+
+  const handleEliminar = async () => {
+    const confirmar = window.confirm('¿Estás seguro de que deseas eliminar este anuncio?');
+    if (!confirmar) return;
+
+    try {
+      const response = await fetch(API.announcements.delete(anuncio.id), {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const errorMsg = response.status === 400
+          ? 'No se puede eliminar un anuncio que ya ha sido leído por un roomie'
+          : 'Error al eliminar anuncio';
+        setToast({ mensaje: errorMsg, tipo: 'error' });
+        return;
+      }
+
+      setToast({ mensaje: '✅ Anuncio eliminado correctamente', tipo: 'success' });
+      onEditarConfirmado();
+      onCerrar();
+    } catch (err) {
+      console.error('Error al eliminar anuncio:', err);
+      setToast({ mensaje: 'Error al procesar la solicitud', tipo: 'error' });
+    }
+  };
+
+  const handleGuardarEdicion = async (editado) => {
+    try {
+      const response = await fetch(API.announcements.update(anuncio.id), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          titulo: editado.title,
+          mensaje: editado.message,
+          tipo: editado.type,
+          usuarioId: usuarioId  // 🔴 Asegúrate de que usuarioId esté definido
+        })
+      });
+
+      if (!response.ok) throw new Error('Error al editar anuncio');
+
+      onEditarConfirmado();
+      setMostrarEditarModal(false);
+      onCerrar();
+    } catch (err) {
+      console.error('Error al guardar edición:', err);
+    }
+  };
+
+
+  if (!detalle) return null;
 
   return (
     <div className="detalle-overlay">
       <div className="detalle-contenido">
         <div className="text-center mb-3">
-          <h5 className="fw-bold mb-2">{anuncio.title}</h5>
-          <div className={`badge ${anuncio.tipo === 'Urgent' ? 'bg-danger' : 'bg-secondary'} text-capitalize`}>
-            {anuncio.tipo}
-          </div>
+          <h5 className="fw-bold mb-2">{detalle.titulo}</h5>
+          {detalle.tipo && (
+            <div className={`badge ${detalle.tipo.toUpperCase() === 'URGENTE' ? 'bg-danger' : 'bg-secondary'} text-capitalize`}>
+              {detalle.tipo}
+            </div>
+          )}
         </div>
 
-
-        <button onClick={onCerrar} className="btn btn-close position-absolute end-0 top-0 m-3"></button>
+        <button
+          onClick={onCerrar}
+          className="btn btn-close position-absolute end-0 top-0 m-3"
+        ></button>
 
         <div className="detalle-mensaje">
-          {anuncio.message || 'Sin contenido'}
+          {detalle.mensaje  || 'Sin contenido'}
         </div>
 
-      {anuncio.tipo === 'Urgent' && (
+        {detalle.tipo?.toUpperCase() === 'URGENTE' && (
           <div className="text-center mt-4">
-            {confirmado ? (
+            {detalle.confirmacionLectura ? (
               <div className="text-success fw-bold">
                 <i className="bi bi-check-circle me-1"></i> Lectura confirmada
               </div>
             ) : (
               <>
-                <button className="btn btn-warning fw-bold" onClick={handleConfirmar}>
+                <button
+                  className="btn btn-warning fw-bold"
+                  onClick={handleConfirmar}
+                >
                   CONFIRMAR LECTURA
                 </button>
                 <div className="text-muted small mt-1">*Obligatorio</div>
@@ -48,8 +160,36 @@ const AnuncioDetalleModal = ({ anuncio, onCerrar, onConfirmarLectura }) => {
         )}
 
         <div className="text-muted small mt-4">
-          Fecha de publicación: {anuncio.createdAt}
+          Fecha de publicación: {detalle.createdAt}
         </div>
+        <div className="text-muted small">
+          Publicado por: <strong>{detalle.nombreCreador}</strong>
+        </div>
+
+        {mostrarEditarModal && (
+          <CrearAnuncioModal
+            esEdicion
+            anuncioOriginal={{
+              id: detalle.id,
+              title: detalle.titulo,
+              message: detalle.mensaje,
+              type: detalle.tipo
+            }}
+            onCerrar={() => setMostrarEditarModal(false)}
+            onPublicar={handleGuardarEdicion}
+          />
+        )}
+
+        {esArrendador && (
+          <div className="text-center mt-4 d-flex justify-content-center gap-2 flex-wrap">
+            <button className="btn btn-outline-primary fw-bold" onClick={handleEditar}>
+              ✏️ Editar anuncio
+            </button>
+            <button className="btn btn-outline-danger fw-bold" onClick={handleEliminar}>
+              🗑️ Eliminar
+            </button>
+          </div>
+        )}
 
         <style>{`
           .detalle-overlay {

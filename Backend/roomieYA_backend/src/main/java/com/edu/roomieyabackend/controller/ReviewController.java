@@ -24,6 +24,4 @@ public class ReviewController {
     public void deleteReview(@PathVariable Long id) {
         reviewService.deleteReviewById(id);
     }
-
-    
 }

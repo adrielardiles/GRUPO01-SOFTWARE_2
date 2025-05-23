@@ -22,12 +22,11 @@ public class Usuario {
 
     private boolean activo;
 
-    // Anuncios que ha creado (solo para relación inversa opcional)
+
     @OneToMany(mappedBy = "creador")
     private List<Anuncio> anunciosCreados;
 
     @OneToMany(mappedBy = "usuario")
     private List<UsuarioInmueble> inmueblesAsociados;
 
-    // Getters y setters
 }

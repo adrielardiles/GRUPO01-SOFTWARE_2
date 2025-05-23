@@ -3,6 +3,8 @@ package com.edu.roomieyabackend.repository;
 import com.edu.roomieyabackend.model.entities.Anuncio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
-    // Puedes agregar métodos de búsqueda por inmueble o tipo si lo necesitas
+    List<Anuncio> findByInmuebleId(Long inmuebleId);
 }

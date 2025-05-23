@@ -11,10 +11,10 @@ public abstract class AnuncioStrategyBase implements AnuncioTipoStrategy {
 
     protected Anuncio crearBase(CrearAnuncioRequestDTO dto, Usuario c, Inmueble i) {
         Anuncio a = new Anuncio();
-        a.setTitulo(dto.titulo);
-        a.setDescripcion(dto.descripcion);
-        a.setTipo(TipoAnuncio.valueOf(dto.tipo));
-        a.setArchivoAdjuntoUrl(dto.archivoAdjuntoUrl);
+        a.setTitulo(dto.getTitulo());
+        a.setDescripcion(dto.getDescripcion());
+        a.setTipo(TipoAnuncio.valueOf(dto.getTipo()));
+        a.setArchivoAdjuntoUrl(dto.getArchivoAdjuntoUrl());
         a.setCreador(c);
         a.setInmueble(i);
         return a;

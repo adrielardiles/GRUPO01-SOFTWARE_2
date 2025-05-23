@@ -22,14 +22,6 @@ import RegistroEspacioPage from './pages/RegistroEspacioPage';
 import './containers/PublicacionContainer'
 import './pages/PublicacionForm'
 import PublicacionContainer from "./containers/PublicacionContainer";
-import RatingsPage from './features/ratings/RatingsPage';
-
-
-// MisInmuebles
-import MisInmueblesPage from './pages/MisInmueblesPage';
-
-// EditarInmueble
-import EditarInmueblePage from './pages/EditarInmueblePage';
 
 
 const App = () => {
@@ -52,16 +44,9 @@ const App = () => {
 
 {/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
-
-{/* Rutas MisInmuebles*/}
-        <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
 
-        <Route path="/ratings" element={<RatingsPage />} />
-
-        {/* Rutas EditarInmueble*/}
-        <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
       </Routes>
     </BrowserRouter>
   );

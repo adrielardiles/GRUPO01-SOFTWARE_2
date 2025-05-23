@@ -17,8 +17,8 @@ public class ProgramadoAnuncioStrategy extends AnuncioStrategyBase implements Re
     public Anuncio inicializar(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
         Anuncio a = crearBase(dto, creador, inmueble);
         a.setEstado(EstadoAnuncio.PROGRAMADO);
-        a.setFechaPublicacion(dto.fechaProgramada);
-        a.setRequiereConfirmacion(dto.requiereConfirmacion); // respetar DTO
+        a.setFechaPublicacion(dto.getFechaProgramada());
+        a.setRequiereConfirmacion(dto.isRequiereConfirmacion()); // respetar DTO
         return a;
     }
 

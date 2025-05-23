@@ -1,14 +1,18 @@
-// src/features/ratings/RatingsList.jsx
-import React from "react";
-import RatingCard from "../../components/RatingCard";
+import React from 'react';
 
 const RatingsList = ({ ratings }) => {
+  if (!ratings || ratings.length === 0) {
+    return <p>No hay calificaciones para mostrar.</p>;
+  }
+
   return (
-    <div className="space-y-4">
+    <ul>
       {ratings.map((rating) => (
-        <RatingCard key={rating.id} rating={rating} />
+        <li key={rating.id}>
+          <strong>{rating.reviewerName}</strong>: {rating.comment} — ⭐ {rating.score}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

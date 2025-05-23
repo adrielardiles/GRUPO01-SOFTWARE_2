@@ -2,8 +2,10 @@ package com.edu.roomieyabackend.model.entities;
 
 import com.edu.roomieyabackend.model.Enums.RolPorInmueble;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "usuario_inmueble")
 public class UsuarioInmueble {
 
