@@ -23,7 +23,7 @@ const AgregarRatingPage = () => {
     e.preventDefault();
     try {
       await addRating(formData);
-      setMessage('Rating registrado correctamente ✅');
+      setMessage('✅ Rating registrado correctamente');
       setFormData({ reviewerName: '', comment: '', score: '', userId: '' });
     } catch (error) {
       setMessage('❌ Error al registrar el rating');
@@ -31,41 +31,117 @@ const AgregarRatingPage = () => {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h2>Registrar nuevo rating</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="reviewerName"
-          placeholder="Nombre del evaluador"
-          value={formData.reviewerName}
-          onChange={handleChange}
-        />
-        <textarea
-          name="comment"
-          placeholder="Comentario"
-          value={formData.comment}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="score"
-          placeholder="Puntaje (1-5)"
-          min="1"
-          max="5"
-          value={formData.score}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="userId"
-          placeholder="ID del arrendatario"
-          value={formData.userId}
-          onChange={handleChange}
-        />
+        <label>
+          Nombre del evaluador:
+          <input
+            type="text"
+            name="reviewerName"
+            value={formData.reviewerName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Comentario:
+          <textarea
+            name="comment"
+            value={formData.comment}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Puntaje (1-5):
+          <input
+            type="number"
+            name="score"
+            min="1"
+            max="5"
+            value={formData.score}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          ID del arrendatario:
+          <input
+            type="number"
+            name="userId"
+            value={formData.userId}
+            onChange={handleChange}
+            required
+          />
+        </label>
         <button type="submit">Registrar Rating</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
+
+      <style>{`
+        .form-container {
+          max-width: 400px;
+          margin: 40px auto;
+          padding: 20px;
+          background: #f9f9f9;
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          font-family: Arial, sans-serif;
+        }
+
+        h2 {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+
+        label {
+          margin-bottom: 15px;
+          font-weight: bold;
+          display: flex;
+          flex-direction: column;
+        }
+
+        input,
+        textarea {
+          margin-top: 5px;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-size: 14px;
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 60px;
+        }
+
+        button {
+          padding: 10px;
+          background-color: #007bff;
+          color: white;
+          font-size: 16px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          margin-top: 10px;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+
+        .message {
+          margin-top: 15px;
+          text-align: center;
+          font-weight: bold;
+        }
+      `}</style>
     </div>
   );
 };
