@@ -38,6 +38,8 @@ import MisInmueblesPage from './pages/MisInmueblesPage';
 // EditarInmueble
 import EditarInmueblePage from './pages/EditarInmueblePage';
 
+//Reservar citas para visitar inmuebles
+import CitasPage from './pages/CitasPage';
 
 const App = () => {
   return (
@@ -57,13 +59,15 @@ const App = () => {
         <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
 
 
-{/* Rutas registrarInmueblePAge*/}
+        {/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
 
 {/* Rutas MisInmuebles*/}
         <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+          {/*Reservar citas para inmuebles*/}
+          <Route path="/citas" element={<CitasPage />} />
 
         <Route path="/ratings" element={<RatingsPage />} />
         

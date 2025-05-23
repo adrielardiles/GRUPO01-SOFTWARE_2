@@ -1,9 +1,9 @@
-package com.edu.roomieyabackend.service;
+/*package com.edu.roomieyabackend.service;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
 import com.edu.roomieyabackend.model.entities.Anuncio;
-import com.edu.roomieyabackend.model.entities.AnunciosTipos.AnuncioFactory;
-import com.edu.roomieyabackend.model.entities.AnunciosTipos.CrearAnuncioCommand;
+//import com.edu.roomieyabackend.model.entities.AnunciosTipos.AnuncioFactory;
+//import com.edu.roomieyabackend.model.entities.AnunciosTipos.CrearAnuncioCommand;
 import com.edu.roomieyabackend.model.interfaces.ObservableAnuncio;
 import com.edu.roomieyabackend.repository.AnuncioRepository;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
@@ -16,20 +16,20 @@ public class AnuncioApplicationService {
     private final UsuarioRepository usuarioRepository;
     private final InmuebleRepository inmuebleRepository;
     private final AnuncioRepository anuncioRepository;
-    private final AnuncioFactory anuncioFactory;
+  //private final AnuncioFactory anuncioFactory;
     private final ObservableAnuncio observableAnuncio;
 
     public AnuncioApplicationService(
             UsuarioRepository usuarioRepository,
             InmuebleRepository inmuebleRepository,
             AnuncioRepository anuncioRepository,
-            AnuncioFactory anuncioFactory,
+            //AnuncioFactory anuncioFactory,
             ObservableAnuncio observableAnuncio
     ) {
         this.usuarioRepository = usuarioRepository;
         this.inmuebleRepository = inmuebleRepository;
         this.anuncioRepository = anuncioRepository;
-        this.anuncioFactory = anuncioFactory;
+        //this.anuncioFactory = anuncioFactory;
         this.observableAnuncio = observableAnuncio;
     }
 
@@ -39,9 +39,10 @@ public class AnuncioApplicationService {
                 usuarioRepository,
                 inmuebleRepository,
                 anuncioRepository,
-                anuncioFactory,
+                //anuncioFactory,
                 observableAnuncio
         );
         return command.ejecutar();
     }
 }
+*/

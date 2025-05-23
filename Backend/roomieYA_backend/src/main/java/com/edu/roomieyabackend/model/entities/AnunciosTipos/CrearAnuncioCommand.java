@@ -1,3 +1,4 @@
+/*
 package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
@@ -50,3 +51,4 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
         return anuncioGuardado;
     }
 }
+*/

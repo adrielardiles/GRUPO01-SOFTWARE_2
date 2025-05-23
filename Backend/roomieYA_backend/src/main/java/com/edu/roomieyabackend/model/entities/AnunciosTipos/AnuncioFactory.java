@@ -1,4 +1,4 @@
-package com.edu.roomieyabackend.model.entities.AnunciosTipos;
+/*package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
 import com.edu.roomieyabackend.model.Enums.TipoAnuncio;
@@ -28,3 +28,4 @@ public class AnuncioFactory {
         return strategy.inicializar(dto, creador, inmueble);
     }
 }
+ */
