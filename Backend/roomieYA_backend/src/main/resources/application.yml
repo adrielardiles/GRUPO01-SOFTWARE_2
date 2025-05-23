@@ -23,12 +23,17 @@ spring:
     port: 587
     username: 8da294001@smtp-brevo.com
     password: Kvpd32QnZ0m8PSw4
+    default-encoding: UTF-8
+    from: 8da294001@smtp-brevo.com
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 management:
   endpoints:

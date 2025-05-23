@@ -7,5 +7,6 @@ public enum TipoAnuncio {
     PROGRAMADO,
     EVENTO,
     REGLA,
+    COMUNICADO,
     RECORDATORIO
 }

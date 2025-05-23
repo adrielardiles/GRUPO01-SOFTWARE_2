@@ -4,15 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const navigate = useNavigate();
 
-  const botones = [
-    { texto: 'ANUNCIOS', ruta: '/anuncios' },
-    { texto: 'PAGO', ruta: '/pago' },
-    { texto: 'HISTORIAL', ruta: '/historial' },
-    { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
-    { texto: 'ZONA 2', ruta: '/zona2' },
-    { texto: 'ZONA 3', ruta: '/zona3' },
-    { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
-  ];
 
   return (
   <>
@@ -45,8 +36,6 @@ const Header = () => {
             { texto: 'PAGO', ruta: '/pago' },
             { texto: 'HISTORIAL', ruta: '/historial' },
             { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
-            { texto: 'ZONA 2', ruta: '/zona2' },
-            { texto: 'ZONA 3', ruta: '/zona3' },
             { texto: 'RESEÑAS', ruta: '/reseñas' },
             { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
             { texto: 'REGISTRAR RESEÑA', ruta: '/agregar-rating' },
