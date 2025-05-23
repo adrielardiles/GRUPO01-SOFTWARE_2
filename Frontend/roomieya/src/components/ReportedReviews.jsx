@@ -4,32 +4,57 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const ReportedReviews = () => {
   const [reviews, setReviews] = useState([]);
 
+  // Activar esta bandera para usar datos simulados en lugar del fetch real
+  const modoPrueba = true;
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/reviews/reported")
-      .then(response => response.json())
-      .then(data => setReviews(data))
-      .catch(error => console.error("Error al cargar las reseñas:", error));
+    if (modoPrueba) {
+      // Datos simulados para pruebas
+      const mockReviews = [
+        {
+          id: 1,
+          content: "Esta reseña es ofensiva.",
+          user: "DiegoBuenaño47",
+          reason: "Lenguaje inapropiado"
+        },
+        {
+          id: 2,
+          content: "La información es falsa.",
+          user: "FabrizioVela94",
+          reason: "Contenido engañoso"
+        }
+      ];
+      setReviews(mockReviews);
+    } else {
+      fetch("http://localhost:8080/api/reviews/reported")
+        .then(response => response.json())
+        .then(data => setReviews(data))
+        .catch(error => console.error("Error al cargar las reseñas:", error));
+    }
   }, []);
 
   const eliminarReview = (id) => {
     const confirmar = window.confirm("¿Estás seguro de eliminar esta reseña?");
     if (!confirmar) return;
 
-    fetch(`http://localhost:8080/api/reviews/${id}`, {
-      method: 'DELETE'
-    })
-      .then(response => {
-        if (response.ok) {
-          // Filtra la reseña eliminada de la lista actual
-          setReviews(prev => prev.filter(r => r.id !== id));
-        } else {
-          alert("Error al eliminar la reseña.");
-        }
+    if (modoPrueba) {
+      setReviews(prev => prev.filter(r => r.id !== id));
+    } else {
+      fetch(`http://localhost:8080/api/reviews/${id}`, {
+        method: 'DELETE'
       })
-      .catch(error => {
-        console.error("Error:", error);
-        alert("No se pudo eliminar la reseña.");
-      });
+        .then(response => {
+          if (response.ok) {
+            setReviews(prev => prev.filter(r => r.id !== id));
+          } else {
+            alert("Error al eliminar la reseña.");
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("No se pudo eliminar la reseña.");
+        });
+    }
   };
 
   return (

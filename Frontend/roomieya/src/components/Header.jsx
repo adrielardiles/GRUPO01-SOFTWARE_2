@@ -47,7 +47,7 @@ const Header = () => {
             { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
             { texto: 'ZONA 2', ruta: '/zona2' },
             { texto: 'ZONA 3', ruta: '/zona3' },
-            { texto: 'RESEÑAS', ruta: '/admin/reported-reviews' },
+            { texto: 'RESEÑAS', ruta: '/reseñas' },
             { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
           ].map(({ texto, ruta }, idx) => (
             <button
