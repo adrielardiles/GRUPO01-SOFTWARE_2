@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import MisInmueblesPage from './pages/MisInmueblesPage';
 
 // Páginas existentes
 import LandingPage from './pages/LadingPage';
@@ -17,6 +18,9 @@ import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
 // registrarinmueblepage
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
+
+import EditarInmueblePage from './pages/EditarInmueblePage';
+
 
 import RegistroEspacioPage from './pages/RegistroEspacioPage';
 // registrar disponibilidad de alquiler
@@ -60,6 +64,8 @@ const App = () => {
 
         {/* Rutas registrarInmueblePAge*/}
           <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
+          <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
+
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
 {/* Rutas registrarInmueblePAge*/}
@@ -67,8 +73,9 @@ const App = () => {
 
 
 {/* Rutas MisInmuebles*/}
-      <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />          {/* Rutas añadidas para disponibilidad de alquiler*/}          <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
-
+      <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />         
+       {/* Rutas añadidas para disponibilidad de alquiler*/}          
+      <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
         <Route path="/reseñas" element={<ReportedReviews />} />
 
       </Routes>
