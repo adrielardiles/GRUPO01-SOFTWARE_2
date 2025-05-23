@@ -22,7 +22,14 @@ import RegistroEspacioPage from './pages/RegistroEspacioPage';
 import './containers/PublicacionContainer'
 import './pages/PublicacionForm'
 import PublicacionContainer from "./containers/PublicacionContainer";
+
+// Ratings
 import RatingsPage from './features/ratings/RatingsPage';
+import RatingsReceivedPage from './pages/RatingsReceivedPage';
+import RenterProfilePage from './pages/RenterProfilePage';
+
+// Agregar Ratings
+import AgregarRatingPage from './pages/AgregarRatingPage';
 
 
 // MisInmuebles
@@ -65,6 +72,12 @@ const App = () => {
 
         <Route path="/ratings" element={<RatingsPage />} />
 <Route path="/reseñas" element={<ReportedReviews />} />
+        
+        <Route path="/ratings" element={<RatingsReceivedPage />} /> 
+        <Route path="/renter/:userId" element={<RenterProfilePage />} /> 
+        {/*Ruta para agregar rating*/}
+        <Route path="/agregar-rating" element={<AgregarRatingPage />} />
+
         {/* Rutas EditarInmueble*/}
         <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
       </Routes>
