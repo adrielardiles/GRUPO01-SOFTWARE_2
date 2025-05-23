@@ -34,6 +34,7 @@ import EditarInmueblePage from './pages/EditarInmueblePage';
 //Reservar citas para visitar inmuebles
 import CitasPage from './pages/CitasPage';
 
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -63,7 +64,7 @@ const App = () => {
           <Route path="/citas" element={<CitasPage />} />
 
         <Route path="/ratings" element={<RatingsPage />} />
-
+<Route path="/reseñas" element={<ReportedReviews />} />
         {/* Rutas EditarInmueble*/}
         <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
       </Routes>

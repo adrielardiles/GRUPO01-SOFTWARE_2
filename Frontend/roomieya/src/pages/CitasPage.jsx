@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getCitas, createCita, deleteCita } from '../api/citaApi';
 import CitaForm from '../components/CitaForm';
 import CitaList from '../components/CitaList';
+import '../styles/CitasPage.css'; // 👈 Asegúrate de importar el CSS
 
 const CitasPage = () => {
   const [citas, setCitas] = useState([]);
@@ -26,10 +27,12 @@ const CitasPage = () => {
   };
 
   return (
-    <div>
-      <h2>Citas para Visitar Inmuebles</h2>
+    <div className="citas-container">
+      <h2 className="citas-title">Citas para Visitar Inmuebles</h2>
       <CitaForm onSubmit={handleAdd} />
-      <CitaList citas={citas} onDelete={handleDelete} />
+      <div className="cita-list">
+        <CitaList citas={citas} onDelete={handleDelete} />
+      </div>
     </div>
   );
 };
