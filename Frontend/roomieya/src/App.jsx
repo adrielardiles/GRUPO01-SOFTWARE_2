@@ -23,6 +23,10 @@ import RegistroEspacioPage from './pages/RegistroEspacioPage';
 import './containers/PublicacionContainer'
 import './pages/PublicacionForm'
 import PublicacionContainer from "./containers/PublicacionContainer";
+import RatingsPage from './features/ratings/RatingsPage';
+import RatingsReceivedPage from './pages/RatingsReceivedPage';
+import AgregarRatingPage from './pages/AgregarRatingPage';
+import RenterProfilePage from './pages/RenterProfilePage';
 
 
 const App = () => {
@@ -42,9 +46,20 @@ const App = () => {
         <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
         <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
 
+        <Route path="/reseñas" element={<ReportedReviews />} />
 
-{/* Rutas registrarInmueblePAge*/}
-        <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
+        <Route path="/ratings" element={<RatingsPage />} />
+
+        {/* Calificacion de Arrendador*/}
+        <Route path="/ratings-received" element={<RatingsReceivedPage />} />
+        {/* Agregar Rating*/}
+        <Route path="/agregar-rating" element={<AgregarRatingPage />} />
+        {/* Calificación de Arrendatario*/}
+        <Route path= "/renter/:userId" element={<RenterProfilePage />} />
+
+
+        {/* Rutas registrarInmueblePAge*/}
+          <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
 

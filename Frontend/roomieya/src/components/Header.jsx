@@ -49,6 +49,7 @@ const Header = () => {
             { texto: 'ZONA 3', ruta: '/zona3' },
             { texto: 'RESEÑAS', ruta: '/reseñas' },
             { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
+            { texto: 'REGISTRAR RESEÑA', ruta: '/agregar-rating' },
           ].map(({ texto, ruta }, idx) => (
             <button
               key={idx}
