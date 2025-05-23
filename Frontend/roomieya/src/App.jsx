@@ -6,11 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Páginas existentes
 import LandingPage from './pages/LadingPage';
 import RegisterPage from './pages/RegisterPage';
-import ReportedReviews from './components/ReportedReviews';
+import ReportedReviews from './components/ReportedReviews'; 
 import CrearPublicacionPage from './pages/CrearPublicacionPage';
 // Tus páginas de pagos
 import PaymentPage from './pages/PaymentPage';
 import PaymentHistoryPage from './pages/PaymentHistoryPage';
+
 
 import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
@@ -46,6 +47,8 @@ const App = () => {
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+
+        <Route path="/reseñas" element={<ReportedReviews />} />
 
       </Routes>
     </BrowserRouter>
