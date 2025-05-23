@@ -1,51 +1,47 @@
 import React, { useState } from 'react';
 
 const CitaForm = ({ onSubmit }) => {
-  const [form, setForm] = useState({
-    nombre: '',
-    fecha: '',
-    hora: '',
-    direccion: ''
-  });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const [nombre, setNombre] = useState('');
+  const [fecha, setFecha] = useState('');
+  const [hora, setHora] = useState('');
+  const [direccion, setDireccion] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(form);
-    setForm({ nombre: '', fecha: '', hora: '', direccion: '' }); // Limpia el formulario
+    if (!nombre || !fecha || !hora || !direccion) return;
+    onSubmit({ nombre, fecha, hora, direccion });
+    setNombre('');
+    setFecha('');
+    setHora('');
+    setDireccion('');
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+    <form className="cita-form" onSubmit={handleSubmit}>
       <input
-        name="nombre"
+        type="text"
         placeholder="Nombre"
-        value={form.nombre}
-        onChange={handleChange}
+        value={nombre}
+        onChange={e => setNombre(e.target.value)}
         required
       />
       <input
-        name="fecha"
         type="date"
-        value={form.fecha}
-        onChange={handleChange}
+        value={fecha}
+        onChange={e => setFecha(e.target.value)}
         required
       />
       <input
-        name="hora"
         type="time"
-        value={form.hora}
-        onChange={handleChange}
+        value={hora}
+        onChange={e => setHora(e.target.value)}
         required
       />
       <input
-        name="direccion"
+        type="text"
         placeholder="Dirección"
-        value={form.direccion}
-        onChange={handleChange}
+        value={direccion}
+        onChange={e => setDireccion(e.target.value)}
         required
       />
       <button type="submit">Agendar Cita</button>

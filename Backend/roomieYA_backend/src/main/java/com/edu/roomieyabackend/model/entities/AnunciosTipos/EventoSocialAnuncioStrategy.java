@@ -25,6 +25,6 @@ public class EventoSocialAnuncioStrategy extends AnuncioStrategyBase implements 
 
     @Override
     public TipoAnuncio tipo() {
-        return TipoAnuncio.EVENTO_SOCIAL;
+        return TipoAnuncio.EVENTO;
     }
 }

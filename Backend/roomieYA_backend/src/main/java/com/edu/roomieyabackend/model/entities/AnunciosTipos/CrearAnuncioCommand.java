@@ -1,4 +1,3 @@
-/*
 package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
@@ -38,9 +37,9 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
 
     @Override
     public Anuncio ejecutar() {
-        Usuario creador = usuarioRepository.findById(dto.creadorId)
+        Usuario creador = usuarioRepository.findById(dto.getCreadorId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        Inmueble inmueble = inmuebleRepository.findById(dto.inmuebleId)
+        Inmueble inmueble = inmuebleRepository.findById(dto.getInmuebleId())
                 .orElseThrow(() -> new IllegalArgumentException("Inmueble no encontrado"));
 
         Anuncio anuncio = anuncioFactory.crearDesdeDTO(dto, creador, inmueble);
@@ -51,4 +50,3 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
         return anuncioGuardado;
     }
 }
-*/

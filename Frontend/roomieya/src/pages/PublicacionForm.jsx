@@ -1,8 +1,8 @@
 import React from 'react';
-import '../styles/PublicacionForm.css'
+
 export default function PublicacionForm({ datos, onChange, onSubmit }) {
     return (
-        <form  className="formulario-publicacion"  onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
             <input
                 type="text"
                 name="titulo"

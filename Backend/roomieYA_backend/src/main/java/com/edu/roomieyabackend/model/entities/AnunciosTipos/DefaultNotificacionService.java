@@ -27,9 +27,7 @@ public class DefaultNotificacionService implements NotificacionService {
 
     @Override
     public void enviar(Usuario destinatario, String mensaje) {
-        // Ejemplo simple: enviar por ambos canales
         estrategias.get(CanalNotificacion.EMAIL).enviar(destinatario, mensaje);
-        estrategias.get(CanalNotificacion.WHATSAPP).enviar(destinatario, mensaje);
     }
 }
 
