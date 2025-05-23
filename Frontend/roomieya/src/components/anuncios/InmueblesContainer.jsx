@@ -9,7 +9,7 @@ const InmueblesContainer = () => {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [inmuebleActivo, setInmuebleActivo] = useState(null);
 
-  const usuarioId = 1; // ✅ Usuario hardcodeado
+  const usuarioId = 3; // ✅ Usuario hardcodeado
 
   const fetchInmuebles = useCallback(async () => {
     try {
