@@ -1,4 +1,4 @@
-package com.edu.roomieyabackend.model.entities.AnunciosTipos;
+/*package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
 import com.edu.roomieyabackend.model.Enums.EstadoAnuncio;
@@ -27,3 +27,4 @@ public class ProgramadoAnuncioStrategy extends AnuncioStrategyBase implements Re
         return TipoAnuncio.PROGRAMADO;
     }
 }
+ */

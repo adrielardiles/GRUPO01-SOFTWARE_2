@@ -1,4 +1,4 @@
-package com.edu.roomieyabackend.controller;
+/*package com.edu.roomieyabackend.controller;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
 import com.edu.roomieyabackend.model.entities.Anuncio;
@@ -32,3 +32,5 @@ public class AnuncioController {
         }
     }
 }
+
+ */

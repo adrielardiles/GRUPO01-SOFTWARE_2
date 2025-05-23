@@ -23,6 +23,8 @@ import './containers/PublicacionContainer'
 import './pages/PublicacionForm'
 import PublicacionContainer from "./containers/PublicacionContainer";
 
+//Reservar citas para visitar inmuebles
+import CitasPage from './pages/CitasPage';
 
 const App = () => {
   return (
@@ -42,11 +44,12 @@ const App = () => {
         <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
 
 
-{/* Rutas registrarInmueblePAge*/}
+        {/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
-
+          {/*Reservar citas para inmuebles*/}
+          <Route path="/citas" element={<CitasPage />} />
       </Routes>
     </BrowserRouter>
   );

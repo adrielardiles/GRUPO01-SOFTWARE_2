@@ -23,7 +23,7 @@ public class LecturaAnuncio {
     private Anuncio anuncio;
 
     private boolean leido;
-
+    private Long roomieId;
     private LocalDateTime fechaLectura;
 
     private boolean confirmacionLectura; // si se requiere
