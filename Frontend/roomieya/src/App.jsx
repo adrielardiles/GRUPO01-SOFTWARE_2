@@ -70,8 +70,8 @@ const App = () => {
           <Route path="/citas" element={<CitasPage />} />
 
         <Route path="/ratings" element={<RatingsPage />} />
-        
-        <Route path="/ratings" element={<RatingsReceivedPage />} /> 
+
+        <Route path="/ratings-received" element={<RatingsReceivedPage />} /> 
         <Route path="/renter/:userId" element={<RenterProfilePage />} /> 
         {/*Ruta para agregar rating*/}
         <Route path="/agregar-rating" element={<AgregarRatingPage />} />

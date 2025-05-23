@@ -1,98 +1,72 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Container, Form, Button, Alert, Card } from "react-bootstrap";
+import React, { useState } from 'react';
+import { addRating } from '../features/ratings/ratingsService';
 
 const AgregarRatingPage = () => {
-  const [formulario, setFormulario] = useState({
-    reviewerName: "",
-    comment: "",
-    score: "",
-    userId: ""
+  const [formData, setFormData] = useState({
+    reviewerName: '',
+    comment: '',
+    score: '',
+    userId: '',
   });
 
-  const [mensaje, setMensaje] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormulario({ ...formulario, [name]: value });
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3080/api/ratings", formulario);
-      setMensaje("¡Rating registrado correctamente!");
-      setError("");
-      setTimeout(() => navigate("/ratings"), 2000);
-    } catch (err) {
-      setError("Error al registrar el rating.");
-      setMensaje("");
+      await addRating(formData);
+      setMessage('Rating registrado correctamente ✅');
+      setFormData({ reviewerName: '', comment: '', score: '', userId: '' });
+    } catch (error) {
+      setMessage('❌ Error al registrar el rating');
     }
   };
 
   return (
-    <Container className="mt-5">
-      <Card>
-        <Card.Body>
-          <Card.Title>Registrar Calificación</Card.Title>
-          {mensaje && <Alert variant="success">{mensaje}</Alert>}
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Nombre del evaluador</Form.Label>
-              <Form.Control
-                type="text"
-                name="reviewerName"
-                value={formulario.reviewerName}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Comentario</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="comment"
-                value={formulario.comment}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Puntuación (1 a 5)</Form.Label>
-              <Form.Control
-                type="number"
-                name="score"
-                value={formulario.score}
-                min={1}
-                max={5}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>ID del arrendatario calificado</Form.Label>
-              <Form.Control
-                type="number"
-                name="userId"
-                value={formulario.userId}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-              Registrar Rating
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
+    <div>
+      <h2>Registrar nuevo rating</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="reviewerName"
+          placeholder="Nombre del evaluador"
+          value={formData.reviewerName}
+          onChange={handleChange}
+        />
+        <textarea
+          name="comment"
+          placeholder="Comentario"
+          value={formData.comment}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="score"
+          placeholder="Puntaje (1-5)"
+          min="1"
+          max="5"
+          value={formData.score}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="userId"
+          placeholder="ID del arrendatario"
+          value={formData.userId}
+          onChange={handleChange}
+        />
+        <button type="submit">Registrar Rating</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
   );
 };
 

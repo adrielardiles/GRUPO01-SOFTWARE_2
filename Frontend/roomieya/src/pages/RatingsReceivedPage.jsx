@@ -1,8 +1,9 @@
 // src/pages/RatingsReceivedPage.jsx
 import React, { useEffect, useState } from "react";
-import { fetchRatingsByUserId } from "../features/ratings/ratingsService"; // RUTA CORRECTA
+import { addRating } from "../features/ratings/ratingsService";
 import RatingsList from "../features/ratings/RatingsList"; // RUTA CORRECTA
 
+fetch(`http://localhost:3000/ratings/user/1`)  // <-- ¿estás pasando el ID correcto aquí?
 
 export default function RatingsReceivedPage() {
   const [ratings, setRatings] = useState([]);
@@ -10,7 +11,7 @@ export default function RatingsReceivedPage() {
   const userId = 1; // ID del arrendador que estamos consultando, puede ser dinámico
 
   useEffect(() => {
-    fetchRatingsByUserId(userId)
+    addRating(userId)
       .then((data) => {
         setRatings(data);
         setLoading(false);

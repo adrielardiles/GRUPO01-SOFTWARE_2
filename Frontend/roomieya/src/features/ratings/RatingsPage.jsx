@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import RatingsList from "./RatingsList";
 import RatingsFilter from "./RatingsFilter";
-import { fetchRatingsByUserId } from "./ratingsService";
+import { addRating } from "./ratingsService";
 
 const RatingsPage = () => {
   const [ratings, setRatings] = useState([]);
@@ -10,7 +10,7 @@ const RatingsPage = () => {
   const [filters, setFilters] = useState({ minStars: 0, type: "" });
 
   useEffect(() => {
-    fetchRatingsByUserId("landlord")
+    addRating("landlord")
       .then((data) => {
         setRatings(data);
         setFiltered(data);

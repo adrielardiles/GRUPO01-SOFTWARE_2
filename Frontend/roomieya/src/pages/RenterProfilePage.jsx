@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchRatingsByUserId } from '../features/ratings/ratingsService';
+import { addRating } from '../features/ratings/ratingsService';
 import RatingsList from '../features/ratings/RatingsList';
 
 const RenterProfilePage = () => {
@@ -10,7 +10,7 @@ const RenterProfilePage = () => {
   useEffect(() => {
     const loadRatings = async () => {
       try {
-        const data = await fetchRatingsByUserId(userId);
+        const data = await addRating(userId);
         setRatings(data);
       } catch (error) {
         console.error('Error al cargar calificaciones:', error);
