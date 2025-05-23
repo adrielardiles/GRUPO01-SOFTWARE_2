@@ -9,6 +9,9 @@ public class CrearAnuncioRequestDTO {
     public Long inmuebleId;
     public String titulo;
     public String descripcion;
-    public String tipo; // Enum (ej. GENERAL, URGENCIA...)
+    public String tipo; // o TipoAnuncio si ya hiciste el cambio
     public String archivoAdjuntoUrl;
+
+    public LocalDateTime fechaProgramada;         // ✅ Campo nuevo
+    public boolean requiereConfirmacion;
 }

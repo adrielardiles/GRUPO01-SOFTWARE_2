@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.roomieya.com';
+const BASE_URL = 'http://localhost:8080';
 
 export const API = {
   auth: {
@@ -11,6 +11,11 @@ export const API = {
   properties: {
     list: `${BASE_URL}/api/inmuebles`,     // GET: listar inmuebles
     create: `${BASE_URL}/api/inmuebles`    // POST: crear inmueble
+  },
+
+  plantillas: {
+  create: `${BASE_URL}/api/plantillas`,
+  list: `${BASE_URL}/api/plantillas`
   },
 
   payments: {

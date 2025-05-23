@@ -28,6 +28,7 @@ public class AnuncioController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build(); // ejemplo simple de manejo de errores
         } catch (Exception e) {
+            e.printStackTrace(); // 👈 para que el error aparezca en consola
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -2,6 +2,7 @@ package com.edu.roomieyabackend.controller;
 
 import com.edu.roomieyabackend.model.entities.CitaVisita;
 import com.edu.roomieyabackend.service.CitaVisitaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,19 +32,26 @@ public class CitaVisitaController {
 
     // Obtener una cita por id
     @GetMapping("/{id}")
-    public CitaVisita getCita(@PathVariable Long id) {
-        return service.getCitaById(id).orElse(null);
+    public ResponseEntity<CitaVisita> getCita(@PathVariable Long id) {
+        return service.getCitaById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Cancelar una cita
-    @PutMapping("/cancelar/{id}")
-    public CitaVisita cancelarCita(@PathVariable Long id) {
-        return service.cancelarCita(id);
+    // Cancelar una cita (parcial update)
+    @PatchMapping("/{id}/cancelar")
+    public ResponseEntity<CitaVisita> cancelarCita(@PathVariable Long id) {
+        CitaVisita citaCancelada = service.cancelarCita(id);
+        if (citaCancelada == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(citaCancelada);
     }
 
     // Eliminar una cita
     @DeleteMapping("/{id}")
-    public void deleteCita(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCita(@PathVariable Long id) {
         service.deleteCita(id);
+        return ResponseEntity.noContent().build();
     }
 }
