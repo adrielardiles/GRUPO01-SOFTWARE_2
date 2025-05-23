@@ -1,4 +1,4 @@
-/*package com.edu.roomieyabackend.model.entities.AnunciosTipos;
+package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
 import com.edu.roomieyabackend.model.Enums.TipoAnuncio;
@@ -18,7 +18,7 @@ public class AnuncioFactory {
     }
 
     public Anuncio crearDesdeDTO(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
-        TipoAnuncio tipo = TipoAnuncio.valueOf(dto.tipo.toUpperCase());
+        TipoAnuncio tipo = TipoAnuncio.valueOf(dto.getTipo().toUpperCase());
         AnuncioTipoStrategy strategy = strategyRegistry.getStrategy(tipo);
 
         if (strategy == null) {
@@ -28,4 +28,3 @@ public class AnuncioFactory {
         return strategy.inicializar(dto, creador, inmueble);
     }
 }
- */

@@ -21,6 +21,7 @@ public class Anuncio {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @Column(name = "tipo", columnDefinition = "varchar(255)")
     @Enumerated(EnumType.STRING)
     private TipoAnuncio tipo;
 
@@ -30,6 +31,8 @@ public class Anuncio {
 
     private String archivoAdjuntoUrl;
 
+
+    @Column(name = "estado", nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoAnuncio estado;
 
@@ -41,7 +44,4 @@ public class Anuncio {
     @JoinColumn(name = "creador_id")
     private Usuario creador;
 
-
-
-    // Getters y setters
 }

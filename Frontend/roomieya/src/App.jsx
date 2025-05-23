@@ -23,24 +23,6 @@ import './containers/PublicacionContainer'
 import './pages/PublicacionForm'
 import PublicacionContainer from "./containers/PublicacionContainer";
 
-// Ratings
-import RatingsPage from './features/ratings/RatingsPage';
-import RatingsReceivedPage from './pages/RatingsReceivedPage';
-import RenterProfilePage from './pages/RenterProfilePage';
-
-// Agregar Ratings
-import AgregarRatingPage from './pages/AgregarRatingPage';
-
-
-// MisInmuebles
-import MisInmueblesPage from './pages/MisInmueblesPage';
-
-// EditarInmueble
-import EditarInmueblePage from './pages/EditarInmueblePage';
-
-//Reservar citas para visitar inmuebles
-import CitasPage from './pages/CitasPage';
-
 
 const App = () => {
   return (
@@ -60,26 +42,11 @@ const App = () => {
         <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
 
 
-        {/* Rutas registrarInmueblePAge*/}
+{/* Rutas registrarInmueblePAge*/}
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
-
-{/* Rutas MisInmuebles*/}
-        <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
-          {/*Reservar citas para inmuebles*/}
-          <Route path="/citas" element={<CitasPage />} />
 
-        <Route path="/ratings" element={<RatingsPage />} />
-<Route path="/reseñas" element={<ReportedReviews />} />
-        
-        <Route path="/ratings" element={<RatingsReceivedPage />} /> 
-        <Route path="/renter/:userId" element={<RenterProfilePage />} /> 
-        {/*Ruta para agregar rating*/}
-        <Route path="/agregar-rating" element={<AgregarRatingPage />} />
-
-        {/* Rutas EditarInmueble*/}
-        <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
       </Routes>
     </BrowserRouter>
   );

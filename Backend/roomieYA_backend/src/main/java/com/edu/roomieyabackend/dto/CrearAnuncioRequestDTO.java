@@ -1,17 +1,19 @@
 package com.edu.roomieyabackend.dto;
 
 import com.edu.roomieyabackend.model.Enums.TipoAnuncio;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class CrearAnuncioRequestDTO {
-    public Long creadorId;
-    public Long inmuebleId;
-    public String titulo;
-    public String descripcion;
-    public String tipo; // o TipoAnuncio si ya hiciste el cambio
-    public String archivoAdjuntoUrl;
+    private Long creadorId;
+    private Long inmuebleId;
+    private String titulo;
+    private String descripcion;
+    private String tipo; // o TipoAnuncio si ya hiciste el cambio
+    private String archivoAdjuntoUrl;
 
-    public LocalDateTime fechaProgramada;         // ✅ Campo nuevo
-    public boolean requiereConfirmacion;
+    private LocalDateTime fechaProgramada;
+    private boolean requiereConfirmacion;
 }

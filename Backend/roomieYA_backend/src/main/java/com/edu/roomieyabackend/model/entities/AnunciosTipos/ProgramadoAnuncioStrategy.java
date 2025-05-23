@@ -1,4 +1,4 @@
-/*package com.edu.roomieyabackend.model.entities.AnunciosTipos;
+package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
 import com.edu.roomieyabackend.dto.CrearAnuncioRequestDTO;
 import com.edu.roomieyabackend.model.Enums.EstadoAnuncio;
@@ -17,8 +17,8 @@ public class ProgramadoAnuncioStrategy extends AnuncioStrategyBase implements Re
     public Anuncio inicializar(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
         Anuncio a = crearBase(dto, creador, inmueble);
         a.setEstado(EstadoAnuncio.PROGRAMADO);
-        a.setFechaPublicacion(dto.fechaProgramada);
-        a.setRequiereConfirmacion(dto.requiereConfirmacion); // respetar DTO
+        a.setFechaPublicacion(dto.getFechaProgramada());
+        a.setRequiereConfirmacion(dto.isRequiereConfirmacion()); // respetar DTO
         return a;
     }
 
@@ -27,4 +27,3 @@ public class ProgramadoAnuncioStrategy extends AnuncioStrategyBase implements Re
         return TipoAnuncio.PROGRAMADO;
     }
 }
- */

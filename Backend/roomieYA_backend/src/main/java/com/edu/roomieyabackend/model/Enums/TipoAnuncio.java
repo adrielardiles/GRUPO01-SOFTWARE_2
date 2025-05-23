@@ -4,7 +4,8 @@ public enum TipoAnuncio {
     URGENTE,
     INFORMATIVO,
     NUEVO_ROOMIE,
-    EVENTO_SOCIAL,
+    PROGRAMADO,
+    EVENTO,
     REGLA,
-    RECORDATORIO, PROGRAMADO
+    RECORDATORIO
 }

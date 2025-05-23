@@ -1,39 +1,19 @@
-	package com.edu.roomieyabackend;
+package com.edu.roomieyabackend;
 
-	import org.springframework.boot.CommandLineRunner;
-	import org.springframework.boot.SpringApplication;
-	import org.springframework.boot.autoconfigure.SpringBootApplication;
-	import org.springframework.context.annotation.Bean;
-	import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
-	@SpringBootApplication
-	@EnableScheduling
-	public class RoomieYaBackendApplication {
+@SpringBootApplication
+@EnableScheduling
+public class RoomieYaBackendApplication {
 
-		public static void main(String[] args) {
-			SpringApplication.run(RoomieYaBackendApplication.class, args);
-		}
+	public static void main(String[] args) {
+		SpringApplication.run(RoomieYaBackendApplication.class, args);
 	}
-	/*
-		@Bean
-		public CommandLineRunner probarConexion(EjemploRepository ejemploRepository) {
-			return args -> {
-				// Crear entidad de prueba
-				EjemploEntity registro = new EjemploEntity(
-						"Conexión OK",
-						"Esto verifica que JPA puede insertar datos correctamente.",
-						true
-				);
 
-				// Guardar en base de datos
-				ejemploRepository.save(registro);
 
-				// Mostrar todos los registros
-				ejemploRepository.findAll().forEach(System.out::println);
-			};
-		}
 
+	
 }
-	 */
-

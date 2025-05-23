@@ -28,5 +28,4 @@ public class LecturaAnuncio {
 
     private boolean confirmacionLectura; // si se requiere
 
-    // Getters y setters
 }
