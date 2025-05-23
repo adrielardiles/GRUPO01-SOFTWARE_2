@@ -22,6 +22,8 @@ import RegistroEspacioPage from './pages/RegistroEspacioPage';
 import './containers/PublicacionContainer'
 import './pages/PublicacionForm'
 import PublicacionContainer from "./containers/PublicacionContainer";
+import RatingsPage from './features/ratings/RatingsPage';
+
 
 
 const App = () => {
@@ -46,6 +48,8 @@ const App = () => {
         <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+
+        <Route path="/ratings" element={<RatingsPage />} />
 
       </Routes>
     </BrowserRouter>
