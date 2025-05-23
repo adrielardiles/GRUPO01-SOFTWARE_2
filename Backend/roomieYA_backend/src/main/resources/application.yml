@@ -37,7 +37,10 @@ management:
         include: health,info,metrics
 
 ---
-
+logging:
+  level:
+    root: INFO
+    com.edu.roomieyabackend: INFO
 spring:
   config:
     activate:

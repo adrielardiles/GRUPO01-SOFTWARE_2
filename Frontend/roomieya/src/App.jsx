@@ -27,6 +27,7 @@ import RatingsPage from './features/ratings/RatingsPage';
 import RatingsReceivedPage from './pages/RatingsReceivedPage';
 import AgregarRatingPage from './pages/AgregarRatingPage';
 import RenterProfilePage from './pages/RenterProfilePage';
+import CitasPage from './pages/CitasPage';
 
 
 const App = () => {
@@ -56,7 +57,8 @@ const App = () => {
         <Route path="/agregar-rating" element={<AgregarRatingPage />} />
         {/* Calificación de Arrendatario*/}
         <Route path= "/renter/:userId" element={<RenterProfilePage />} />
-
+        {/* Programa Citas*/}
+        <Route path= "/Citas" element={<CitasPage />} />
 
         {/* Rutas registrarInmueblePAge*/}
           <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />

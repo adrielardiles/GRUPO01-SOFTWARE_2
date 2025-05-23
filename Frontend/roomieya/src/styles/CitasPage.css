@@ -121,6 +121,15 @@
   font-size: 1.04rem;
   padding: 0.5rem 0.1rem 0.1rem 0.2rem;
 }
+.cita-cancelada-badge {
+  color: #fff;
+  background: #e74c3c;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.95em;
+  margin-left: 10px;
+  display: inline-block;
+}
 
 @media (max-width: 520px) {
   .citas-container {

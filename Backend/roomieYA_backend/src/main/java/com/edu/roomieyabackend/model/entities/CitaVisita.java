@@ -13,6 +13,7 @@ public class CitaVisita {
     private Long id;
 
     private String nombre;
+    private String email; // Nuevo campo
 
     private LocalDate fecha;
     private LocalTime hora;
@@ -21,19 +22,19 @@ public class CitaVisita {
     private String estado = "PENDIENTE"; // PENDIENTE, CANCELADO
     private Boolean recordatorioEnviado24h = false;
     private Boolean recordatorioEnviado48h = false;
+
     // Constructores
     public CitaVisita() { }
 
-    public CitaVisita(String nombre, LocalDate fecha, LocalTime hora, String direccion) {
+    public CitaVisita(String nombre, String email, LocalDate fecha, LocalTime hora, String direccion) {
         this.nombre = nombre;
+        this.email = email;
         this.fecha = fecha;
         this.hora = hora;
         this.direccion = direccion;
         this.estado = "PENDIENTE";
     }
-
     // Getters y Setters
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -56,4 +57,7 @@ public class CitaVisita {
     public void setRecordatorioEnviado24h(Boolean recordatorioEnviado24h) { this.recordatorioEnviado24h = recordatorioEnviado24h; }
     public Boolean getRecordatorioEnviado48h() { return recordatorioEnviado48h; }
     public void setRecordatorioEnviado48h(Boolean recordatorioEnviado48h) { this.recordatorioEnviado48h = recordatorioEnviado48h; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }

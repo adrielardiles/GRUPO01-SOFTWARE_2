@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CitaList = ({ citas, onDelete }) => {
+const CitaList = ({ citas, onCancel, showCancelButton }) => {
   if (!citas.length) {
     return <div className="cita-list-empty">No hay citas agendadas.</div>;
   }
@@ -17,9 +17,13 @@ const CitaList = ({ citas, onDelete }) => {
               Dirección: {cita.direccion}
             </div>
           </div>
-          <button className="cita-item-btn" onClick={() => onDelete(cita.id)}>
-            Eliminar
-          </button>
+          {showCancelButton && cita.estado !== "CANCELADO" ? (
+            <button className="cita-item-btn" onClick={() => onCancel(cita.id)}>
+              Cancelar
+            </button>
+          ) : (
+            <span className="cita-cancelada-badge">Cancelado</span>
+          )}
         </div>
       ))}
     </div>
