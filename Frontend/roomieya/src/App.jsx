@@ -48,6 +48,7 @@ const App = () => {
 
         <Route path="/reseñas" element={<ReportedReviews />} />
 
+<<<<<<< HEAD
         <Route path="/ratings" element={<RatingsPage />} />
 
         {/* Calificacion de Arrendador*/}
@@ -62,6 +63,14 @@ const App = () => {
           <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           {/* Rutas añadidas para disponibilidad de alquiler*/}
           <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+=======
+{/* Rutas registrarInmueblePAge*/}
+        <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
+
+
+{/* Rutas MisInmuebles*/}
+      <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />          {/* Rutas añadidas para disponibilidad de alquiler*/}          <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+>>>>>>> 74afc70 (Mi avance antes de sincronizar)
 
         <Route path="/reseñas" element={<ReportedReviews />} />
 
