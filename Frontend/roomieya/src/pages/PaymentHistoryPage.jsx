@@ -5,7 +5,7 @@ const PaymentHistoryPage = () => {
   const [historial, setHistorial] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/pagos/usuario/1')
+    axios.get('http://localhost:8081/api/pagos/usuario/1')
       .then((res) => {
         setHistorial(res.data);
       })

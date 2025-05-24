@@ -2,55 +2,56 @@ package com.edu.roomieyabackend.controller;
 
 import com.edu.roomieyabackend.model.Pago;
 import com.edu.roomieyabackend.service.PagoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edu.roomieyabackend.strategy.PagoStrategy;
+import com.edu.roomieyabackend.strategy.PagoStrategyFactory;
+import com.edu.roomieyabackend.exception.MetodoPagoNoSoportadoException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pagos")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000") // Ajusta si el frontend corre en otro puerto
 public class PagoController {
 
     private final PagoService pagoService;
+    private final PagoStrategyFactory strategyFactory;
 
-    @Autowired
-    public PagoController(PagoService pagoService) {
+    public PagoController(PagoService pagoService, PagoStrategyFactory strategyFactory) {
         this.pagoService = pagoService;
-    }
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "¡El backend está funcionando!";
+        this.strategyFactory = strategyFactory;
     }
 
     @PostMapping("/realizar")
     public ResponseEntity<Pago> realizarPago(@RequestBody Pago pago) {
-        Pago nuevoPago = pagoService.registrarPago(pago);
-        return ResponseEntity.ok(nuevoPago);
-    }
+        validarPago(pago);
 
-    @GetMapping
-    public ResponseEntity<List<Pago>> obtenerTodosLosPagos() {
-        return ResponseEntity.ok(pagoService.listarTodosLosPagos());
+        if (pago.getFecha() == null) {
+            pago.setFecha(LocalDate.now());
+        }
+
+        PagoStrategy estrategia = strategyFactory.obtenerEstrategia(pago.getMetodoPago());
+        if (estrategia == null) {
+            throw new MetodoPagoNoSoportadoException("Método de pago no soportado: " + pago.getMetodoPago());
+        }
+
+        estrategia.procesarPago(pago); // Aquí se puede validar, loggear o aplicar lógicas específicas
+
+        Pago guardado = pagoService.registrarPago(pago);
+        return ResponseEntity.ok(guardado);
     }
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<List<Pago>> historialPorUsuario(@PathVariable("id") Long usuarioId) {
-        return ResponseEntity.ok(pagoService.listarPagosPorUsuario(usuarioId));
+    public ResponseEntity<List<Pago>> historial(@PathVariable Long id) {
+        return ResponseEntity.ok(pagoService.listarPagosPorUsuario(id));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Pago> obtenerPagoPorId(@PathVariable Long id) {
-        Optional<Pago> pago = pagoService.obtenerPagoPorId(id);
-        return pago.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarPago(@PathVariable Long id) {
-        boolean eliminado = pagoService.eliminarPago(id);
-        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    private void validarPago(Pago pago) {
+        if (pago.getMonto() == null || pago.getMetodoPago() == null || pago.getUsuarioId() == null) {
+            throw new IllegalArgumentException("Datos incompletos para procesar el pago");
+        }
     }
 }

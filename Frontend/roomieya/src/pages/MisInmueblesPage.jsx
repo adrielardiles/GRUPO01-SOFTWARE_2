@@ -10,7 +10,7 @@ const MisInmueblesPage = () => {
   useEffect(() => {
     const fetchInmuebles = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/inmuebles');
+        const response = await axios.get('http://localhost:8081/api/inmuebles');
         setInmuebles(response.data);
       } catch (error) {
         console.error('Error al cargar inmuebles:', error);

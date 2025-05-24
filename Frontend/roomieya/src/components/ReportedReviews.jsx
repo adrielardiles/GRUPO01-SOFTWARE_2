@@ -26,7 +26,7 @@ const ReportedReviews = () => {
       ];
       setReviews(mockReviews);
     } else {
-      fetch("http://localhost:8080/api/reviews/reported")
+      fetch("http://localhost:8081/api/reviews/reported")
         .then(response => response.json())
         .then(data => setReviews(data))
         .catch(error => console.error("Error al cargar las reseñas:", error));
@@ -40,7 +40,7 @@ const ReportedReviews = () => {
     if (modoPrueba) {
       setReviews(prev => prev.filter(r => r.id !== id));
     } else {
-      fetch(`http://localhost:8080/api/reviews/${id}`, {
+      fetch(`http://localhost:8081/api/reviews/${id}`, {
         method: 'DELETE'
       })
         .then(response => {

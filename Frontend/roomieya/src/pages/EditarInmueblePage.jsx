@@ -22,7 +22,7 @@ const EditarInmueblePage = () => {
     // Aquí podrías hacer fetch para traer datos reales, por ahora datos falsos:
     const fetchInmueble = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/inmuebles/${id}`);
+        const response = await axios.get(`http://localhost:8081/api/inmuebles/${id}`);
         setFormData(response.data);
       } catch (error) {
         console.error('Error al cargar inmueble:', error);
@@ -62,7 +62,7 @@ const EditarInmueblePage = () => {
     if (validar()) {
       try {
         const response = await axios.put(
-          `http://localhost:8080/api/inmuebles/${id}`,
+          `http://localhost:8081/api/inmuebles/${id}`,
           formData
         );
         console.log('Inmueble actualizado:', response.data);

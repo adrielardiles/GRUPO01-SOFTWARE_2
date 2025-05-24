@@ -1,9 +1,7 @@
 package com.edu.roomieyabackend.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-
 
 @Entity
 @Table(name = "pagos")
@@ -13,28 +11,28 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "monto", nullable = false)
     private Double monto;
 
-    @Column(name = "fecha", nullable = false)
-    private LocalDate fecha;
-
-    @Column(name = "metodo_pago", nullable = false, length = 50)
     private String metodoPago;
 
-    @Column(name = "usuario_id", nullable = false)
+    private LocalDate fecha;
+
     private Long usuarioId;
 
-    // Constructores
+    // Constructor sin argumentos
     public Pago() {
+        this.fecha = LocalDate.now();
     }
 
-    public Pago(Double monto, LocalDate fecha, String metodoPago, Long usuarioId) {
+    // Constructor con argumentos
+    public Pago(Double monto, String metodoPago, Long usuarioId) {
         this.monto = monto;
-        this.fecha = fecha;
         this.metodoPago = metodoPago;
         this.usuarioId = usuarioId;
+        this.fecha = LocalDate.now();
     }
+
+    // Getters y Setters
 
     public Long getId() {
         return id;
@@ -52,14 +50,6 @@ public class Pago {
         this.monto = monto;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
     public String getMetodoPago() {
         return metodoPago;
     }
@@ -68,22 +58,19 @@ public class Pago {
         this.metodoPago = metodoPago;
     }
 
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
     public Long getUsuarioId() {
         return usuarioId;
     }
 
     public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
-    }
-
-    @Override
-    public String toString() {
-        return "Pago{" +
-                "id=" + id +
-                ", monto=" + monto +
-                ", fecha=" + fecha +
-                ", metodoPago='" + metodoPago + '\'' +
-                ", usuarioId=" + usuarioId +
-                '}';
     }
 }
