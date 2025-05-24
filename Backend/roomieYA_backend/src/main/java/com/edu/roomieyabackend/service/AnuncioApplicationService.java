@@ -28,7 +28,6 @@ public class AnuncioApplicationService {
     private final AnuncioFactory anuncioFactory;
     private final ObservableAnuncio observableAnuncio;
     private final DestinatarioService destinatarioService;
-    private final NotificacionService notificacionService;
 
     public AnuncioApplicationService(
             UsuarioRepository usuarioRepository,
@@ -39,9 +38,7 @@ public class AnuncioApplicationService {
             AnuncioFactory anuncioFactory,
             ObservableAnuncio observableAnuncio,
             DestinatarioService destinatarioService,
-            NotificacionService notificacionService,
-            LecturaObserver lecturaObserver,
-            NotificacionObserver notificacionObserver
+            LecturaObserver lecturaObserver
     ) {
         this.usuarioRepository = usuarioRepository;
         this.inmuebleRepository = inmuebleRepository;
@@ -51,14 +48,13 @@ public class AnuncioApplicationService {
         this.anuncioFactory = anuncioFactory;
         this.observableAnuncio = observableAnuncio;
         this.destinatarioService = destinatarioService;
-        this.notificacionService = notificacionService;
+
     }
 
     @PostConstruct
     public void inicializarObservers() {
         observableAnuncio.agregarObserver(new LecturaObserver(inmuebleRepository, lecturaAnuncioRepository));
-        observableAnuncio.agregarObserver(new NotificacionObserver(destinatarioService, notificacionService, lecturaAnuncioRepository));
-    }
+      }
 
     @Transactional
     public CrearAnuncioResponseDTO crearAnuncio(CrearAnuncioRequestDTO dto) {
