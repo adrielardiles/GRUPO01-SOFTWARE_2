@@ -1,50 +1,35 @@
-package com.edu.roomieyabackend.service.impl;
+package com.edu.roomieyabackend.service;
 
 import com.edu.roomieyabackend.model.Pago;
 import com.edu.roomieyabackend.repository.PagoRepository;
-import com.edu.roomieyabackend.service.PagoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edu.roomieyabackend.strategy.PagoStrategy;
+import com.edu.roomieyabackend.strategy.PagoStrategyFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PagoServiceImpl implements PagoService {
 
     private final PagoRepository pagoRepository;
+    private final PagoStrategyFactory pagoStrategyFactory;
 
-    @Autowired
-    public PagoServiceImpl(PagoRepository pagoRepository) {
+    public PagoServiceImpl(PagoRepository pagoRepository, PagoStrategyFactory pagoStrategyFactory) {
         this.pagoRepository = pagoRepository;
+        this.pagoStrategyFactory = pagoStrategyFactory;
     }
 
     @Override
     public Pago registrarPago(Pago pago) {
+        // Aplicar la estrategia antes de guardar el pago
+        PagoStrategy strategy = pagoStrategyFactory.obtenerEstrategia(pago.getMetodoPago());
+        strategy.procesarPago(pago);
+
         return pagoRepository.save(pago);
     }
 
     @Override
     public List<Pago> listarPagosPorUsuario(Long usuarioId) {
         return pagoRepository.findByUsuarioId(usuarioId);
-    }
-
-    @Override
-    public List<Pago> listarTodosLosPagos() {
-        return pagoRepository.findAll();
-    }
-
-    @Override
-    public Optional<Pago> obtenerPagoPorId(Long id) {
-        return pagoRepository.findById(id);
-    }
-
-    @Override
-    public boolean eliminarPago(Long id) {
-        if (pagoRepository.existsById(id)) {
-            pagoRepository.deleteById(id);
-            return true;
-        }
-        return false;
     }
 }
