@@ -47,8 +47,10 @@ public class ObtenerAnunciosPorInmuebleCommand implements Command<List<ResumenAn
         for (Anuncio a : anuncios) {
             boolean leido = lecturaAnuncioRepository
                     .findByAnuncioIdAndUsuarioId(a.getId(), usuarioId)
-                    .map(LecturaAnuncio::isLeido)
-                    .orElse(false); // 🔥 Se considera no leído si no existe el registro
+                    .map(lectura -> a.isRequiereConfirmacion()
+                            ? lectura.isConfirmacionLectura()
+                            : lectura.isLeido())
+                    .orElse(false); // 🔥 No leído si no existe
 
             ResumenAnuncioDTO dto = new ResumenAnuncioDTO(
                     a.getId(),
@@ -60,9 +62,7 @@ public class ObtenerAnunciosPorInmuebleCommand implements Command<List<ResumenAn
             dtos.add(dto);
         }
 
-
-
-        // Orden personalizado: urgentes no leídos > no leídos > urgentes leídos > demás
+        // Orden personalizado
         Comparator<ResumenAnuncioDTO> comparator = Comparator
                 .comparingInt((ResumenAnuncioDTO dto) -> {
                     if (!dto.isRead() && dto.getTipo().equalsIgnoreCase("URGENTE")) return 1;
@@ -78,9 +78,10 @@ public class ObtenerAnunciosPorInmuebleCommand implements Command<List<ResumenAn
                     }
                 }, Comparator.reverseOrder());
 
-
         return dtos.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
+
+
 }

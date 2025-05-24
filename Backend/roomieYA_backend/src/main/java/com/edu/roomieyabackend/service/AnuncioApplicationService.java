@@ -1,15 +1,12 @@
 package com.edu.roomieyabackend.service;
 
 import com.edu.roomieyabackend.dto.*;
-import com.edu.roomieyabackend.model.Enums.EstadoAnuncio;
-import com.edu.roomieyabackend.model.Enums.TipoAnuncio;
 import com.edu.roomieyabackend.model.entities.Anuncio;
 import com.edu.roomieyabackend.model.entities.AnunciosTipos.*;
 import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.model.entities.Usuario;
 import com.edu.roomieyabackend.model.interfaces.*;
 import com.edu.roomieyabackend.repository.*;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +24,7 @@ public class AnuncioApplicationService {
     private final AnuncioRepository anuncioRepository;
     private final AnuncioFactory anuncioFactory;
     private final ObservableAnuncio observableAnuncio;
-    private final DestinatarioService destinatarioService;
+    private final LecturaObserver lecturaObserver;
 
     public AnuncioApplicationService(
             UsuarioRepository usuarioRepository,
@@ -37,7 +34,6 @@ public class AnuncioApplicationService {
             AnuncioRepository anuncioRepository,
             AnuncioFactory anuncioFactory,
             ObservableAnuncio observableAnuncio,
-            DestinatarioService destinatarioService,
             LecturaObserver lecturaObserver
     ) {
         this.usuarioRepository = usuarioRepository;
@@ -47,43 +43,38 @@ public class AnuncioApplicationService {
         this.anuncioRepository = anuncioRepository;
         this.anuncioFactory = anuncioFactory;
         this.observableAnuncio = observableAnuncio;
-        this.destinatarioService = destinatarioService;
+        this.lecturaObserver = lecturaObserver;
 
+        System.out.println("🟢 Constructor AnuncioApplicationService - Observable ID: " + System.identityHashCode(observableAnuncio));
+        System.out.println("🟢 Constructor AnuncioApplicationService - Observer ID: " + System.identityHashCode(lecturaObserver));
+
+        // Solo se registra una vez
+        this.observableAnuncio.agregarObserver(lecturaObserver);
     }
-
-    @PostConstruct
-    public void inicializarObservers() {
-        observableAnuncio.agregarObserver(new LecturaObserver(inmuebleRepository, lecturaAnuncioRepository));
-      }
 
     @Transactional
     public CrearAnuncioResponseDTO crearAnuncio(CrearAnuncioRequestDTO dto) {
-        Usuario creador = usuarioRepository.findById(dto.getCreadorId())
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        Inmueble inmueble = inmuebleRepository.findById(dto.getInmuebleId())
-                .orElseThrow(() -> new IllegalArgumentException("Inmueble no encontrado"));
+        CrearAnuncioCommand command = new CrearAnuncioCommand(
+                dto,
+                usuarioRepository,
+                inmuebleRepository,
+                anuncioRepository,
+                anuncioFactory
+        );
 
-        Anuncio anuncio = new Anuncio();
-        anuncio.setTitulo(dto.getTitulo());
-        anuncio.setDescripcion(dto.getDescripcion());
-        anuncio.setTipo(TipoAnuncio.valueOf(dto.getTipo()));
-        anuncio.setArchivoAdjuntoUrl(dto.getArchivoAdjuntoUrl());
-        anuncio.setInmueble(inmueble);
-        anuncio.setCreador(creador);
-        anuncio.setEstado(EstadoAnuncio.PUBLICADO);
-        anuncio.setFechaPublicacion(LocalDateTime.now());
+        Anuncio anuncioGuardado = command.ejecutar();
 
-        anuncioRepository.save(anuncio);
-        observableAnuncio.notificarObservers(anuncio);
+        System.out.println("🔵 Notificando desde observable (ApplicationService) - ID: " + System.identityHashCode(observableAnuncio));
+        observableAnuncio.notificarObservers(anuncioGuardado);
 
         return new CrearAnuncioResponseDTO(
-                anuncio.getId(),
-                anuncio.getTitulo(),
-                anuncio.getDescripcion(),
-                anuncio.getTipo(),
-                anuncio.getEstado(),
-                anuncio.getFechaPublicacion(),
-                creador.getNombreCompleto()
+                anuncioGuardado.getId(),
+                anuncioGuardado.getTitulo(),
+                anuncioGuardado.getDescripcion(),
+                anuncioGuardado.getTipo(),
+                anuncioGuardado.getEstado(),
+                anuncioGuardado.getFechaPublicacion(),
+                anuncioGuardado.getCreador().getNombreCompleto()
         );
     }
 

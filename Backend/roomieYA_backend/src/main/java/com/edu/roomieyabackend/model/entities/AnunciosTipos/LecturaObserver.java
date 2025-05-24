@@ -25,11 +25,12 @@ public class LecturaObserver implements ObserverAnuncio {
     @Transactional
     @Override
     public void actualizar(Anuncio anuncio) {
-        System.out.println("LecturaObserver invocado para anuncio: " + anuncio.getId());
+        System.out.println("📣 LecturaObserver invocado - Anuncio ID: " + anuncio.getId());
 
         Long inmuebleId = anuncio.getInmueble().getId();
         List<Usuario> destinatarios = inmuebleRepository.obtenerRoomiesPorInmueble(inmuebleId);
-        System.out.println("Roomies encontrados: " + destinatarios.size());
+        System.out.println("👥 Roomies encontrados: " + destinatarios.size());
+
         for (Usuario usuario : destinatarios) {
             LecturaAnuncio lectura = new LecturaAnuncio();
             lectura.setAnuncio(anuncio);
@@ -37,6 +38,8 @@ public class LecturaObserver implements ObserverAnuncio {
             lectura.setLeido(false);
             lectura.setConfirmacionLectura(false);
             lecturaAnuncioRepository.save(lectura);
+
+            System.out.println("✅ Registro creado en lectura_anuncio para usuario ID: " + usuario.getId());
         }
     }
 }

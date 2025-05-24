@@ -46,11 +46,21 @@ public class ObtenerInmueblesConAnunciosCommand implements Command<List<Inmueble
             // Solo aplica hasUnread si el rol es ROOMIE
             boolean hasUnread = false;
             if (rol == RolPorInmueble.ROOMIE) {
-                hasUnread = anuncios.stream().anyMatch(anuncio ->
-                        anuncio.getEstado().esPublicado() &&
-                                lecturaAnuncioRepository.existsByAnuncioIdAndUsuarioIdAndNoLeido(anuncio.getId(), usuarioId)
-                );
+                hasUnread = anuncios.stream().anyMatch(anuncio -> {
+                    boolean esPublicado = anuncio.getEstado().esPublicado();
+                    boolean esUrgente = anuncio.getTipo().name().equals("URGENTE");
+
+                    return esPublicado && lecturaAnuncioRepository.findByAnuncioIdAndUsuarioId(anuncio.getId(), usuarioId)
+                            .map(lectura -> {
+                                if (esUrgente) {
+                                    return !lectura.isConfirmacionLectura();
+                                } else {
+                                    return !lectura.isLeido();
+                                }
+                            }).orElse(false);
+                });
             }
+
 
             InmuebleAnunciosDTO dto = new InmuebleAnunciosDTO(
                     inmueble.getId(),

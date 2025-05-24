@@ -9,6 +9,8 @@ import com.edu.roomieyabackend.model.interfaces.ObservableAnuncio;
 import com.edu.roomieyabackend.repository.AnuncioRepository;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import com.edu.roomieyabackend.repository.UsuarioRepository;
+import org.springframework.stereotype.Component;
+
 
 public class CrearAnuncioCommand implements Command<Anuncio> {
 
@@ -17,23 +19,21 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
     private final InmuebleRepository inmuebleRepository;
     private final AnuncioRepository anuncioRepository;
     private final AnuncioFactory anuncioFactory;
-    private final ObservableAnuncio observableAnuncio;
 
     public CrearAnuncioCommand(
             CrearAnuncioRequestDTO dto,
             UsuarioRepository usuarioRepository,
             InmuebleRepository inmuebleRepository,
             AnuncioRepository anuncioRepository,
-            AnuncioFactory anuncioFactory,
-            ObservableAnuncio observableAnuncio
+            AnuncioFactory anuncioFactory
     ) {
         this.dto = dto;
         this.usuarioRepository = usuarioRepository;
         this.inmuebleRepository = inmuebleRepository;
         this.anuncioRepository = anuncioRepository;
         this.anuncioFactory = anuncioFactory;
-        this.observableAnuncio = observableAnuncio;
     }
+
 
     @Override
     public Anuncio ejecutar() {
@@ -44,8 +44,6 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
 
         Anuncio anuncio = anuncioFactory.crearDesdeDTO(dto, creador, inmueble);
         Anuncio anuncioGuardado = anuncioRepository.save(anuncio);
-
-        observableAnuncio.notificarObservers(anuncioGuardado);
 
         return anuncioGuardado;
     }
