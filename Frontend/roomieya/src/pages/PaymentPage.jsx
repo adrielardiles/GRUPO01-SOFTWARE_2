@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API } from '../api/endpoints';
-import { Toast, ToastContainer } from 'react-bootstrap';
+import { Toast, ToastContainer, Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 
 const PaymentPage = () => {
   const [monto, setMonto] = useState('');
@@ -17,45 +17,79 @@ const PaymentPage = () => {
     }
 
     setCargando(true);
+    setMensaje('');
+
     try {
-      await axios.post(API.payments.make, {
+      const response = await axios.post(API.payments.make, {
         monto: parseFloat(monto),
         metodoPago,
         usuarioId: 1
       });
-      setMensaje('✅ Pago realizado con éxito');
-      setShowToast(true); // 🎉 Mostrar Toast
-      setMonto('');
+
+      if (response.status === 200) {
+        setMensaje('✅ Pago realizado con éxito');
+        setShowToast(true);
+        setMonto('');
+      }
     } catch (error) {
-      console.error(error);
-      setMensaje('❌ Error al realizar el pago');
-    } finally {
+  if (error.response && error.response.data) {
+    const mensajeError = error.response.data.message || error.response.data || 'Error desconocido';
+    setMensaje(`❌ ${mensajeError}`);
+  } else {
+    setMensaje('❌ Error de conexión con el servidor');
+  }
+}
+ finally {
       setCargando(false);
     }
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Pagar alquiler</h2>
-      <input
-        type="number"
-        value={monto}
-        onChange={(e) => setMonto(e.target.value)}
-        placeholder="Monto en soles"
-        style={{ display: 'block', marginBottom: '10px' }}
-      />
-      <select
-        value={metodoPago}
-        onChange={(e) => setMetodoPago(e.target.value)}
-        style={{ display: 'block', marginBottom: '10px' }}
-      >
-        <option value="yape">Yape</option>
-        <option value="tarjeta">Tarjeta</option>
-      </select>
-      <button onClick={handlePago} disabled={cargando}>
-        {cargando ? 'Procesando...' : 'Pagar ahora'}
-      </button>
-      <p>{mensaje}</p>
+    <Container className="my-5">
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Card className="shadow-lg p-4">
+            <Card.Body>
+              <h2 className="text-center mb-4">💰 Pagar alquiler</h2>
+
+              <Form>
+                <Form.Group className="mb-3">
+                  <Form.Label>Monto (S/)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={monto}
+                    onChange={(e) => setMonto(e.target.value)}
+                    placeholder="Ej. 350"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Método de pago</Form.Label>
+                  <Form.Select
+                    value={metodoPago}
+                    onChange={(e) => setMetodoPago(e.target.value)}
+                  >
+                    <option value="yape">Yape</option>
+                    <option value="tarjeta">Tarjeta</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <div className="d-grid">
+                  <Button
+                    variant="primary"
+                    onClick={handlePago}
+                    disabled={cargando}
+                  >
+                    {cargando ? 'Procesando...' : 'Pagar ahora'}
+                  </Button>
+                </div>
+              </Form>
+
+              {mensaje && <p className="text-center mt-3">{mensaje}</p>}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
       {/* Toast visual */}
       <ToastContainer position="top-end" className="p-3">
@@ -69,10 +103,12 @@ const PaymentPage = () => {
           <Toast.Header>
             <strong className="me-auto">RoomieYA</strong>
           </Toast.Header>
-          <Toast.Body className="text-white">✅ ¡Pago registrado con éxito!</Toast.Body>
+          <Toast.Body className="text-white">
+            ✅ ¡Pago registrado con éxito!
+          </Toast.Body>
         </Toast>
       </ToastContainer>
-    </div>
+    </Container>
   );
 };
 
