@@ -14,6 +14,8 @@ const Header = () => {
     { texto: 'ZONA 2', ruta: '/zona2' },
     { texto: 'ZONA 3', ruta: '/zona3' },
     { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
+    { texto: 'REGISTRAR RESEÑA', ruta: '/agregar-rating' },
+    { texto: 'RESEÑAS', ruta: '/reseñas' },
     // ----------------------> Nuevo botón:
     { texto: 'REGISTRAR INMUEBLE', ruta: '/registrar-inmueble' },
   ];
