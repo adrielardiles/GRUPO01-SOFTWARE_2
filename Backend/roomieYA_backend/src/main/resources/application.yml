@@ -2,6 +2,11 @@ spring:
   application:
     name: roomieYA_backend
 
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
   datasource:
     url: jdbc:postgresql://database-software.ctuaosgg6rsd.us-east-2.rds.amazonaws.com:5432/postgres
     username: postgres

@@ -19,7 +19,7 @@ const EditarInmueblePage = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/inmuebles/${id}`)
+    axios.get(`http://localhost:8081/api/inmuebles/${id}`)
       .then(({ data }) => setFormData({
         nombre: data.nombre,
         direccion: data.direccion,
@@ -44,7 +44,7 @@ const EditarInmueblePage = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8080/api/inmuebles/${id}`, formData);
+      await axios.put(`http://localhost:8081/api/inmuebles/${id}`, formData);
       navigate('/mis-inmuebles');
     } catch (err) {
       console.error(err);

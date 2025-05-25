@@ -8,7 +8,7 @@ const MisInmueblesPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/inmuebles')
+    axios.get('http://localhost:8081/api/inmuebles')
       .then(({ data }) => setInmuebles(data))
       .catch(err => console.error('Error al cargar inmuebles:', err));
   }, []);

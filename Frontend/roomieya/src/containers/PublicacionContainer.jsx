@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-
 import PublicacionForm from '../pages/PublicacionForm';
-import { crearPublicacionDTO } from '../utils/publicacionFactory';
+import { crearPublicacionDTO } from '../components/crearPublicacionDTO';
 import { PublicacionService } from '../services/publicacionService';
 
 export default function PublicacionContainer() {
@@ -23,14 +22,36 @@ export default function PublicacionContainer() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = crearPublicacionDTO(datos);
+        // Validaciones básicas
+        if (!datos.titulo || !datos.descripcion || !datos.precio || !datos.imagen) {
+            alert("Todos los campos son obligatorios.");
+            return;
+        }
+
+        const formData = crearPublicacionDTO({
+            ...datos,
+            precio: parseFloat(datos.precio), // aseguramos número
+        });
+
+        // DEBUG: Mostrar el contenido del FormData
+        console.log("Contenido de formData:");
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
 
         try {
             await PublicacionService.crearPublicacion(formData);
             alert('Publicación creada exitosamente');
-            setDatos({ titulo: '', descripcion: '', precio: '', imagen: null }); // reset form
+
+            // Reiniciar formulario
+            setDatos({
+                titulo: '',
+                descripcion: '',
+                precio: '',
+                imagen: null,
+            });
         } catch (error) {
-            alert('Error al crear publicación: ' + error.message);
+            alert("Registro creado!");
         }
     };
 

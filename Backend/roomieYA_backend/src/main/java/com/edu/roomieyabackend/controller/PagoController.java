@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/pagos")
-@CrossOrigin(origins = "http://localhost:3000") // Ajusta si el frontend corre en otro puerto
 public class PagoController {
 
     private final PagoService pagoService;

@@ -25,7 +25,7 @@ const RegistrarInmueblePage = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/api/inmuebles', formData);
+      await axios.post('http://localhost:8081/api/inmuebles', formData);
       navigate('/mis-inmuebles');
     } catch (err) {
       console.error(err);

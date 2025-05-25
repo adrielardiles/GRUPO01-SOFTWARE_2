@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/publicaciones")
-@CrossOrigin(origins = "http://localhost:3000")  // Permite llamadas desde React
 public class PublicacionController {
 
     @Autowired
@@ -23,17 +22,22 @@ public class PublicacionController {
             @RequestParam("titulo") String titulo,
             @RequestParam("descripcion") String descripcion,
             @RequestParam("precio") Double precio,
-            @RequestParam("imagen") MultipartFile imagen) throws IOException {
+            @RequestParam("imagen") MultipartFile imagen) {
+        try {
+            PublicacionEntity p = new PublicacionEntity();
+            p.setTitulo(titulo);
+            p.setDescripcion(descripcion);
+            p.setPrecio(precio);
+            p.setImagen(imagen.getBytes());
 
-        PublicacionEntity p = new PublicacionEntity();
-        p.setTitulo(titulo);
-        p.setDescripcion(descripcion);
-        p.setPrecio(precio);
-        p.setImagen(imagen.getBytes());
-
-        publicacionRepository.save(p);
-        return ResponseEntity.ok("Publicación guardada exitosamente");
+            publicacionRepository.save(p);
+            return ResponseEntity.ok("Publicación guardada exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error interno: " + e.getMessage());
+        }
     }
+
 
     @GetMapping
     public List<PublicacionEntity> listar() {
