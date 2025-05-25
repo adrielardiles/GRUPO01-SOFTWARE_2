@@ -35,12 +35,17 @@ public class ObtenerDetalleAnuncioCommand implements Command<DetalleAnuncioDTO> 
 
         LecturaAnuncio lectura = lecturaAnuncioRepository
                 .findByAnuncioIdAndUsuarioId(anuncioId, usuarioId)
-                .orElseThrow(() -> new IllegalArgumentException("Lectura no encontrada"));
+                .orElse(null);
 
-        boolean leido = lectura.isLeido();
-        boolean confirmacionLectura = lectura.isConfirmacionLectura();
+        boolean leido = false;
+        boolean confirmacionLectura = false;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (lectura != null) {
+            leido = lectura.isLeido();
+            confirmacionLectura = lectura.isConfirmacionLectura();
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String fechaFormateada = anuncio.getFechaPublicacion().format(formatter);
 
         DetalleAnuncioDTO dto = new DetalleAnuncioDTO(
@@ -49,11 +54,13 @@ public class ObtenerDetalleAnuncioCommand implements Command<DetalleAnuncioDTO> 
                 anuncio.getDescripcion(),
                 anuncio.getTipo().name(),
                 fechaFormateada,
-                anuncio.getCreador().getNombreCompleto(),
+                anuncio.getNombreCompletoCreador(),
                 leido
         );
-
         dto.setConfirmacionLectura(confirmacionLectura);
+
         return dto;
     }
+
+
 }

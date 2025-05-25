@@ -1,5 +1,6 @@
 package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
+import com.edu.roomieyabackend.model.Enums.TipoEventoAnuncio;
 import com.edu.roomieyabackend.model.entities.Anuncio;
 import com.edu.roomieyabackend.model.entities.LecturaAnuncio;
 import com.edu.roomieyabackend.model.entities.Usuario;
@@ -22,9 +23,10 @@ public class LecturaObserver implements ObserverAnuncio {
         this.lecturaAnuncioRepository = lecturaAnuncioRepository;
     }
 
-    @Transactional
     @Override
-    public void actualizar(Anuncio anuncio) {
+    public void actualizar(Anuncio anuncio, TipoEventoAnuncio tipoEvento) {
+        if (tipoEvento != TipoEventoAnuncio.CREACION) return; // solo reacciona ante creación
+
         System.out.println("📣 LecturaObserver invocado - Anuncio ID: " + anuncio.getId());
 
         Long inmuebleId = anuncio.getInmueble().getId();
@@ -32,6 +34,10 @@ public class LecturaObserver implements ObserverAnuncio {
         System.out.println("👥 Roomies encontrados: " + destinatarios.size());
 
         for (Usuario usuario : destinatarios) {
+            if (usuario.getId().equals(anuncio.getCreador().getId())) {
+                continue;
+            }
+
             LecturaAnuncio lectura = new LecturaAnuncio();
             lectura.setAnuncio(anuncio);
             lectura.setUsuario(usuario);
@@ -41,5 +47,7 @@ public class LecturaObserver implements ObserverAnuncio {
 
             System.out.println("✅ Registro creado en lectura_anuncio para usuario ID: " + usuario.getId());
         }
+
     }
+
 }

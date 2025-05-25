@@ -38,6 +38,19 @@ public interface LecturaAnuncioRepository extends JpaRepository<LecturaAnuncio, 
     );
 
 
+    void deleteByAnuncioId(Long id);
+
+    @Query("""
+    SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END
+    FROM LecturaAnuncio l
+    WHERE l.anuncio.id = :anuncioId
+      AND l.usuario.id <> :usuarioId
+      AND l.leido = true
+""")
+    boolean existsByAnuncioIdAndUsuarioIdNotAndLeidoTrue(
+            @Param("anuncioId") Long anuncioId,
+            @Param("usuarioId") Long usuarioId
+    );
 
 
 }

@@ -1,16 +1,14 @@
 package com.edu.roomieyabackend.service;
 
 import com.edu.roomieyabackend.dto.*;
+import com.edu.roomieyabackend.model.Enums.TipoEventoAnuncio;
 import com.edu.roomieyabackend.model.entities.Anuncio;
 import com.edu.roomieyabackend.model.entities.AnunciosTipos.*;
-import com.edu.roomieyabackend.model.entities.Inmueble;
-import com.edu.roomieyabackend.model.entities.Usuario;
 import com.edu.roomieyabackend.model.interfaces.*;
 import com.edu.roomieyabackend.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class AnuncioApplicationService {
     private final UsuarioInmuebleRepository usuarioInmuebleRepository;
     private final LecturaAnuncioRepository lecturaAnuncioRepository;
     private final AnuncioRepository anuncioRepository;
-    private final AnuncioFactory anuncioFactory;
+    private final AnuncioFacade anuncioFacade;
     private final ObservableAnuncio observableAnuncio;
     private final LecturaObserver lecturaObserver;
 
@@ -32,7 +30,7 @@ public class AnuncioApplicationService {
             UsuarioInmuebleRepository usuarioInmuebleRepository,
             LecturaAnuncioRepository lecturaAnuncioRepository,
             AnuncioRepository anuncioRepository,
-            AnuncioFactory anuncioFactory,
+            AnuncioFacade anuncioFacade,
             ObservableAnuncio observableAnuncio,
             LecturaObserver lecturaObserver
     ) {
@@ -41,7 +39,7 @@ public class AnuncioApplicationService {
         this.usuarioInmuebleRepository = usuarioInmuebleRepository;
         this.lecturaAnuncioRepository = lecturaAnuncioRepository;
         this.anuncioRepository = anuncioRepository;
-        this.anuncioFactory = anuncioFactory;
+        this.anuncioFacade = anuncioFacade;
         this.observableAnuncio = observableAnuncio;
         this.lecturaObserver = lecturaObserver;
 
@@ -59,13 +57,13 @@ public class AnuncioApplicationService {
                 usuarioRepository,
                 inmuebleRepository,
                 anuncioRepository,
-                anuncioFactory
+                anuncioFacade
         );
 
         Anuncio anuncioGuardado = command.ejecutar();
 
         System.out.println("🔵 Notificando desde observable (ApplicationService) - ID: " + System.identityHashCode(observableAnuncio));
-        observableAnuncio.notificarObservers(anuncioGuardado);
+        observableAnuncio.notificarObservers(anuncioGuardado, TipoEventoAnuncio.CREACION);
 
         return new CrearAnuncioResponseDTO(
                 anuncioGuardado.getId(),
@@ -78,7 +76,8 @@ public class AnuncioApplicationService {
         );
     }
 
-    public List<InmuebleAnunciosDTO> obtenerInmueblesConResumen(Long usuarioId) {
+
+    public List<InmuebleAnunciosDTO> obtenerInmueblesConAnuncios(Long usuarioId) {
         ObtenerInmueblesConAnunciosCommand command = new ObtenerInmueblesConAnunciosCommand(
                 usuarioId,
                 usuarioInmuebleRepository,
@@ -153,7 +152,7 @@ public class AnuncioApplicationService {
                 actualizado.getCreador().getNombreCompleto()
         );
     }
-
+    @Transactional
     public void eliminarAnuncio(Long anuncioId) {
         EliminarAnuncioCommand command = new EliminarAnuncioCommand(
                 anuncioId,

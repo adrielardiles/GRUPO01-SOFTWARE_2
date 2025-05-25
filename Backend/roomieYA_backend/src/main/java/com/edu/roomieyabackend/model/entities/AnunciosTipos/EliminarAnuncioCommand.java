@@ -4,6 +4,7 @@ import com.edu.roomieyabackend.model.entities.Anuncio;
 import com.edu.roomieyabackend.model.interfaces.Command;
 import com.edu.roomieyabackend.repository.AnuncioRepository;
 import com.edu.roomieyabackend.repository.LecturaAnuncioRepository;
+import jakarta.transaction.Transactional;
 
 public class EliminarAnuncioCommand implements Command<Void> {
 
@@ -26,13 +27,21 @@ public class EliminarAnuncioCommand implements Command<Void> {
         Anuncio anuncio = anuncioRepository.findById(anuncioId)
                 .orElseThrow(() -> new IllegalArgumentException("Anuncio no encontrado"));
 
-        boolean haSidoLeido = lecturaAnuncioRepository.existsByAnuncioId(anuncio.getId());
+        boolean haSidoLeidoPorOtros = lecturaAnuncioRepository
+                .existsByAnuncioIdAndUsuarioIdNotAndLeidoTrue(anuncio.getId(), anuncio.getCreador().getId());
 
-        if (haSidoLeido) {
-            throw new IllegalStateException("No se puede eliminar el anuncio porque ya ha sido leído por al menos un usuario.");
+        if (haSidoLeidoPorOtros) {
+            throw new IllegalStateException("No se puede eliminar el anuncio porque ya ha sido leído por al menos un roomie.");
         }
 
+        // 🔥 Este paso es obligatorio si no tienes cascade
+        lecturaAnuncioRepository.deleteByAnuncioId(anuncio.getId());
+
+        // Ahora puedes eliminar el anuncio
         anuncioRepository.delete(anuncio);
+
         return null;
     }
+
+
 }

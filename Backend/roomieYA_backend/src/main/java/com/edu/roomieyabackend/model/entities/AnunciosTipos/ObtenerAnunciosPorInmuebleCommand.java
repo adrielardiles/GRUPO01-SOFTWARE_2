@@ -42,7 +42,7 @@ public class ObtenerAnunciosPorInmuebleCommand implements Command<List<ResumenAn
         List<Anuncio> anuncios = anuncioRepository.findByInmuebleId(inmuebleId);
         List<ResumenAnuncioDTO> dtos = new ArrayList<>();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         for (Anuncio a : anuncios) {
             boolean leido = lecturaAnuncioRepository
@@ -50,7 +50,7 @@ public class ObtenerAnunciosPorInmuebleCommand implements Command<List<ResumenAn
                     .map(lectura -> a.isRequiereConfirmacion()
                             ? lectura.isConfirmacionLectura()
                             : lectura.isLeido())
-                    .orElse(false); // 🔥 No leído si no existe
+                    .orElse(false);
 
             ResumenAnuncioDTO dto = new ResumenAnuncioDTO(
                     a.getId(),

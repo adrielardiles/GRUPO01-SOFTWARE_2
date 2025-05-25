@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
+const TIPOS_ANUNCIO = [
+  'URGENTE',
+  'INFORMATIVO',
+  'NUEVO_ROOMIE',
+  'PROGRAMADO',
+  'EVENTO',
+  'REGLA',
+  'COMUNICADO',
+  'RECORDATORIO'
+];
+
 const CrearAnuncioModal = ({ onCerrar, onPublicar, esEdicion = false, anuncioOriginal = {} }) => {
   const [titulo, setTitulo] = useState('');
   const [tipo, setTipo] = useState('');
@@ -41,16 +52,18 @@ const CrearAnuncioModal = ({ onCerrar, onPublicar, esEdicion = false, anuncioOri
           onChange={e => setTitulo(e.target.value)}
         />
 
-        <label className="form-label">Tipo de Evento</label>
+        <label className="form-label">Tipo de Anuncio</label>
         <select
           className="form-select mb-2"
           value={tipo}
           onChange={e => setTipo(e.target.value)}
         >
           <option value="">Seleccionar</option>
-          <option value="URGENTE">Urgente</option>
-          <option value="COMUNICADO">Comunicado</option>
-          <option value="EVENTO">Evento</option>
+          {TIPOS_ANUNCIO.map((opcion) => (
+            <option key={opcion} value={opcion}>
+              {opcion.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}
+            </option>
+          ))}
         </select>
 
         {!esEdicion && (

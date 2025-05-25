@@ -44,4 +44,8 @@ public class Anuncio {
     @JoinColumn(name = "creador_id")
     private Usuario creador;
 
+    public String getNombreCompletoCreador() {
+        return creador != null ? creador.getNombreCompleto() : null;
+    }
+
 }

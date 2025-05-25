@@ -5,11 +5,9 @@ import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.model.entities.Anuncio;
 import com.edu.roomieyabackend.model.entities.Usuario;
 import com.edu.roomieyabackend.model.interfaces.Command;
-import com.edu.roomieyabackend.model.interfaces.ObservableAnuncio;
 import com.edu.roomieyabackend.repository.AnuncioRepository;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import com.edu.roomieyabackend.repository.UsuarioRepository;
-import org.springframework.stereotype.Component;
 
 
 public class CrearAnuncioCommand implements Command<Anuncio> {
@@ -18,20 +16,20 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
     private final UsuarioRepository usuarioRepository;
     private final InmuebleRepository inmuebleRepository;
     private final AnuncioRepository anuncioRepository;
-    private final AnuncioFactory anuncioFactory;
+    private final AnuncioFacade anuncioFacade;
 
     public CrearAnuncioCommand(
             CrearAnuncioRequestDTO dto,
             UsuarioRepository usuarioRepository,
             InmuebleRepository inmuebleRepository,
             AnuncioRepository anuncioRepository,
-            AnuncioFactory anuncioFactory
+            AnuncioFacade anuncioFacade
     ) {
         this.dto = dto;
         this.usuarioRepository = usuarioRepository;
         this.inmuebleRepository = inmuebleRepository;
         this.anuncioRepository = anuncioRepository;
-        this.anuncioFactory = anuncioFactory;
+        this.anuncioFacade = anuncioFacade;
     }
 
 
@@ -42,7 +40,7 @@ public class CrearAnuncioCommand implements Command<Anuncio> {
         Inmueble inmueble = inmuebleRepository.findById(dto.getInmuebleId())
                 .orElseThrow(() -> new IllegalArgumentException("Inmueble no encontrado"));
 
-        Anuncio anuncio = anuncioFactory.crearDesdeDTO(dto, creador, inmueble);
+        Anuncio anuncio = anuncioFacade.crearDesdeDTO(dto, creador, inmueble);
         Anuncio anuncioGuardado = anuncioRepository.save(anuncio);
 
         return anuncioGuardado;

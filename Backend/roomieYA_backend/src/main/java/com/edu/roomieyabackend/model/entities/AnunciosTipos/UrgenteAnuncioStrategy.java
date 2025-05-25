@@ -18,8 +18,6 @@ public class UrgenteAnuncioStrategy extends AnuncioStrategyBase implements Regis
     @Override
     public Anuncio inicializar(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
         Anuncio a = crearBase(dto, creador, inmueble);
-        a.setEstado(EstadoAnuncio.ACTIVO);
-        a.setFechaPublicacion(LocalDateTime.now());
         a.setRequiereConfirmacion(true);
         return a;
     }

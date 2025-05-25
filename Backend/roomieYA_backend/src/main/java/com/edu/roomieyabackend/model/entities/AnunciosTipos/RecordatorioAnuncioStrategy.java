@@ -17,7 +17,7 @@ public class RecordatorioAnuncioStrategy extends AnuncioStrategyBase implements 
     @Override
     public Anuncio inicializar(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
         Anuncio a = crearBase(dto, creador, inmueble);
-        a.setEstado(EstadoAnuncio.ACTIVO);
+        a.setEstado(EstadoAnuncio.PUBLICADO);
         a.setFechaPublicacion(LocalDateTime.now());
         a.setRequiereConfirmacion(false);
         return a;

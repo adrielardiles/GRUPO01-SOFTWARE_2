@@ -19,43 +19,5 @@ public class ResumenAnuncioDTO {
         this.isRead = isRead;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
-    }
 }

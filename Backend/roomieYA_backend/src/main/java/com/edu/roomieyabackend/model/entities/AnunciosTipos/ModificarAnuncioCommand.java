@@ -35,9 +35,6 @@ public class ModificarAnuncioCommand implements Command<Anuncio> {
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-        if (!anuncio.getCreador().getId().equals(usuario.getId())) {
-            throw new SecurityException("El usuario no tiene permisos para modificar este anuncio.");
-        }
 
         anuncio.setTitulo(dto.getTitulo());
         anuncio.setDescripcion(dto.getMensaje());

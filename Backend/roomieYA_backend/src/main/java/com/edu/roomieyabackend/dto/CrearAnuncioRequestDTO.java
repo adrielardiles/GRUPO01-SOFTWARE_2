@@ -11,9 +11,7 @@ public class CrearAnuncioRequestDTO {
     private Long inmuebleId;
     private String titulo;
     private String descripcion;
-    private String tipo; // o TipoAnuncio si ya hiciste el cambio
-    private String archivoAdjuntoUrl;
+    private TipoAnuncio tipo;
 
     private LocalDateTime fechaProgramada;
-    private boolean requiereConfirmacion;
 }

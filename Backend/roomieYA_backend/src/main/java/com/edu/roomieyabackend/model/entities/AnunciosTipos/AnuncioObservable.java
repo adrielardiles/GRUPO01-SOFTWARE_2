@@ -1,5 +1,6 @@
 package com.edu.roomieyabackend.model.entities.AnunciosTipos;
 
+import com.edu.roomieyabackend.model.Enums.TipoEventoAnuncio;
 import com.edu.roomieyabackend.model.entities.Anuncio;
 import com.edu.roomieyabackend.model.interfaces.ObservableAnuncio;
 import com.edu.roomieyabackend.model.interfaces.ObserverAnuncio;
@@ -23,10 +24,12 @@ public class AnuncioObservable implements ObservableAnuncio {
         observers.remove(observer);
     }
 
+
     @Override
-    public void notificarObservers(Anuncio anuncio) {
+    public void notificarObservers(Anuncio anuncio, TipoEventoAnuncio tipoEvento) {
         for (ObserverAnuncio observer : observers) {
-            observer.actualizar(anuncio);
+            observer.actualizar(anuncio, tipoEvento);
         }
     }
 }
+

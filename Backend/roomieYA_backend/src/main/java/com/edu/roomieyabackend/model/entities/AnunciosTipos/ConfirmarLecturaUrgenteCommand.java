@@ -22,11 +22,11 @@ public class ConfirmarLecturaUrgenteCommand implements Command<Void> {
                 .findByAnuncioIdAndUsuarioId(anuncioId, usuarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Lectura no encontrada"));
 
-        lectura.setLeido(true); // Marcar como leído
-        lectura.setConfirmacionLectura(true); // Confirmación explícita
-        lectura.setFechaLectura(java.time.LocalDateTime.now()); // Registrar la fecha de lectura
+        lectura.setLeido(true);
+        lectura.setConfirmacionLectura(true);
+        lectura.setFechaLectura(java.time.LocalDateTime.now());
 
-        lecturaAnuncioRepository.save(lectura); // Asegurar persistencia
+        lecturaAnuncioRepository.save(lectura);
 
         return null;
     }

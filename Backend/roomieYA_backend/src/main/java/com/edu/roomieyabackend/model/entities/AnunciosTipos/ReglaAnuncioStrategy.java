@@ -17,9 +17,9 @@ public class ReglaAnuncioStrategy extends AnuncioStrategyBase implements Registr
     @Override
     public Anuncio inicializar(CrearAnuncioRequestDTO dto, Usuario creador, Inmueble inmueble) {
         Anuncio a = crearBase(dto, creador, inmueble);
-        a.setEstado(EstadoAnuncio.ACTIVO);
+        a.setEstado(EstadoAnuncio.PUBLICADO);
         a.setFechaPublicacion(LocalDateTime.now());
-        a.setRequiereConfirmacion(true);
+        a.setRequiereConfirmacion(false);
         return a;
     }
 

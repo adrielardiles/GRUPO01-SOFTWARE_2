@@ -39,14 +39,6 @@ public class MarcarAnuncioComoLeidoCommand implements Command<Void> {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-        // 🟢 Agrega este log para verificar los IDs usados
-        System.out.println("Buscando lectura para anuncioId = " + anuncioId + " y usuarioId = " + usuarioId);
-
-        // 🟢 (Opcional) Muestra todos los registros existentes en la tabla para verificar coincidencias reales
-        lecturaAnuncioRepository.findAll().forEach(l ->
-                System.out.println("Lectura: anuncioId=" + l.getAnuncio().getId() + ", usuarioId=" + l.getUsuario().getId())
-        );
-
         LecturaAnuncio lectura = lecturaAnuncioRepository
                 .findByAnuncioIdAndUsuarioId(anuncioId, usuarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Lectura no encontrada"));
