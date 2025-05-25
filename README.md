@@ -14,7 +14,13 @@
 4. Ejecutar con el boton de correr del ide o usando un comando de gradlew bootRun  
 
 
-
+# COMO ABRIR BASE DE DATOS
+1. Descargar postgresql
+2. Click derecho > Register > Connect Server > Name: Cualquiera que desee [es obligatorio poner uno] > Connection
+  3. Host: database-software.ctuaosgg6rsd.us-east-2.rds.amazonaws.com
+  4. Nombre: Cualquiera que usted desee colocar
+  5. password: software2
+NOTA: Al ejecutar el backend automaticamente se conecta a la base de datos alojada en la nube.
 
 
 
