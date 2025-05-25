@@ -11,7 +11,7 @@
 1. Open project 
 2. Abrir la carpeta de roomieya_backend
 3. Esperar a que compile el codigo
-4. Ejecutar con gradlew bootRun  
+4. Ejecutar con el boton de correr del ide o usando un comando de gradlew bootRun  
 
 
 
