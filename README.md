@@ -1,3 +1,33 @@
+# COMO ABRIR FRONTEND
+1. Open Project
+2. Abrir la carpeta frontend
+3. cd roomieya en la terminal
+4. npm install
+5. npm start
+
+
+
+# COMO ABRIR BACKEND
+1. Open project 
+2. Abrir la carpeta de roomieya_backend
+3. Esperar a que compile el codigo
+4. Ejecutar con gradlew bootRun  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # GRUPO 01-SOFTWARE_2
 
 ## 🧭 Convenciones de Commits del Equipo
