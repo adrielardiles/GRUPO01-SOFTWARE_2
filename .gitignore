@@ -1,0 +1,14 @@
+# Ignorar entornos virtuales de Python
+venv/
+Backend/PythonMicroservice/venv/
+
+# Otros comunes (opcional)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+Backend/PythonMicroservice/venv/
+Backend/PythonMicroservicio/venv/
+Backend/PythonMicroservicio/venv/

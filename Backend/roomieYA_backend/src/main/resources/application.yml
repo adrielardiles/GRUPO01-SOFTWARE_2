@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: roomieYA_backend
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  datasource:
+    url: jdbc:postgresql://database-software.ctuaosgg6rsd.us-east-2.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: software12345
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+<<<<<<< HEAD
+      ddl-auto: create
+=======
+      ddl-auto: update  # ⬅ Mejor para no perder datos al reiniciar
+>>>>>>> 7c22c156b10e161c2708a2e8200c9183f88f6730
+    show-sql: true
+
+  mail:
+    host: smtp-relay.sendinblue.com
+    port: 587
+    username: 8da294001@smtp-brevo.com
+    password: Kvpd32QnZ0m8PSw4
+    default-encoding: UTF-8
+    from: 8da294001@smtp-brevo.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+server:
+  port: 8081  # ⬅️ Asegura coincidencia con el frontend
+
+  error:
+    include-message: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+---

@@ -1,0 +1,138 @@
+.citas-container {
+  max-width: 410px;
+  margin: 2.5rem auto;
+  background: #fff;
+  padding: 2.3rem 1.5rem 2rem 1.5rem;
+  border-radius: 24px;
+  box-shadow: 0 8px 36px rgba(255, 81, 48, 0.09), 0 1.5px 7px #ffd4c5;
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.citas-title {
+  font-size: 2.2rem;
+  margin-bottom: 2.2rem;
+  color: #ff6647;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.8px;
+}
+
+.cita-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.13rem;
+}
+
+.cita-form input,
+.cita-form select {
+  border: none;
+  border-radius: 13px;
+  padding: 1.05rem 1.1rem;
+  font-size: 1.05rem;
+  background: #f8f6ff;
+  outline: none;
+  transition: box-shadow 0.19s, border 0.18s;
+  box-shadow: 0 0 0 1.5px #ffd8cf;
+}
+
+.cita-form input:focus,
+.cita-form select:focus {
+  box-shadow: 0 0 0 2.3px #ff6647;
+  background: #fff4f2;
+}
+
+.cita-form button {
+  padding: 1rem 0;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(90deg, #ff6647, #ff914d);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(255,81,71,0.10);
+  transition: background 0.16s, transform 0.14s;
+  letter-spacing: 1px;
+}
+.cita-form button:hover {
+  background: linear-gradient(90deg, #ff3700, #ff914d);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.cita-list {
+  margin-top: 2.3rem;
+  padding-top: 1rem;
+  border-top: 1.7px solid #ffe5de;
+}
+
+.cita-item {
+  background: #fff4f2;
+  border-radius: 13px;
+  box-shadow: 0 1px 11px rgba(255,99,71,0.11);
+  padding: 1.05rem 1rem;
+  margin-bottom: 1.05rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-left: 5px solid #ff6647;
+}
+
+.cita-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.19rem;
+}
+
+.cita-item-title {
+  font-weight: 600;
+  color: #FF3700;
+  margin-bottom: 0.15rem;
+  font-size: 1.08rem;
+}
+
+.cita-item-details {
+  font-size: 0.99rem;
+  color: #222;
+  line-height: 1.37;
+  margin-bottom: 0.05rem;
+}
+
+.cita-item-btn {
+  background: linear-gradient(90deg, #ff6647, #ff914d);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 0.57rem 1.2rem;
+  cursor: pointer;
+  font-size: 0.99rem;
+  font-weight: bold;
+  transition: background .18s, transform .13s;
+  margin-left: 1rem;
+}
+.cita-item-btn:hover {
+  background: linear-gradient(90deg, #e74318, #ff805a);
+  transform: scale(1.06);
+}
+
+.cita-list-empty {
+  text-align: left;
+  color: #bbb;
+  font-size: 1.04rem;
+  padding: 0.5rem 0.1rem 0.1rem 0.2rem;
+}
+.cita-cancelada-badge {
+  color: #fff;
+  background: #e74c3c;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.95em;
+  margin-left: 10px;
+  display: inline-block;
+}
+
+@media (max-width: 520px) {
+  .citas-container {
+    padding: 1.3rem 0.4rem 1.2rem 0.4rem;
+  }
+}
