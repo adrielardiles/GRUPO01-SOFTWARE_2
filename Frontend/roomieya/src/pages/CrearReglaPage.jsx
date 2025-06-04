@@ -2,24 +2,22 @@
 import React, { useState } from 'react';
 
 const CrearReglaPage = () => {
-  const [regla, setRegla] = useState('');
+  const [textoRegla, setTextoRegla] = useState('');
+  const [categoria, setCategoria] = useState('');
   const [error, setError] = useState('');
   const [mensaje, setMensaje] = useState('');
 
-  const handleChange = (e) => {
-    setRegla(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!regla.trim()) {
-      setError('La regla no puede estar vacía.');
+    if (textoRegla.trim().length < 10) {
+      setError('La regla debe tener al menos 10 caracteres.');
       return;
     }
     setError('');
-    // Aquí iría la lógica para enviar la regla al backend (pendiente TA007)
+    // Aquí agregarás la lógica para enviar la regla al backend en tareas posteriores
     setMensaje('Regla creada correctamente (simulado)');
-    setRegla('');
+    setTextoRegla('');
+    setCategoria('');
   };
 
   return (
@@ -29,17 +27,35 @@ const CrearReglaPage = () => {
       {mensaje && <div className="alert alert-success">{mensaje}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="regla" className="form-label">Regla</label>
+          <label htmlFor="textoRegla" className="form-label">Regla de convivencia</label>
           <textarea
-            id="regla"
+            id="textoRegla"
             className="form-control"
-            value={regla}
-            onChange={handleChange}
+            value={textoRegla}
+            onChange={(e) => setTextoRegla(e.target.value)}
             rows={4}
             required
+            minLength={10}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Crear regla</button>
+
+        <div className="mb-3">
+          <label htmlFor="categoria" className="form-label">Categoría (opcional)</label>
+          <select
+            id="categoria"
+            className="form-select"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+          >
+            <option value="">Seleccione una categoría</option>
+            <option value="ruido">Ruido</option>
+            <option value="limpieza">Limpieza</option>
+            <option value="visitas">Visitas</option>
+            <option value="seguridad">Seguridad</option>
+          </select>
+        </div>
+
+        <button type="submit" className="btn btn-primary">Guardar regla</button>
       </form>
     </div>
   );

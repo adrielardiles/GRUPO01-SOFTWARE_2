@@ -38,8 +38,10 @@ import CitasPage from './pages/CitasPage';
 import TinderLike from './pages/presentacioninmuebles';
 
 
-//HU CREAR REGLAS
+//HU CREAR REGLAS-T1
 import CrearReglaPage from './pages/CrearReglaPage';
+//HU CREAR REGLAS-T2
+import ReglasPendientesPage from './pages/ReglasPendientesPage';
 
 
 const App = () => {
@@ -97,7 +99,9 @@ const App = () => {
 {/* Rutas para crear las reglas */}  
         <Route path="/crear-regla" element={<CrearReglaPage />} />
 
+{/* Rutas para crear las reglas pendientes */}  
 
+        <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
       </Routes>
     </BrowserRouter>
   );
