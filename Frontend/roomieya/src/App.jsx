@@ -36,7 +36,8 @@ import RenterProfilePage from './pages/RenterProfilePage';
 import CitasPage from './pages/CitasPage';
 //visualizacion tipo tinder inmuebles
 import TinderLike from './pages/presentacioninmuebles';
-
+//registrar bienes comunes
+import InventoryPage from './pages/InventoryPage';
 
 //HU CREAR REGLAS-T1
 import CrearReglaPage from './pages/CrearReglaPage';
@@ -102,6 +103,9 @@ const App = () => {
 {/* Rutas para crear las reglas pendientes */}  
 
         <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
+{/* Rutas para registrar bienes comunes */}  
+         <Route path="/registrar-bienes" element={<InventoryPage />} />
+
       </Routes>
     </BrowserRouter>
   );
