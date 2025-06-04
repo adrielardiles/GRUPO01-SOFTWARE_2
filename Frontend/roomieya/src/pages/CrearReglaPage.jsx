@@ -2,40 +2,45 @@
 import React, { useState } from 'react';
 
 const CrearReglaPage = () => {
-  const [textoRegla, setTextoRegla] = useState('');
-  const [categoria, setCategoria] = useState('');
+  const [formData, setFormData] = useState({
+    regla: '',
+    categoria: ''
+  });
   const [error, setError] = useState('');
-  const [mensaje, setMensaje] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    if (textoRegla.trim().length < 10) {
-      setError('La regla debe tener al menos 10 caracteres.');
+    if (!formData.regla.trim()) {
+      setError('La regla no puede estar vacía');
       return;
     }
     setError('');
-    // Aquí agregarás la lógica para enviar la regla al backend en tareas posteriores
-    setMensaje('Regla creada correctamente (simulado)');
-    setTextoRegla('');
-    setCategoria('');
+    // Aquí llamarías al backend para enviar la regla
+    alert('Regla guardada: ' + formData.regla + ', categoría: ' + formData.categoria);
   };
 
   return (
     <div className="container mt-5">
-      <h1>Crear regla de convivencia</h1>
+      <h1>Crear Regla de Convivencia</h1>
       {error && <div className="alert alert-danger">{error}</div>}
-      {mensaje && <div className="alert alert-success">{mensaje}</div>}
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={handleSubmit} className="mt-4">
         <div className="mb-3">
-          <label htmlFor="textoRegla" className="form-label">Regla de convivencia</label>
+          <label htmlFor="regla" className="form-label">Regla de convivencia</label>
           <textarea
-            id="textoRegla"
+            id="regla"
+            name="regla"
             className="form-control"
-            value={textoRegla}
-            onChange={(e) => setTextoRegla(e.target.value)}
-            rows={4}
+            placeholder="Escribe la regla"
+            value={formData.regla}
+            onChange={handleChange}
             required
-            minLength={10}
+            rows={3}
           />
         </div>
 
@@ -43,15 +48,16 @@ const CrearReglaPage = () => {
           <label htmlFor="categoria" className="form-label">Categoría (opcional)</label>
           <select
             id="categoria"
+            name="categoria"
             className="form-select"
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value)}
+            value={formData.categoria}
+            onChange={handleChange}
           >
             <option value="">Seleccione una categoría</option>
-            <option value="ruido">Ruido</option>
-            <option value="limpieza">Limpieza</option>
-            <option value="visitas">Visitas</option>
-            <option value="seguridad">Seguridad</option>
+            <option value="General">General</option>
+            <option value="Limpieza">Limpieza</option>
+            <option value="Ruido">Ruido</option>
+            <option value="Uso de espacios">Uso de espacios</option>
           </select>
         </div>
 
