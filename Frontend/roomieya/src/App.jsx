@@ -79,6 +79,12 @@ const App = () => {
         {/* Programa Citas*/}
         <Route path= "/Citas" element={<CitasPage />} />
 
+        {/* gastos-compartidos*/}
+        <Route path="/gastos-compartidos" element={<FormularioGastoCompartido />} />
+        {/* notificaciones*/}
+        <Route path="/notificaciones" element={<ListaNotificaciones />} />
+
+
         {/* Rutas registrarInmueblePAge*/}
           <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
