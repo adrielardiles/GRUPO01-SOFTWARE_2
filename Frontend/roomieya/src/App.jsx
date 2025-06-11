@@ -14,7 +14,7 @@ import PaymentPage from './pages/PaymentPage';
 import PaymentHistoryPage from './pages/PaymentHistoryPage';
 
 import PublicacionesCreadasPage from "./pages/PublicacionesCreadasPage";
-
+import FormularioGastoCompartido from "./components/FormularioGastoCompartido"
 
 import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
@@ -44,6 +44,7 @@ import CrearReglaPage from './pages/CrearReglaPage';
 //HU CREAR REGLAS-T2
 import ReglasPendientesPage from './pages/ReglasPendientesPage';
 
+import ListaNotificaciones from "./components/ListaNotificaciones"
 
 const App = () => {
   return (
