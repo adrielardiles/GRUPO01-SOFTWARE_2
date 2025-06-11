@@ -15,11 +15,7 @@ spring:
 
   jpa:
     hibernate:
-<<<<<<< HEAD
-      ddl-auto: create
-=======
-      ddl-auto: update  # ⬅ Mejor para no perder datos al reiniciar
->>>>>>> 7c22c156b10e161c2708a2e8200c9183f88f6730
+      ddl-auto: update
     show-sql: true
 
   mail:
@@ -40,7 +36,7 @@ spring:
           writetimeout: 5000
 
 server:
-  port: 8081  # ⬅️ Asegura coincidencia con el frontend
+  port: 8081
 
   error:
     include-message: always
@@ -50,5 +46,3 @@ management:
     web:
       exposure:
         include: health,info,metrics
-
----

@@ -1,7 +1,13 @@
-// src/pages/RegistrarInmueblePage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+const provincias = ['Lima', 'Callao', 'Arequipa'];
+const distritosPorProvincia = {
+  Lima: ['Miraflores', 'Surco', 'San Miguel', 'Barranco'],
+  Callao: ['Bellavista', 'La Perla', 'Carmen de la Legua'],
+  Arequipa: ['Cercado', 'Yanahuara', 'Sachaca']
+};
 
 const RegistrarInmueblePage = () => {
   const navigate = useNavigate();
@@ -9,6 +15,8 @@ const RegistrarInmueblePage = () => {
     nombre: '',
     direccion: '',
     tipo: '',
+    provincia: '',
+    distrito: '',
     tamano: '',
     precio: '',
     servicios: '',
@@ -19,22 +27,41 @@ const RegistrarInmueblePage = () => {
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: name === 'privado' ? (value === 'true') : value
-    }));
+
+    // Si cambia la provincia, resetear el distrito
+    if (name === 'provincia') {
+      setFormData(prev => ({
+        ...prev,
+        provincia: value,
+        distrito: '' // limpiar distrito
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: name === 'privado' ? (value === 'true') : value
+      }));
+    }
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    // Transformar servicios separados por coma en array si el backend lo espera así
+    const payload = {
+      ...formData,
+      servicios: formData.servicios.split(',').map(s => s.trim())
+    };
+
     try {
-      await axios.post('http://localhost:8081/api/inmuebles', formData);
+      await axios.post('http://localhost:8081/api/inmuebles', payload);
       navigate('/mis-inmuebles');
     } catch (err) {
       console.error(err);
       setError('Error al registrar, inténtalo de nuevo');
     }
   };
+
+  const distritosDisponibles = formData.provincia ? distritosPorProvincia[formData.provincia] || [] : [];
 
   return (
     <div className="container mt-5">
@@ -81,6 +108,41 @@ const RegistrarInmueblePage = () => {
             <option value="Departamento">Departamento</option>
             <option value="Cuarto">Cuarto</option>
             <option value="Casa">Casa</option>
+          </select>
+        </div>
+
+        {/* PROVINCIA */}
+        <div className="mb-3">
+          <label className="form-label">Provincia</label>
+          <select
+            name="provincia"
+            className="form-select"
+            value={formData.provincia}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione</option>
+            {provincias.map(p => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* DISTRITO */}
+        <div className="mb-3">
+          <label className="form-label">Distrito</label>
+          <select
+            name="distrito"
+            className="form-select"
+            value={formData.distrito}
+            onChange={handleChange}
+            required
+            disabled={!formData.provincia}
+          >
+            <option value="">Seleccione</option>
+            {distritosDisponibles.map(d => (
+              <option key={d} value={d}>{d}</option>
+            ))}
           </select>
         </div>
 
@@ -131,11 +193,12 @@ const RegistrarInmueblePage = () => {
 
         {/* SERVICIOS */}
         <div className="mb-3">
-          <label className="form-label">Servicios incluidos</label>
+          <label className="form-label">Servicios incluidos (separados por comas)</label>
           <input
             name="servicios"
             type="text"
             className="form-control"
+            placeholder="Ej. Wifi, Agua caliente, Cocina"
             value={formData.servicios}
             onChange={handleChange}
             required

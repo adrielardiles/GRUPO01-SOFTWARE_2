@@ -15,7 +15,7 @@ public interface InmuebleRepository extends JpaRepository<Inmueble, Long> {
     @Query("""
     SELECT ui.usuario FROM UsuarioInmueble ui
     WHERE ui.inmueble.id = :inmuebleId AND ui.rol = 'ROOMIE'
-""")
+    """)
     List<Usuario> obtenerRoomiesPorInmueble(@Param("inmuebleId") Long inmuebleId);
 
 

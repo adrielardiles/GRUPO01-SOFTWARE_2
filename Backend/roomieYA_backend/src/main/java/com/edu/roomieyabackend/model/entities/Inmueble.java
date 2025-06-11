@@ -22,8 +22,8 @@ public class Inmueble {
     private Integer tamano;
     private Double precio;
     private String servicios;
-    private Double latitud;
-    private Double longitud;
+    private String provincia;
+    private String distrito;
 
 
     @Column(columnDefinition = "TEXT")
@@ -40,8 +40,6 @@ public class Inmueble {
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
-    @Column(columnDefinition = "TEXT")
-    private String embeddingJson;
 
     @Column(name = "imagen")
     private String imagenurl;

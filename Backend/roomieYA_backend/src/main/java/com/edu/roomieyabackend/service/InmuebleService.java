@@ -1,9 +1,9 @@
 package com.edu.roomieyabackend.service;
 
-import com.edu.roomieyabackend.Utils.GeoUtils;
 import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.Optional;
 
@@ -29,29 +29,35 @@ public class InmuebleService {
         inmueble.setDescripcion(datosActualizados.getDescripcion());
         inmueble.setImagenurl(datosActualizados.getImagenurl());
 
-        setGeolocationIfNeeded(inmueble);
         return inmuebleRepository.save(inmueble);
     }
 
-    public Inmueble guardarInmueble(Inmueble inmueble) {
-        setGeolocationIfNeeded(inmueble);
+    public Inmueble guardarInmueble(Inmueble inmueble){
         return inmuebleRepository.save(inmueble);
     }
 
-    private void setGeolocationIfNeeded(Inmueble inmueble) {
-        if (inmueble.getLatitud() != null && inmueble.getLongitud() != null) return;
-
-        String direccion = inmueble.getDireccion();
-        if (direccion == null || direccion.isBlank()) return;
-
-        double[] coords = GeoUtils.obtenerCoordenadas(direccion);
-        if (coords != null && coords.length == 2) {
-            inmueble.setLatitud(coords[0]);
-            inmueble.setLongitud(coords[1]);
-        }
-    }
 
     public Optional<Inmueble> obtenerInmueblePorId(Long id) {
         return inmuebleRepository.findById(id);
+    }
+
+    // 🔍 Lógica de filtrado por parámetros dinámicos
+    public List<Inmueble> filtrarInmuebles(
+            String provincia,
+            List<String> distrito,
+            List<String> tipo,
+            Integer precioMin,
+            Integer precioMax,
+            List<String> servicios) {
+
+        return inmuebleRepository.findAll().stream()
+                .filter(i -> provincia == null || provincia.equalsIgnoreCase(i.getProvincia()))
+                .filter(i -> distrito == null || distrito.isEmpty() || distrito.contains(i.getDistrito()))
+                .filter(i -> tipo == null || tipo.isEmpty() || tipo.contains(i.getTipo()))
+                .filter(i -> precioMin == null || i.getPrecio() >= precioMin)
+                .filter(i -> precioMax == null || i.getPrecio() <= precioMax)
+                .filter(i -> servicios == null || servicios.isEmpty() ||
+                        servicios.stream().allMatch(s -> i.getServicios().contains(s)))
+                .toList();
     }
 }

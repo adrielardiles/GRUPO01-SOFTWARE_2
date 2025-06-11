@@ -28,7 +28,7 @@ public class PublicacionTRDTO {
         dto.setReferenciasExtra(entity.getReferenciasExtra());
         if (entity.getInmueble() != null) {
             dto.setNombreInmueble(entity.getInmueble().getNombre());
-            dto.setUbicacion(entity.getInmueble().getUbicacion());
+            dto.setUbicacion(entity.getInmueble().getDireccion());
         }
         return dto;
     }

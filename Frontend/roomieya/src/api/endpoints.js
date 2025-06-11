@@ -19,15 +19,13 @@ export const API = {
   },
 
   inmuebles: {
-    listar: `${BASE_URL}/api/inmuebles`, // ahora sí es http://localhost:8081/api/inmuebles
+    listar: `${BASE_URL}/api/inmuebles`,
     buscar: `${BASE_URL}/api/inmuebles/buscar`,
-    like: `${BASE_URL}/api/inmuebles`, // si usas un POST /api/inmuebles/{id}/like, corrige esto también
+    filtrar: `${BASE_URL}/api/inmuebles/filtrar`, // ✅ nueva línea agregada
+    like: `${BASE_URL}/api/inmuebles`,           // puedes cambiar a `/api/inmuebles/{id}/like` si lo usas así
     noLike: `${BASE_URL}/api/inmuebles`
   },
 
-
-
-  
   announcements: {
     historial: (anuncioId) => `${BASE_URL}/api/anuncios/historial/${anuncioId}`,
     propertiesByUser: `${BASE_URL}/api/anuncios/properties-by-user`,

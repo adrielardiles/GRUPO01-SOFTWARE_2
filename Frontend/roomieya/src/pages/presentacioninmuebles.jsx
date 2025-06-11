@@ -1,56 +1,51 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaBookmark, FaInfoCircle, FaBullhorn, FaRegNewspaper } from 'react-icons/fa';
-import BuscadorVoz from '../components/voz/BuscadorVoz';
-import InmueblesContainer from '../components/anuncios/InmueblesContainer';
+import Select from 'react-select';
+import { FaFilter, FaTimesCircle } from 'react-icons/fa';
+import { filtrarInmuebles } from '../api/api';
 
-const BASE_URL = 'http://localhost:8081';
+const provincias = ['Lima', 'Callao', 'Arequipa'];
+const distritosPorProvincia = {
+  Lima: ['Miraflores', 'Surco', 'San Miguel', 'Barranco', 'La Molina', 'San Isidro'],
+  Callao: ['Bellavista', 'La Perla', 'Carmen de la Legua'],
+  Arequipa: ['Cercado', 'Yanahuara', 'Sachaca']
+};
+
+const tipos = ['Departamento', 'Casa', 'Habitación'];
+const serviciosDisponibles = ['Wifi', 'Agua caliente', 'Cocina', 'Parrilla', 'Jardín'];
+
+const etiquetasFiltro = {
+  precioMin: 'Precio Mínimo',
+  precioMax: 'Precio Máximo',
+  tipo: 'Tipo',
+  provincia: 'Provincia',
+  distrito: 'Distrito',
+  servicios: 'Servicios'
+};
 
 const TinderInmueblesIntegrado = () => {
   const [inmuebles, setInmuebles] = useState([]);
-  const [pagina, setPagina] = useState(0);
-  const [textoBusqueda, setTextoBusqueda] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState(null);
-  const [favoritos, setFavoritos] = useState([]);
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [esBusquedaPorVoz, setEsBusquedaPorVoz] = useState(false);
-  const [mostrarPanel, setMostrarPanel] = useState(false);
-  const [mostrarAnuncios, setMostrarAnuncios] = useState(false);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
+  const [filtros, setFiltros] = useState({
+    precioMin: '',
+    precioMax: '',
+    tipo: [],
+    provincia: '',
+    distrito: [],
+    servicios: []
+  });
   const cardRef = useRef(null);
 
-  useEffect(() => {
-    cargarInmuebles('', 0);
-  }, []);
-
-  const cargarInmuebles = async (texto, page) => {
+  const aplicarFiltros = async () => {
     try {
-      if (!texto || texto.trim().length === 0) setEsBusquedaPorVoz(false);
-
-      const endpoint = texto && texto.trim().length > 0
-        ? `${BASE_URL}/api/inmuebles/buscar?texto=${encodeURIComponent(texto)}&page=${page}&size=10`
-        : `${BASE_URL}/api/inmuebles?page=${page}&size=10`;
-
-      const res = await fetch(endpoint);
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await res.text();
-        throw new Error(`Respuesta no JSON:\n${text}`);
-      }
-
-      const data = await res.json();
-      setInmuebles(data);
-      setPagina(page);
-      setTextoBusqueda(texto);
+      const resultados = await filtrarInmuebles(filtros);
+      setInmuebles(resultados);
       setCurrentIndex(0);
-    } catch (err) {
-      console.error('Error al cargar inmuebles:', err);
+    } catch (error) {
+      console.error("Error al aplicar filtros:", error);
     }
-  };
-
-  const buscarPorVoz = (texto) => {
-    setEsBusquedaPorVoz(true);
-    cargarInmuebles(texto, 0);
   };
 
   const handleAnimationEnd = () => {
@@ -60,8 +55,6 @@ const TinderInmueblesIntegrado = () => {
 
   const onLike = () => {
     if (animation) return;
-    const actual = inmuebles[currentIndex];
-    if (actual) setFavoritos([...favoritos, actual]);
     setAnimation('like');
   };
 
@@ -70,150 +63,210 @@ const TinderInmueblesIntegrado = () => {
     setAnimation('no');
   };
 
+  const handleRemoveFiltro = (clave, valor) => {
+    setFiltros(prev => {
+      if (Array.isArray(prev[clave])) {
+        return { ...prev, [clave]: prev[clave].filter(v => v !== valor) };
+      }
+      return { ...prev, [clave]: '' };
+    });
+  };
+
+  const toggleSelection = (clave, valor) => {
+    setFiltros(prev => {
+      const actual = new Set(prev[clave]);
+      if (actual.has(valor)) actual.delete(valor);
+      else actual.add(valor);
+      return { ...prev, [clave]: Array.from(actual) };
+    });
+  };
+
   const inmueble = inmuebles[currentIndex];
+  const provinciaSeleccionada = filtros.provincia;
+  const distritosDisponibles = provinciaSeleccionada ? distritosPorProvincia[provinciaSeleccionada] || [] : [];
 
   return (
-    <div style={{
-      fontFamily: "'Poppins', sans-serif",
-      background: '#FF7F3E',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative'
-    }}>
-      {/* BOTONES LATERALES IZQUIERDOS */}
-      <div style={{ position: 'absolute', left: '10px', top: '40px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {/* Botón de Información */}
-        <button
-          onClick={() => setMostrarPanel(!mostrarPanel)}
-          className="btn btn-dark shadow"
-          style={{ width: '60px', height: '60px', borderRadius: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        >
-          <FaInfoCircle size={24} />
-        </button>
+    <div style={estilos.fondo}>
+      <style>{estilosCSS}</style>
 
-        {/* Botón de Voz */}
-        <BuscadorVoz onBuscar={buscarPorVoz} />
+      <button onClick={() => setMostrarFiltros(true)} className="btn text-white fw-semibold shadow" style={{ position: 'absolute', top: 40, left: 20, backgroundColor: '#FF8A08', border: '1px solid white' }}>
+        <FaFilter className="me-2" /> Filtros
+      </button>
 
-        {mostrarPanel && (
-          <div
-            style={{
-              marginTop: '10px',
-              width: '160px',
-              backgroundColor: '#fff',
-              borderRadius: '10px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-              padding: '10px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px'
-            }}
-          >
-            <button onClick={() => setMostrarAnuncios(true)} className="btn btn-outline-dark d-flex align-items-center gap-2">
-              <FaBullhorn /> Anuncios
-            </button>
-            <button className="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <FaRegNewspaper /> Placeholder 1
-            </button>
-            <button className="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <FaRegNewspaper /> Placeholder 2
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* MODAL ANUNCIOS */}
-      {mostrarAnuncios && (
-        <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)', position: 'fixed', inset: 0, zIndex: 1050 }}>
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content rounded-4 p-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h5 className="modal-title">Anuncios</h5>
-                <button type="button" className="btn-close" onClick={() => setMostrarAnuncios(false)}></button>
+      {mostrarFiltros && (
+        <div className="modal fade show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)', position: 'fixed', inset: 0, zIndex: 1050 }}>
+          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '600px' }}>
+            <div className="modal-content p-4" style={{ borderRadius: '20px', background: '#ffffff', boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)', maxHeight: '90vh', overflowY: 'auto' }}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="modal-title fw-semibold" style={{ color: '#FF8A08' }}>Filtrar Inmuebles</h5>
+                <button type="button" className="btn-close" onClick={() => setMostrarFiltros(false)}></button>
               </div>
-              <div className="modal-body">
-                <InmueblesContainer />
-              </div>
+              <form onSubmit={(e) => { e.preventDefault(); setMostrarFiltros(false); aplicarFiltros(); }}>
+                <div className="row mb-3">
+                  <div className="col">
+                    <label className="form-label fw-medium" style={{ color: '#FF8A08' }}>Precio mínimo (S/)</label>
+                    <input type="number" className="form-control" value={filtros.precioMin} onChange={e => setFiltros({ ...filtros, precioMin: e.target.value })} />
+                  </div>
+                  <div className="col">
+                    <label className="form-label fw-medium" style={{ color: '#FF8A08' }}>Precio máximo (S/)</label>
+                    <input type="number" className="form-control" value={filtros.precioMax} onChange={e => setFiltros({ ...filtros, precioMax: e.target.value })} />
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label fw-medium" style={{ color: '#FF8A08' }}>Provincia</label>
+                  <select className="form-select" value={filtros.provincia} onChange={(e) => setFiltros({ ...filtros, provincia: e.target.value, distrito: [] })}>
+                    <option value="">Seleccionar...</option>
+                    {provincias.map(p => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label fw-medium" style={{ color: '#FF8A08' }}>Distrito</label>
+                  <Select
+                    isMulti
+                    options={distritosDisponibles.map(d => ({ label: d, value: d }))}
+                    value={distritosDisponibles.filter(d => filtros.distrito.includes(d)).map(d => ({ label: d, value: d }))}
+                    onChange={(selected) => setFiltros({ ...filtros, distrito: selected.map(s => s.value) })}
+                  />
+                </div>
+
+                {[['tipo', tipos], ['servicios', serviciosDisponibles]].map(([clave, opciones]) => (
+                  <div key={clave} className="form-group mb-3">
+                    <label className="form-label fw-medium" style={{ color: '#FF8A08' }}>{etiquetasFiltro[clave]}</label>
+                    <div className="d-flex flex-wrap gap-2">
+                      {opciones.map(op => (
+                        <button key={op} type="button" className={`btn btn-sm ${filtros[clave].includes(op) ? 'btn-warning' : 'btn-outline-warning'}`} onClick={() => toggleSelection(clave, op)}>
+                          {op}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                <div className="d-flex justify-content-between flex-wrap gap-2">
+                  {Object.entries(filtros).flatMap(([clave, val]) => {
+                    if (Array.isArray(val)) return val.map(v => [clave, v]);
+                    return val ? [[clave, val]] : [];
+                  }).map(([clave, valor]) => (
+                    <span key={clave + valor} className="badge bg-warning text-dark d-flex align-items-center">
+                      {etiquetasFiltro[clave] || clave}: {valor} <FaTimesCircle onClick={() => handleRemoveFiltro(clave, valor)} style={{ marginLeft: '6px', cursor: 'pointer' }} />
+                    </span>
+                  ))}
+                  <button type="submit" className="btn text-white fw-semibold" style={{ backgroundColor: '#FF8A08' }}>Aplicar filtros</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       )}
 
-      {/* CONTENIDO PRINCIPAL */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-        <button
-          onClick={() => setMostrarModal(true)}
-          className="btn btn-light rounded-pill text-dark shadow"
-          style={{ fontSize: '0.9rem', padding: '6px 12px' }}
-        >
-          <FaBookmark className="me-2" /> Ver seleccionados
-        </button>
-
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', gap: '12px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '16px', boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)', overflow: 'hidden', width: '320px', maxWidth: '90vw', height: '620px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-            <div style={{ flexGrow: 1, padding: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              {inmueble ? (
-                <div
-                  ref={cardRef}
-                  onAnimationEnd={handleAnimationEnd}
-                  style={{ background: '#fff', borderRadius: '16px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', transition: 'transform 0.3s ease, opacity 0.3s ease', animation: animation === 'like' ? 'swipe-right 0.35s forwards' : animation === 'no' ? 'swipe-left 0.35s forwards' : 'none', overflow: 'hidden' }}
-                >
-                  <img
-                    src={inmueble.imagenurl || inmueble.imagenUrl || 'https://via.placeholder.com/400x300'}
-                    alt={`Imagen de ${inmueble.nombre}`}
-                    style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '16px 16px 0 0' }}
-                  />
-                  <div style={{ padding: '12px 16px', flexGrow: 1, overflowY: 'auto', fontSize: '0.9rem', minHeight: 0 }}>
-                    <h2 style={{ fontSize: '1.1rem', marginBottom: '6px', color: '#333' }}>{inmueble.nombre}</h2>
-                    <p style={{ color: inmueble.ubicacionExacta ? 'green' : inmueble.ubicacionCercana ? '#ff8c00' : '#333' }}>
-                      <strong>Dirección:</strong> {inmueble.direccion}
-                    </p>
-                    <p><strong>Tipo:</strong> {inmueble.tipoInmueble || inmueble.tipo}</p>
-                    <p><strong>Precio:</strong> S/ {inmueble.precio}</p>
-                    <p><strong>Servicios:</strong> {inmueble.servicios}</p>
-                    {esBusquedaPorVoz && inmueble.serviciosCoincidentes?.length > 0 && (
-                      <p><strong>Servicios coincidentes:</strong> <span style={{ color: '#007bff', fontWeight: 'bold' }}>{inmueble.serviciosCoincidentes.join(', ')}</span></p>
-                    )}
-                    <button
-                      style={{ marginTop: '10px', width: '100%', padding: '8px', borderRadius: '8px', backgroundColor: '#007bff', color: '#fff', border: 'none', fontSize: '0.9rem', cursor: 'pointer' }}
-                      onClick={() => alert(`Más información de: ${inmueble.nombre}`)}
-                    >
-                      Ver más información
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div style={{ padding: '50px', textAlign: 'center', color: '#555', fontSize: '16px' }}>
-                  No hay más inmuebles.
-                </div>
-              )}
+      <div style={estilos.card}>
+        <div style={{ flexGrow: 1, padding: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {inmueble ? (
+            <div
+              ref={cardRef}
+              onAnimationEnd={handleAnimationEnd}
+              style={{
+                background: '#fff', borderRadius: '16px', width: '100%', height: '100%', display: 'flex',
+                flexDirection: 'column', transition: 'transform 0.3s ease, opacity 0.3s ease',
+                animation: animation === 'like' ? 'swipe-right 0.35s forwards' : animation === 'no' ? 'swipe-left 0.35s forwards' : 'none'
+              }}
+            >
+              <img src={inmueble.imagenurl} alt={inmueble.nombre} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '16px 16px 0 0' }} />
+              <div style={{ padding: '12px 16px', overflowY: 'auto', fontSize: '0.9rem' }}>
+                <h2 style={{ fontSize: '1.1rem', color: '#333' }}>{inmueble.nombre}</h2>
+                <p><strong>Dirección:</strong> {inmueble.direccion}</p>
+                <p><strong>Tipo:</strong> {inmueble.tipo}</p>
+                <p><strong>Provincia:</strong> {inmueble.provincia}</p>
+                <p><strong>Distrito:</strong> {inmueble.distrito}</p>
+                <p><strong>Precio:</strong> S/ {inmueble.precio}</p>
+                <p><strong>Servicios:</strong> {inmueble.servicios}</p>
+              </div>
             </div>
-            <div style={{ position: 'absolute', bottom: 16, left: 0, width: '100%', display: 'flex', justifyContent: 'center', gap: '40px' }}>
-              <button onClick={() => { onNo(); setTimeout(() => setCurrentIndex(prev => prev + 1), 350); }} style={btnEstilo('#dc3545')}>✖</button>
-              <button onClick={() => { onLike(); setTimeout(() => setCurrentIndex(prev => prev + 1), 350); }} style={btnEstilo('#28a745')}>✔</button>
+          ) : (
+            <div style={{ padding: '50px', textAlign: 'center', color: '#555', fontSize: '16px' }}>
+              No hay más inmuebles.
             </div>
-          </div>
+          )}
+        </div>
+        <div style={estilos.botones}>
+          <button onClick={() => { onNo(); setTimeout(() => setCurrentIndex(prev => prev + 1), 350); }} className="btn-rechazar">✖</button>
+          <button onClick={() => { onLike(); setTimeout(() => setCurrentIndex(prev => prev + 1), 350); }} className="btn-aceptar">✔</button>
         </div>
       </div>
     </div>
   );
 };
 
-const btnEstilo = (color) => ({
-  width: 48,
-  height: 48,
-  fontSize: 22,
-  borderRadius: '50%',
-  backgroundColor: '#fff',
-  border: `2.5px solid ${color}`,
-  color: color,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
-  cursor: 'pointer'
-});
+const estilos = {
+  fondo: {
+    fontFamily: "'Poppins', sans-serif",
+    backgroundColor: 'white',
+    backgroundImage: `repeating-linear-gradient(45deg, rgba(255,138,8,0.1), rgba(255,138,8,0.1) 1px, transparent 1px, transparent 20px)`,
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative'
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)',
+    overflow: 'hidden',
+    width: '320px',
+    maxWidth: '90vw',
+    height: '620px',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative'
+  },
+  botones: {
+    position: 'absolute',
+    bottom: 16,
+    left: 0,
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '40px'
+  }
+};
+
+const estilosCSS = `
+.btn-aceptar, .btn-rechazar {
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-aceptar {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.btn-rechazar {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-aceptar:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-rechazar:hover {
+  background-color: #dc3545;
+  color: white;
+}`;
 
 export default TinderInmueblesIntegrado;

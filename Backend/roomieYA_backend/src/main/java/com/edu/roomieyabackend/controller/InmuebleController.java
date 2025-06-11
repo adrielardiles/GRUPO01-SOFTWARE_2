@@ -1,10 +1,7 @@
-// InmuebleController.java
 package com.edu.roomieyabackend.controller;
 
-import com.edu.roomieyabackend.dto.Searching.InmuebleSimilitudDTO;
 import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
-import com.edu.roomieyabackend.service.EmbeddingService;
 import com.edu.roomieyabackend.service.InmuebleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -18,14 +15,14 @@ import java.util.Optional;
 @RequestMapping("/api/inmuebles")
 public class InmuebleController {
 
-    @Autowired
-    private InmuebleRepository inmuebleRepository;
+    private final InmuebleRepository inmuebleRepository;
     private final InmuebleService inmuebleService;
-    private final EmbeddingService embeddingService;
 
-    public InmuebleController(InmuebleService inmuebleService, EmbeddingService embeddingService) {
+    @Autowired
+    public InmuebleController(InmuebleRepository inmuebleRepository,
+                              InmuebleService inmuebleService) {
+        this.inmuebleRepository = inmuebleRepository;
         this.inmuebleService = inmuebleService;
-        this.embeddingService = embeddingService;
     }
 
     // POST: crear nuevo inmueble
@@ -52,32 +49,7 @@ public class InmuebleController {
         return ResponseEntity.ok(actualizado);
     }
 
-    // GET: búsqueda semántica → lista ordenada por similitud con explicación
-    @GetMapping("/buscar")
-    public ResponseEntity<List<InmuebleSimilitudDTO>> buscarPorDescripcion(
-            @RequestParam String texto,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-
-        System.out.println("🧠 Endpoint /buscar → Texto recibido: " + texto);
-        List<InmuebleSimilitudDTO> resultados = embeddingService.buscarSimilaresAvanzado(texto, page, size);
-        return ResponseEntity.ok(resultados);
-    }
-
-    // GET: búsqueda semántica → mejor match
-    @GetMapping("/buscar/mejor")
-    public ResponseEntity<InmuebleSimilitudDTO> buscarMejorMatch(
-            @RequestParam String texto) {
-
-        System.out.println("🔎 Endpoint /buscar/mejor → Texto recibido: " + texto);
-        InmuebleSimilitudDTO mejor = embeddingService.buscarMejorMatch(texto);
-        if (mejor == null) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(mejor);
-    }
-
-    // GET: listar todos los inmuebles con paginación
+    // GET: listar todos con paginación
     @GetMapping
     public ResponseEntity<List<Inmueble>> obtenerTodosConPaginacion(
             @RequestParam(defaultValue = "0") int page,
@@ -87,4 +59,21 @@ public class InmuebleController {
         Page<Inmueble> pageResult = inmuebleRepository.findAll(pageable);
         return ResponseEntity.ok(pageResult.getContent());
     }
+
+    // GET: buscar inmuebles por filtros
+    @GetMapping("/filtrar")
+    public ResponseEntity<List<Inmueble>> filtrarInmuebles(
+            @RequestParam(required = false) String provincia,
+            @RequestParam(required = false) List<String> distrito,
+            @RequestParam(required = false) List<String> tipo,
+            @RequestParam(required = false) Integer precioMin,
+            @RequestParam(required = false) Integer precioMax,
+            @RequestParam(required = false) List<String> servicios) {
+
+        List<Inmueble> resultado = inmuebleService.filtrarInmuebles(
+                provincia, distrito, tipo, precioMin, precioMax, servicios);
+
+        return ResponseEntity.ok(resultado);
+    }
+
 }

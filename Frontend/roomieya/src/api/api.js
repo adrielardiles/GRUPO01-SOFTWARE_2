@@ -38,6 +38,26 @@ export const likeInmueble = async (inmuebleId) => {
   }
 };
 
+export const filtrarInmuebles = async (filtros) => {
+  try {
+    const params = new URLSearchParams();
+
+    if (filtros.provincia) params.append('provincia', filtros.provincia);
+    (filtros.distrito || []).forEach(d => params.append('distrito', d));
+    (filtros.tipo || []).forEach(t => params.append('tipo', t));
+    if (filtros.precioMin) params.append('precioMin', filtros.precioMin);
+    if (filtros.precioMax) params.append('precioMax', filtros.precioMax);
+    (filtros.servicios || []).forEach(s => params.append('servicios', s));
+
+    const response = await axios.get(`${API.inmuebles.filtrar}?${params.toString()}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al filtrar inmuebles:', error);
+    throw error;
+  }
+};
+
+
 export const noLikeInmueble = async (inmuebleId) => {
   try {
     await axios.post(`${API.inmuebles.noLike}/${inmuebleId}`);

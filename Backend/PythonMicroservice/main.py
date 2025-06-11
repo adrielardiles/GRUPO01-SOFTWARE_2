@@ -153,7 +153,7 @@ def buscar_inmuebles(data: ComparacionRequest):
             for p in puntuados_ordenados if p["puntaje"] > 0
         ]
 
-    # Fallback con embeddings
+    # embeddings
     descripciones = [
         f"{i.descripcion or ''}. Dirección: {i.direccion or ''}. Tipo: {i.tipo or ''}. "
         f"Precio: {i.precio or 0} soles. Servicios: {i.servicios or ''}."
