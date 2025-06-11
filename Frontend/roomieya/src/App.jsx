@@ -36,10 +36,13 @@ import RenterProfilePage from './pages/RenterProfilePage';
 import CitasPage from './pages/CitasPage';
 //visualizacion tipo tinder inmuebles
 import TinderLike from './pages/presentacioninmuebles';
+//registrar bienes comunes
+import InventoryPage from './pages/InventoryPage';
 
-
-//HU CREAR REGLAS
+//HU CREAR REGLAS-T1
 import CrearReglaPage from './pages/CrearReglaPage';
+//HU CREAR REGLAS-T2
+import ReglasPendientesPage from './pages/ReglasPendientesPage';
 
 
 const App = () => {
@@ -76,6 +79,12 @@ const App = () => {
         {/* Programa Citas*/}
         <Route path= "/Citas" element={<CitasPage />} />
 
+        {/* gastos-compartidos*/}
+        <Route path="/gastos-compartidos" element={<FormularioGastoCompartido />} />
+        {/* notificaciones*/}
+        <Route path="/notificaciones" element={<ListaNotificaciones />} />
+
+
         {/* Rutas registrarInmueblePAge*/}
           <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
           <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
@@ -97,6 +106,11 @@ const App = () => {
 {/* Rutas para crear las reglas */}  
         <Route path="/crear-regla" element={<CrearReglaPage />} />
 
+{/* Rutas para crear las reglas pendientes */}  
+
+        <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
+{/* Rutas para registrar bienes comunes */}  
+         <Route path="/registrar-bienes" element={<InventoryPage />} />
 
       </Routes>
     </BrowserRouter>
