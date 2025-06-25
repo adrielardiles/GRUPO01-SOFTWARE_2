@@ -1,118 +1,123 @@
 // src/App.jsx
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MisInmueblesPage from './pages/MisInmueblesPage';
-
-// Páginas existentes
 import LandingPage from './pages/LadingPage';
 import RegisterPage from './pages/RegisterPage';
-import ReportedReviews from './components/ReportedReviews'; 
+import ReportedReviews from './components/ReportedReviews';
 import CrearPublicacionPage from './pages/CrearPublicacionPage';
-// Tus páginas de pagos
 import PaymentPage from './pages/PaymentPage';
 import PaymentHistoryPage from './pages/PaymentHistoryPage';
-
-import PublicacionesCreadasPage from "./pages/PublicacionesCreadasPage";
-import FormularioGastoCompartido from "./components/FormularioGastoCompartido"
-
+import PublicacionesCreadasPage from './pages/PublicacionesCreadasPage';
+import FormularioGastoCompartido from './components/FormularioGastoCompartido';
 import AnunciosPage from './pages/AnunciosPage';
 import Header from './components/Header';
-// registrarinmueblepage
 import RegistrarInmueblePage from './pages/RegistrarInmueblePage';
-
 import EditarInmueblePage from './pages/EditarInmueblePage';
-
-
 import RegistroEspacioPage from './pages/RegistroEspacioPage';
-// registrar disponibilidad de alquiler
-import './containers/PublicacionContainer'
-import './pages/PublicacionForm'
-import PublicacionContainer from "./containers/PublicacionContainer";
+import PublicacionContainer from './containers/PublicacionContainer';
 import RatingsPage from './features/ratings/RatingsPage';
 import RatingsReceivedPage from './pages/RatingsReceivedPage';
 import AgregarRatingPage from './pages/AgregarRatingPage';
 import RenterProfilePage from './pages/RenterProfilePage';
 import CitasPage from './pages/CitasPage';
-//visualizacion tipo tinder inmuebles
 import TinderLike from './pages/presentacioninmuebles';
-//registrar bienes comunes
 import InventoryPage from './pages/InventoryPage';
-
-//HU CREAR REGLAS-T1
 import CrearReglaPage from './pages/CrearReglaPage';
-//HU CREAR REGLAS-T2
 import ReglasPendientesPage from './pages/ReglasPendientesPage';
+import ListaNotificaciones from './components/ListaNotificaciones';
+import CrearVotacionPage from './pages/CrearVotacionPage';
 
-import ListaNotificaciones from "./components/ListaNotificaciones"
+
+// Votaciones imports
+import { API } from './api/votacionesApi';
+import VotarPage from './pages/VotarPage';
+import ResultadosVotacionPage from './pages/ResultadosVotacionPage';
+
+// Componente para listar votaciones
+function ListaVotaciones() {
+  const [lista, setLista] = useState([]);
+  useEffect(() => {
+    API.votaciones.activas().then(res => setLista(res.data));
+  }, []);
+
+  return (
+    <div className="container mt-4">
+      <h2>Votaciones Activas</h2>
+
+      {/* ← Aquí */}
+      <Link to="/votaciones/crear" className="btn btn-primary mb-3">
+        Crear nueva votación
+      </Link>
+
+      <ul className="list-group">
+        {lista.map(v => (
+          <li key={v.id} className="list-group-item">
+            <Link to={`/votaciones/${v.id}`}>{v.pregunta}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        {/* Rutas ya existentes */}
+        {/* Landing and Auth */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Rutas de plantillas */}
-        <Route path="/publicaciones" element={<PublicacionesCreadasPage />} />
+        {/* Propiedades */}
+        <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
+        <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
+        <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
 
-        {/* Rutas añadidas para módulo de pagos */}
-        <Route path="/pago" element={<PaymentPage />} />
-        <Route path="/historial" element={<PaymentHistoryPage />} />
-        <Route path="/anuncios" element={<AnunciosPage />} />
- 
-        
+        {/* Publicaciones */}
+        <Route path="/publicaciones" element={<PublicacionesCreadasPage />} />
         <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
         <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
+        <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
 
+        {/* Reseñas y Ratings */}
         <Route path="/reseñas" element={<ReportedReviews />} />
-
         <Route path="/ratings" element={<RatingsPage />} />
-
-        {/* Calificacion de Arrendador*/}
         <Route path="/ratings-received" element={<RatingsReceivedPage />} />
-        {/* Agregar Rating*/}
         <Route path="/agregar-rating" element={<AgregarRatingPage />} />
-        {/* Calificación de Arrendatario*/}
-        <Route path= "/renter/:userId" element={<RenterProfilePage />} />
-        {/* Programa Citas*/}
-        <Route path= "/Citas" element={<CitasPage />} />
+        <Route path="/renter/:userId" element={<RenterProfilePage />} />
 
-        {/* gastos-compartidos*/}
+        {/* Citas */}
+        <Route path="/citas" element={<CitasPage />} />
+
+        {/* Tinder Like y Inventory */}
+        <Route path="/inmueble-presentacion" element={<TinderLike />} />
+        <Route path="/registrar-bienes" element={<InventoryPage />} />
+
+        {/* Reglas */}
+        <Route path="/crear-regla" element={<CrearReglaPage />} />
+        <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
+
+        {/* Pagos */}
+        <Route path="/pago" element={<PaymentPage />} />
+        <Route path="/historial" element={<PaymentHistoryPage />} />
+
+        {/* Anuncios y Gastos Compartidos */}
+        <Route path="/anuncios" element={<AnunciosPage />} />
         <Route path="/gastos-compartidos" element={<FormularioGastoCompartido />} />
-        {/* notificaciones*/}
         <Route path="/notificaciones" element={<ListaNotificaciones />} />
 
+        {/* Votaciones */}
+        <Route path="/votaciones" element={<ListaVotaciones />} />
+        <Route path="/votaciones/crear" element={<CrearVotacionPage />} />
+        <Route path="/votaciones/:id" element={<VotarPage />} />
+        <Route path="/votaciones/:id/resultados" element={<ResultadosVotacionPage />} />
 
-        {/* Rutas registrarInmueblePAge*/}
-          <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
-          <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
-
-          {/* Rutas añadidas para disponibilidad de alquiler*/}
-          <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
-{/* Rutas registrarInmueblePAge*/}
-        <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
-
-
-{/* Rutas MisInmuebles*/}
-      <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />         
-       {/* Rutas añadidas para disponibilidad de alquiler*/}          
-      <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
-        <Route path="/reseñas" element={<ReportedReviews />} />
-{/*presentar inmueble*/}
-        <Route path="/inmueble-presentacion" element={<TinderLike />} />
-
-{/* Rutas para crear las reglas */}  
-        <Route path="/crear-regla" element={<CrearReglaPage />} />
-
-{/* Rutas para crear las reglas pendientes */}  
-
-        <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
-{/* Rutas para registrar bienes comunes */}  
-         <Route path="/registrar-bienes" element={<InventoryPage />} />
-
+        {/* Redirect unknown routes to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
