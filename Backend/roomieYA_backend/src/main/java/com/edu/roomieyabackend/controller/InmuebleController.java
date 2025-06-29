@@ -60,20 +60,4 @@ public class InmuebleController {
         return ResponseEntity.ok(pageResult.getContent());
     }
 
-    // GET: buscar inmuebles por filtros
-    @GetMapping("/filtrar")
-    public ResponseEntity<List<Inmueble>> filtrarInmuebles(
-            @RequestParam(required = false) String provincia,
-            @RequestParam(required = false) List<String> distrito,
-            @RequestParam(required = false) List<String> tipo,
-            @RequestParam(required = false) Integer precioMin,
-            @RequestParam(required = false) Integer precioMax,
-            @RequestParam(required = false) List<String> servicios) {
-
-        List<Inmueble> resultado = inmuebleService.filtrarInmuebles(
-                provincia, distrito, tipo, precioMin, precioMax, servicios);
-
-        return ResponseEntity.ok(resultado);
-    }
-
 }

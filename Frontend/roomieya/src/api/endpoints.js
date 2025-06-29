@@ -14,16 +14,24 @@ export const API = {
   },
 
   payments: {
-    make: `${BASE_URL}/api/pagos/realizar`, 
+    make: `${BASE_URL}/api/pagos/realizar`,
     history: `${BASE_URL}/api/pagos/usuario/1`
   },
 
   inmuebles: {
     listar: `${BASE_URL}/api/inmuebles`,
     buscar: `${BASE_URL}/api/inmuebles/buscar`,
-    filtrar: `${BASE_URL}/api/inmuebles/filtrar`, // ✅ nueva línea agregada
-    like: `${BASE_URL}/api/inmuebles`,           // puedes cambiar a `/api/inmuebles/{id}/like` si lo usas así
+    filtrar: `${BASE_URL}/api/inmuebles/filtrar`,
+    like: `${BASE_URL}/api/inmuebles`, // considera cambiar a `/api/inmuebles/{id}/like` si lo usas así
     noLike: `${BASE_URL}/api/inmuebles`
+  },
+
+  // ✅ Endpoints de catálogos y filtros corregidos
+  catalogos: {
+    tipos: `${BASE_URL}/api/filtros/tipos`, // corregido
+    provincias: `${BASE_URL}/api/filtros/provincias`, // corregido
+    distritosPorProvincia: (provincia) => `${BASE_URL}/api/filtros/distritos?provincia=${provincia}`, // corregido
+    caracteristicas: `${BASE_URL}/api/filtros/caracteristicas` // corregido
   },
 
   announcements: {
@@ -39,15 +47,15 @@ export const API = {
       `${BASE_URL}/api/anuncios/confirmar-urgente/${announcementId}?usuarioId=${usuarioId}`,
     create: `${BASE_URL}/api/anuncios`,
     update: (announcementId) => `${BASE_URL}/api/anuncios/${announcementId}`,
-    delete: (announcementId) => `${BASE_URL}/api/anuncios/${announcementId}`,
-    
+    delete: (announcementId) => `${BASE_URL}/api/anuncios/${announcementId}`
   },
 
   PublicacionesTR: {
     list: `${BASE_URL}/api/publicaciones-tr`,
     create: `${BASE_URL}/api/publicaciones-tr`,
+    filtrar: `${BASE_URL}/api/publicaciones-tr/filtrar` 
   },
-  
+
   reglas: {
     guardar: `${BASE_URL}/api/reglas`
   }

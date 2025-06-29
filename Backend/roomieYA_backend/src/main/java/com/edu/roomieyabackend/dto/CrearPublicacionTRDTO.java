@@ -12,5 +12,5 @@ public class CrearPublicacionTRDTO {
     private List<String> servicios;
     private String serviciosExtra;
     private String referenciasExtra;
-    private Long inmuebleId;
+    private Long inmuebleId; // ID del inmueble enlazado a la publicación
 }

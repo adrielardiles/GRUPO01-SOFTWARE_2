@@ -18,5 +18,10 @@ public interface InmuebleRepository extends JpaRepository<Inmueble, Long> {
     """)
     List<Usuario> obtenerRoomiesPorInmueble(@Param("inmuebleId") Long inmuebleId);
 
+    @Query("SELECT DISTINCT i.tipo FROM Inmueble i WHERE i.tipo IS NOT NULL")
+    List<String> findDistinctTipos();
+
+    @Query("SELECT DISTINCT i.servicios FROM Inmueble i WHERE i.servicios IS NOT NULL")
+    List<String> findDistinctServicios();
 
 }

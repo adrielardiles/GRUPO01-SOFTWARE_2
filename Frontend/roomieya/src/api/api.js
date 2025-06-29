@@ -38,6 +38,15 @@ export const likeInmueble = async (inmuebleId) => {
   }
 };
 
+export const noLikeInmueble = async (inmuebleId) => {
+  try {
+    await axios.post(`${API.inmuebles.noLike}/${inmuebleId}`);
+  } catch (error) {
+    console.error('Error not liking inmueble:', error);
+    throw error;
+  }
+};
+
 export const filtrarInmuebles = async (filtros) => {
   try {
     const params = new URLSearchParams();
@@ -47,7 +56,7 @@ export const filtrarInmuebles = async (filtros) => {
     (filtros.tipo || []).forEach(t => params.append('tipo', t));
     if (filtros.precioMin) params.append('precioMin', filtros.precioMin);
     if (filtros.precioMax) params.append('precioMax', filtros.precioMax);
-    (filtros.servicios || []).forEach(s => params.append('servicios', s));
+    (filtros.caracteristicas || []).forEach(c => params.append('caracteristicas', c));
 
     const response = await axios.get(`${API.inmuebles.filtrar}?${params.toString()}`);
     return response.data;
@@ -57,12 +66,70 @@ export const filtrarInmuebles = async (filtros) => {
   }
 };
 
-
-export const noLikeInmueble = async (inmuebleId) => {
+// ✅ Nueva función para filtrar Publicaciones TR
+export const filtrarPublicacionesTR = async (filtros) => {
   try {
-    await axios.post(`${API.inmuebles.noLike}/${inmuebleId}`);
+    const params = new URLSearchParams();
+
+    if (filtros.provincia) params.append('provincia', filtros.provincia);
+    (filtros.distrito || []).forEach(d => params.append('distrito', d));
+    (filtros.tipo || []).forEach(t => params.append('tipo', t));
+    if (filtros.precioMin) params.append('precioMin', filtros.precioMin);
+    if (filtros.precioMax) params.append('precioMax', filtros.precioMax);
+    (filtros.caracteristicas || []).forEach(c => params.append('caracteristicas', c));
+
+    const response = await axios.get(`${API.PublicacionesTR.filtrar}?${params.toString()}`);
+    return response.data;
   } catch (error) {
-    console.error('Error not liking inmueble:', error);
+    console.error('Error al filtrar publicaciones TR:', error);
     throw error;
   }
 };
+
+// ✅ Nuevas funciones para catálogos
+
+export const getTipos = async () => {
+  try {
+    const res = await axios.get(API.catalogos.tipos);
+    return res.data;
+  } catch (error) {
+    console.error('Error al obtener tipos:', error);
+    throw error;
+  }
+};
+
+export const getProvincias = async () => {
+  try {
+    const res = await axios.get(API.catalogos.provincias);
+    return res.data;
+  } catch (error) {
+    console.error('Error al obtener provincias:', error);
+    throw error;
+  }
+};
+
+export const getDistritosPorProvincia = async (provincia) => {
+  try {
+    const res = await axios.get(API.catalogos.distritosPorProvincia(provincia));
+    return res.data;
+  } catch (error) {
+    console.error('Error al obtener distritos:', error);
+    throw error;
+  }
+};
+
+export const getCaracteristicas = async () => {
+  try {
+    const res = await axios.get(API.catalogos.caracteristicas);
+    return res.data;
+  } catch (error) {
+    console.error('Error al obtener caracteristicas:', error);
+    throw error;
+  }
+};
+
+export const listarPublicacionesTR = async () => {
+  const response = await axios.get(`${API.PublicacionesTR.list}`);
+  return response.data;
+};
+

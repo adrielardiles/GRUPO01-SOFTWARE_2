@@ -41,23 +41,4 @@ public class InmuebleService {
         return inmuebleRepository.findById(id);
     }
 
-    // 🔍 Lógica de filtrado por parámetros dinámicos
-    public List<Inmueble> filtrarInmuebles(
-            String provincia,
-            List<String> distrito,
-            List<String> tipo,
-            Integer precioMin,
-            Integer precioMax,
-            List<String> servicios) {
-
-        return inmuebleRepository.findAll().stream()
-                .filter(i -> provincia == null || provincia.equalsIgnoreCase(i.getProvincia()))
-                .filter(i -> distrito == null || distrito.isEmpty() || distrito.contains(i.getDistrito()))
-                .filter(i -> tipo == null || tipo.isEmpty() || tipo.contains(i.getTipo()))
-                .filter(i -> precioMin == null || i.getPrecio() >= precioMin)
-                .filter(i -> precioMax == null || i.getPrecio() <= precioMax)
-                .filter(i -> servicios == null || servicios.isEmpty() ||
-                        servicios.stream().allMatch(s -> i.getServicios().contains(s)))
-                .toList();
-    }
 }

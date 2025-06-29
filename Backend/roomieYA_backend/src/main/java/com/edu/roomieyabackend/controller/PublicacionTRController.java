@@ -21,10 +21,26 @@ public class PublicacionTRController {
         this.publicacionService = publicacionService;
     }
 
+    // GET: obtener todas las publicaciones (búsqueda normal)
     @GetMapping
-    public ResponseEntity<List<PublicacionTRDTO>> listarPublicaciones() {
+    public ResponseEntity<List<PublicacionTRDTO>> obtenerTodas() {
         List<PublicacionTRDTO> publicaciones = publicacionService.obtenerTodas();
         return ResponseEntity.ok(publicaciones);
+    }
+
+    // GET: obtener publicaciones filtradas
+    @GetMapping("/filtrar")
+    public ResponseEntity<List<PublicacionTRDTO>> filtrarPublicaciones(
+            @RequestParam(required = false) String provincia,
+            @RequestParam(required = false) List<String> distrito,
+            @RequestParam(required = false) List<String> tipo,
+            @RequestParam(required = false) Double precioMin,
+            @RequestParam(required = false) Double precioMax,
+            @RequestParam(required = false) List<String> caracteristicas
+    ) {
+        List<PublicacionTRDTO> resultado = publicacionService.filtrarPublicaciones(
+                provincia, distrito, tipo, precioMin, precioMax, caracteristicas);
+        return ResponseEntity.ok(resultado);
     }
 
     @PostMapping

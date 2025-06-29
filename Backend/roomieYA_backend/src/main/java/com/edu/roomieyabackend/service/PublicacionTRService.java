@@ -2,14 +2,14 @@ package com.edu.roomieyabackend.service;
 
 import com.edu.roomieyabackend.dto.CrearPublicacionTRDTO;
 import com.edu.roomieyabackend.dto.PublicacionTRDTO;
-import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.model.PublicacionTREntity;
+import com.edu.roomieyabackend.model.entities.Inmueble;
 import com.edu.roomieyabackend.repository.InmuebleRepository;
 import com.edu.roomieyabackend.repository.PublicacionTRRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +30,47 @@ public class PublicacionTRService {
                 .collect(Collectors.toList());
     }
 
+    public List<PublicacionTRDTO> filtrarPublicaciones(
+            String provincia,
+            List<String> distrito,
+            List<String> tipo,
+            Double precioMin,
+            Double precioMax,
+            List<String> caracteristicas) {
+
+        return publicacionRepository.findAll().stream()
+                .filter(p -> {
+                    Inmueble i = p.getInmueble();
+                    if (i == null) return false;
+
+                    boolean matchProvincia = provincia == null || provincia.equalsIgnoreCase(i.getProvincia());
+                    boolean matchDistrito = distrito == null || distrito.isEmpty() || distrito.contains(i.getDistrito());
+                    boolean matchTipo = tipo == null || tipo.isEmpty() || tipo.contains(i.getTipo());
+                    boolean matchPrecioMin = precioMin == null || p.getPrecio() >= precioMin;
+                    boolean matchPrecioMax = precioMax == null || p.getPrecio() <= precioMax;
+
+                    boolean matchCaracteristicas = caracteristicas == null || caracteristicas.isEmpty() ||
+                            (p.getServicios() != null && caracteristicas.stream()
+                                    .allMatch(filtro -> p.getServicios().stream()
+                                            .anyMatch(s -> normalizar(s).equals(normalizar(filtro)))
+                                    )
+                            );
+
+                    return matchProvincia && matchDistrito && matchTipo && matchPrecioMin && matchPrecioMax && matchCaracteristicas;
+                })
+                .map(PublicacionTRDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    private String normalizar(String input) {
+        if (input == null) return "";
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase()
+                .trim();
+    }
+
+
     public void crear(CrearPublicacionTRDTO dto) {
         PublicacionTREntity publicacion = new PublicacionTREntity();
         publicacion.setArrendatario(dto.getArrendatario());
@@ -48,5 +89,4 @@ public class PublicacionTRService {
 
         publicacionRepository.save(publicacion);
     }
-
 }
