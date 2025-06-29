@@ -11,7 +11,7 @@ const Header = () => {
     { texto: 'PAGO', ruta: '/pago' },
     { texto: 'HISTORIAL', ruta: '/historial' },
     { texto: 'CREAR PUBLICACION', ruta: '/crear-publicacion' },
-    { texto: 'ZONA 2', ruta: '/zona2' },
+    { texto: 'ADMINISTRAR PUBLICACIONES', ruta: '/adminContainer' },
     { texto: 'ZONA 3', ruta: '/zona3' },
     { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
     { texto: 'REGISTRAR RESEÑA', ruta: '/agregar-rating' },

@@ -28,6 +28,7 @@ import CrearReglaPage from './pages/CrearReglaPage';
 import ReglasPendientesPage from './pages/ReglasPendientesPage';
 import ListaNotificaciones from './components/ListaNotificaciones';
 import CrearVotacionPage from './pages/CrearVotacionPage';
+import AdminPublicacionesPageTR from './pages/AdminPublicacionesPageTR'
 
 
 // Votaciones imports
@@ -82,6 +83,9 @@ const App = () => {
         <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
         <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
         <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+        <Route path="/adminContainer" element={<AdminPublicacionesPageTR />} />
+
+      
 
         {/* Reseñas y Ratings */}
         <Route path="/reseñas" element={<ReportedReviews />} />
