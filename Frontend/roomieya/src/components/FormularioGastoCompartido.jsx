@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-
-const listaParticipantes = [
-  { id: 1, nombre: 'Juan' },
-  { id: 2, nombre: 'María' },
-  { id: 3, nombre: 'Carlos' },
-];
+import axios from 'axios';
 
 const categorias = [
   'Alquiler',
@@ -20,20 +15,11 @@ export default function FormularioGastoCompartido() {
   const [fecha, setFecha] = useState('');
   const [participantes, setParticipantes] = useState([]);
   const [categoria, setCategoria] = useState('');
-
+  const [nuevoParticipante, setNuevoParticipante] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [mensajeTipo, setMensajeTipo] = useState(''); // 'error' o 'success'
   const [showModal, setShowModal] = useState(false);
   const [datosConfirmacion, setDatosConfirmacion] = useState(null);
-
-  const manejarCambioParticipantes = (e) => {
-    const valor = parseInt(e.target.value);
-    if (e.target.checked) {
-      setParticipantes([...participantes, valor]);
-    } else {
-      setParticipantes(participantes.filter(id => id !== valor));
-    }
-  };
 
   const manejarEnvio = (e) => {
     e.preventDefault();
@@ -65,16 +51,48 @@ export default function FormularioGastoCompartido() {
     setMensaje('');
   };
 
-  const confirmarRegistro = () => {
-    console.log('Gasto confirmado:', datosConfirmacion);
-    setShowModal(false);
-    setMensajeTipo('success');
-    setMensaje('¡Gasto registrado con éxito!');
-    setMonto('');
-    setDescripcion('');
-    setFecha('');
-    setParticipantes([]);
-    setCategoria('');
+  const confirmarRegistro = async () => {
+    try {
+      const payload = {
+        monto: parseFloat(datosConfirmacion.monto),
+        descripcion: datosConfirmacion.descripcion,
+        fecha: datosConfirmacion.fecha,
+        participantes: datosConfirmacion.participantes.map(p => p.nombre),
+        categoria: datosConfirmacion.categoria,
+      };
+
+      const response = await axios.post('http://localhost:8081/api/gastos-compartidos', payload);
+      console.log('Respuesta del backend:', response.data);
+
+      setShowModal(false);
+      setMensajeTipo('success');
+      setMensaje('¡Gasto registrado con éxito!');
+      setMonto('');
+      setDescripcion('');
+      setFecha('');
+      setParticipantes([]);
+      setCategoria('');
+    } catch (error) {
+      console.error('Error al registrar el gasto:', error);
+      setMensajeTipo('error');
+      setMensaje('Hubo un error al registrar el gasto');
+      setShowModal(false);
+    }
+  };
+
+  const agregarParticipante = () => {
+    if (nuevoParticipante) {
+      setParticipantes([...participantes, { nombre: nuevoParticipante }]);
+      setNuevoParticipante('');
+    } else {
+      setMensajeTipo('error');
+      setMensaje('Por favor ingrese el nombre del participante.');
+    }
+  };
+
+  const eliminarParticipante = (nombre) => {
+    const nuevosParticipantes = participantes.filter(p => p.nombre !== nombre);
+    setParticipantes(nuevosParticipantes);
   };
 
   return (
@@ -122,22 +140,40 @@ export default function FormularioGastoCompartido() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label d-block">Participantes:</label>
-          {listaParticipantes.map(p => (
-            <div key={p.id} className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value={p.id}
-                checked={participantes.includes(p.id)}
-                onChange={manejarCambioParticipantes}
-                id={`participante-${p.id}`}
-              />
-              <label className="form-check-label" htmlFor={`participante-${p.id}`}>
-                {p.nombre}
-              </label>
-            </div>
-          ))}
+          <label className="form-label d-block">Nombres de participantes que realizarán el pago:</label>
+          <div className="d-flex flex-column mb-3">
+            <input
+              type="text"
+              className="form-control mb-2"
+              value={nuevoParticipante}
+              onChange={e => setNuevoParticipante(e.target.value)}
+              placeholder="Ingrese el nombre del participante"
+            />
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={agregarParticipante}
+            >
+              Agregar Participante
+            </button>
+          </div>
+
+          {participantes.length > 0 && (
+            <ul className="list-group">
+              {participantes.map((p, index) => (
+                <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                  {p.nombre}
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-danger"
+                    onClick={() => eliminarParticipante(p.nombre)}
+                  >
+                    <span className="material-icons">cancel</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="mb-4">
@@ -170,7 +206,7 @@ export default function FormularioGastoCompartido() {
                 <p><strong>Descripción:</strong> {datosConfirmacion.descripcion || 'N/A'}</p>
                 <p><strong>Fecha:</strong> {datosConfirmacion.fecha}</p>
                 <p><strong>Categoría:</strong> {datosConfirmacion.categoria}</p>
-                <p><strong>Participantes:</strong> {datosConfirmacion.participantes.join(', ')}</p>
+                <p><strong>Participantes:</strong> {datosConfirmacion.participantes.map(p => p.nombre).join(', ')}</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancelar</button>
