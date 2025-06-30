@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,7 +71,6 @@ public class PublicacionTRService {
                 .trim();
     }
 
-
     public void crear(CrearPublicacionTRDTO dto) {
         PublicacionTREntity publicacion = new PublicacionTREntity();
         publicacion.setArrendatario(dto.getArrendatario());
@@ -88,5 +88,14 @@ public class PublicacionTRService {
         }
 
         publicacionRepository.save(publicacion);
+    }
+
+    // 👉 NUEVOS MÉTODOS PARA ACTUALIZAR ESTADO
+    public Optional<PublicacionTREntity> buscarPorId(Long id) {
+        return publicacionRepository.findById(id);
+    }
+
+    public void guardar(PublicacionTREntity pub) {
+        publicacionRepository.save(pub);
     }
 }

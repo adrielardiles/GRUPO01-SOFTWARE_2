@@ -20,8 +20,13 @@ public class PublicacionTREntity {
 
     private Double precio;
 
+    private String Estado;
+
     @ElementCollection
     private List<String> servicios;
+    
+    @Column(columnDefinition = "TEXT")
+    private String motivoRechazo;
 
     @Column(columnDefinition = "TEXT")
     private String serviciosExtra;
