@@ -1,15 +1,58 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import InputField from './InputField';
 
-const RegisterForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+const AccountRegister = () => {
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [telefono, setTelefono] = useState("");
 
-  const handleSubmit = (e) => {
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false); // para mensaje verde o rojo
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //Backend
-    console.log({ email, password, name });
+
+    if (!correo || !contrasena) {
+      setIsSuccess(false);
+      setMessage("❌ Por favor completa todos los campos");
+      return;
+    }
+
+    const user = {
+    correo,
+    contrasena,
+    nombreCompleto,
+    telefono,
+    activo: true 
+    };
+
+
+    try {
+      const response = await fetch('http://localhost:8081/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        setMessage('✅ Registro exitoso. Redirigiendo...');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+      } else {
+        const errorText = await response.text();
+        setIsSuccess(false);
+        setMessage(`❌ Error: ${errorText}`);
+      }
+    } catch (error) {
+      setIsSuccess(false);
+      setMessage('❌ Error de conexión con el servidor');
+      console.error(error);
+    }
   };
 
   return (
@@ -31,23 +74,43 @@ const RegisterForm = () => {
       <InputField
         label="Correo electrónico"
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={correo}
+        onChange={(e) => setCorreo(e.target.value)}
       />
 
       <InputField
         label="Contraseña"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={contrasena}
+        onChange={(e) => setContrasena(e.target.value)}
       />
 
       <InputField
         label="Nombre completo"
         type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={nombreCompleto}
+        onChange={(e) => setNombreCompleto(e.target.value)}
       />
+
+      <InputField
+      label="Teléfono"
+      type="tel"
+      value={telefono}
+      onChange={(e) => setTelefono(e.target.value)}
+      />
+
+
+      {message && (
+        <p
+          style={{
+            color: isSuccess ? '#2E7D32' : '#D84315',
+            textAlign: 'center',
+            marginBottom: '12px',
+          }}
+        >
+          {message}
+        </p>
+      )}
 
       <button
         type="submit"
@@ -68,4 +131,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default AccountRegister;

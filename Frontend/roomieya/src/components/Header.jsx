@@ -1,6 +1,8 @@
 // src/components/Header.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Dropdown } from 'react-bootstrap';
+import LogoutButton from './LogoutButton'; 
 
 const Header = () => {
   const navigate = useNavigate();
@@ -28,18 +30,31 @@ const Header = () => {
             src="/logo/logo.png"
             alt="Logo RoomieYa"
             style={{ height: '90px' }}
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/home')}
           />
         </div>
 
         <div className="header-layout">
-          {/* Avatar a la izquierda */}
-          <div className="icono-avatar" onClick={() => navigate('/register')}>
-            {/* SVG de usuario */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
-              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4H21.6v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-            </svg>
-          </div>
+          {/* Avatar con dropdown */}
+          <Dropdown>
+            <Dropdown.Toggle variant="none" className="icono-avatar p-0 border-0 bg-transparent">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4H21.6v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+              </svg>
+            </Dropdown.Toggle>
+          
+          <Dropdown.Menu align="start">
+            <Dropdown.Item onClick={() => navigate('/editar-cuenta')}>Editar cuenta</Dropdown.Item>
+            <Dropdown.Divider />
+            <button className="logout-button" onClick={() => {
+              localStorage.removeItem('user');
+              navigate('/login');
+           }}>
+            Cerrar sesión
+          </button>
+          </Dropdown.Menu>
+          </Dropdown>
+
 
           {/* Botonera central */}
           <div className="botonera">
@@ -55,7 +70,7 @@ const Header = () => {
           </div>
 
           {/* Casa a la derecha */}
-          <div className="icono-casa" onClick={() => navigate('/')}>
+          <div className="icono-casa" onClick={() => navigate('/home')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
             </svg>
@@ -112,6 +127,51 @@ const Header = () => {
 
         .custom-btn:hover {
           transform: scale(1.05);
+          cursor: pointer;
+        }
+
+        .dropdown-menu {
+        border-radius: 1rem;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        padding: 0.5rem 0;
+        background-color: #ffffff;
+        min-width: 180px;
+        } 
+
+        .dropdown-menu .dropdown-item {
+        padding: 10px 20px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #333;
+        transition: background-color 0.2s ease;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+        background-color: #F05941;
+        color: #fff;
+        }
+
+        .dropdown-divider {
+        margin: 0.3rem 0;
+        border-top: 1px solid #ddd;
+        }
+
+        /* Botón personalizado para Logout */
+        .logout-button {
+          width: 100%;
+          background: none;
+          border: none;
+          padding: 10px 20px;
+          text-align: left;
+          font-size: 0.95rem;
+          color: #333;
+          transition: background-color 0.2s ease;
+          font-weight: 500;
+        }
+
+        .logout-button:hover {
+          background-color: #F05941;
+          color: white;
           cursor: pointer;
         }
       `}</style>

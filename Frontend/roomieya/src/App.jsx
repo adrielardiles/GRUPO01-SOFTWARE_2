@@ -29,6 +29,12 @@ import ReglasPendientesPage from './pages/ReglasPendientesPage';
 import ListaNotificaciones from './components/ListaNotificaciones';
 import CrearVotacionPage from './pages/CrearVotacionPage';
 import AdminPublicacionesPageTR from './pages/AdminPublicacionesPageTR'
+import AccountLogin from './components/AccountLogin';
+import AccountEdit from './components/AccountEdit';
+import PasswordRecovery from './components/PasswordRecovery';
+
+
+import { Outlet } from 'react-router-dom';
 
 
 // Votaciones imports
@@ -63,65 +69,77 @@ function ListaVotaciones() {
   );
 }
 
+const LayoutConHeader = () => (
+  <>
+    <Header />
+    <Outlet />
+  </>
+);
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
         {/* Landing and Auth */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<AccountLogin />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<AccountLogin />} />
+        <Route path="/recuperar" element={<PasswordRecovery />} />
+        <Route path="/editar-cuenta" element={<AccountEdit />} />
 
-        {/* Propiedades */}
-        <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
-        <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
-        <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
+        {/* Si el usuario ya está logueado, verá el Header aquí */}
+        <Route path="/home" element={<Header />} />
 
-        {/* Publicaciones */}
-        <Route path="/publicaciones" element={<PublicacionesCreadasPage />} />
-        <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
-        <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
-        <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
-        <Route path="/adminContainer" element={<AdminPublicacionesPageTR />} />
+        <Route element={<LayoutConHeader />}>
+          {/* Propiedades */}
+          <Route path="/mis-inmuebles" element={<MisInmueblesPage />} />
+          <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
+          <Route path="/editar-inmueble/:id" element={<EditarInmueblePage />} />
 
-      
+          {/* Publicaciones */}
+          <Route path="/publicaciones" element={<PublicacionesCreadasPage />} />
+          <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
+          <Route path="/registro-espacio" element={<RegistroEspacioPage />} />
+          <Route path="/PublicacionContainer" element={<PublicacionContainer />} />
+          <Route path="/adminContainer" element={<AdminPublicacionesPageTR />} />
 
-        {/* Reseñas y Ratings */}
-        <Route path="/reseñas" element={<ReportedReviews />} />
-        <Route path="/ratings" element={<RatingsPage />} />
-        <Route path="/ratings-received" element={<RatingsReceivedPage />} />
-        <Route path="/agregar-rating" element={<AgregarRatingPage />} />
-        <Route path="/renter/:userId" element={<RenterProfilePage />} />
 
-        {/* Citas */}
-        <Route path="/citas" element={<CitasPage />} />
+          {/* Reseñas y Ratings */}
+          <Route path="/reseñas" element={<ReportedReviews />} />
+          <Route path="/ratings" element={<RatingsPage />} />
+          <Route path="/ratings-received" element={<RatingsReceivedPage />} />
+          <Route path="/agregar-rating" element={<AgregarRatingPage />} />
+          <Route path="/renter/:userId" element={<RenterProfilePage />} />
 
-        {/* Tinder Like y Inventory */}
-        <Route path="/inmueble-presentacion" element={<TinderLike />} />
-        <Route path="/registrar-bienes" element={<InventoryPage />} />
+          {/* Citas */}
+          <Route path="/citas" element={<CitasPage />} />
 
-        {/* Reglas */}
-        <Route path="/crear-regla" element={<CrearReglaPage />} />
-        <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
+          {/* Tinder Like y Inventory */}
+          <Route path="/inmueble-presentacion" element={<TinderLike />} />
+          <Route path="/registrar-bienes" element={<InventoryPage />} />
 
-        {/* Pagos */}
-        <Route path="/pago" element={<PaymentPage />} />
-        <Route path="/historial" element={<PaymentHistoryPage />} />
+          {/* Reglas */}
+          <Route path="/crear-regla" element={<CrearReglaPage />} />
+          <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
 
-        {/* Anuncios y Gastos Compartidos */}
-        <Route path="/anuncios" element={<AnunciosPage />} />
-        <Route path="/gastos-compartidos" element={<FormularioGastoCompartido />} />
-        <Route path="/notificaciones" element={<ListaNotificaciones />} />
+          {/* Pagos */}
+          <Route path="/pago" element={<PaymentPage />} />
+          <Route path="/historial" element={<PaymentHistoryPage />} />
 
-        {/* Votaciones */}
-        <Route path="/votaciones" element={<ListaVotaciones />} />
-        <Route path="/votaciones/crear" element={<CrearVotacionPage />} />
-        <Route path="/votaciones/:id" element={<VotarPage />} />
-        <Route path="/votaciones/:id/resultados" element={<ResultadosVotacionPage />} />
+          {/* Anuncios y Gastos Compartidos */}
+          <Route path="/anuncios" element={<AnunciosPage />} />
+          <Route path="/gastos-compartidos" element={<FormularioGastoCompartido />} />
+          <Route path="/notificaciones" element={<ListaNotificaciones />} />
 
-        {/* Redirect unknown routes to home */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Votaciones */}
+          <Route path="/votaciones" element={<ListaVotaciones />} />
+          <Route path="/votaciones/crear" element={<CrearVotacionPage />} />
+          <Route path="/votaciones/:id" element={<VotarPage />} />
+          <Route path="/votaciones/:id/resultados" element={<ResultadosVotacionPage />} />
+
+          {/* Redirect unknown routes to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
