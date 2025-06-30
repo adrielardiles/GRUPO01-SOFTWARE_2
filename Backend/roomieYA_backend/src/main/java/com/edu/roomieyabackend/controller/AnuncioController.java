@@ -2,6 +2,7 @@ package com.edu.roomieyabackend.controller;
 
 import com.edu.roomieyabackend.dto.*;
 import com.edu.roomieyabackend.service.AnuncioApplicationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class AnuncioController {
     }
 
     @PostMapping
-    public ResponseEntity<?> crearAnuncio(@RequestBody CrearAnuncioRequestDTO dto) {
+    public ResponseEntity<?> crearAnuncio(@Valid @RequestBody CrearAnuncioRequestDTO dto) {
         try {
             if (dto.getCreadorId() == null || dto.getInmuebleId() == null) {
                 return ResponseEntity.badRequest().body("El ID del creador y del inmueble no deben ser nulos.");

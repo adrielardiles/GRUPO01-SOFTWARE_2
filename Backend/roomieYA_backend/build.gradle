@@ -29,6 +29,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'junit:junit:4.13.1'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'org.mockito:mockito-inline:5.2.0'
+
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -37,7 +46,7 @@ dependencies {
 	// Base de datos real
 	runtimeOnly 'org.postgresql:postgresql'
 
-	// Para los tests, levantamos un H2 en memoria
+	// levantamos un H2 en memoria
 	testImplementation 'com.h2database:h2'
 
 	// Tests Spring Boot

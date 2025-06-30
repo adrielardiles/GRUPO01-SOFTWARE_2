@@ -1,13 +1,26 @@
-// src/components/Header.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Dropdown } from 'react-bootstrap';
-import LogoutButton from './LogoutButton'; 
 
 const Header = () => {
   const navigate = useNavigate();
+  const [hayNotificaciones, setHayNotificaciones] = useState(false);
 
-  // Aquí defines todos los botones que quieres en tu header
+  // Verifica si hay notificaciones no leídas
+  useEffect(() => {
+    const verificarNotificaciones = async () => {
+      try {
+        const res = await axios.get('http://localhost:8081/api/notificaciones');
+        const noLeidas = res.data.filter(n => !n.leida);
+        setHayNotificaciones(noLeidas.length > 0);
+      } catch (error) {
+        console.error('Error al verificar notificaciones', error);
+      }
+    };
+    verificarNotificaciones();
+  }, []);
+
   const botones = [
     { texto: 'ANUNCIOS', ruta: '/anuncios' },
     { texto: 'PAGO', ruta: '/pago' },
@@ -18,7 +31,6 @@ const Header = () => {
     { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
     { texto: 'REGISTRAR RESEÑA', ruta: '/agregar-rating' },
     { texto: 'RESEÑAS', ruta: '/reseñas' },
-    // ----------------------> Nuevo botón:
     { texto: 'REGISTRAR INMUEBLE', ruta: '/registrar-inmueble' },
   ];
 
@@ -43,20 +55,19 @@ const Header = () => {
               </svg>
             </Dropdown.Toggle>
           
-          <Dropdown.Menu align="start">
-            <Dropdown.Item onClick={() => navigate('/editar-cuenta')}>Editar cuenta</Dropdown.Item>
-            <Dropdown.Divider />
-            <button className="logout-button" onClick={() => {
-              localStorage.removeItem('user');
-              navigate('/login');
-           }}>
+        <Dropdown.Menu align="start">
+          <Dropdown.Item onClick={() => navigate('/editar-cuenta')}>Editar cuenta</Dropdown.Item>
+          <Dropdown.Divider />
+          <button className="logout-button" onClick={() => {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }}>
             Cerrar sesión
           </button>
-          </Dropdown.Menu>
-          </Dropdown>
+        </Dropdown.Menu>
+        </Dropdown>
 
-
-          {/* Botonera central */}
+          {/* Botones */}
           <div className="botonera">
             {botones.map(({ texto, ruta }, idx) => (
               <button
@@ -69,16 +80,26 @@ const Header = () => {
             ))}
           </div>
 
-          {/* Casa a la derecha */}
+          {/* Icono de Casa */}
           <div className="icono-casa" onClick={() => navigate('/home')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
             </svg>
           </div>
+
+          {/* 💰 Gasto Compartido */}
+          <div
+            className="icono-gastos"
+            onClick={() => navigate('/gastos')}
+            title="Gastos Compartidos"
+          >
+            💰
+            {hayNotificaciones && <span className="badge-notificacion" />}
+          </div>
         </div>
       </div>
 
-      {/* Estilos en línea */}
+      {/* Estilos */}
       <style>{`
         .header-layout {
           display: flex;
@@ -90,7 +111,7 @@ const Header = () => {
           width: 100%;
         }
 
-        .icono-avatar, .icono-casa {
+        .icono-avatar, .icono-casa, .icono-gastos {
           width: 48px;
           height: 48px;
           background-color: #F05941;
@@ -101,6 +122,9 @@ const Header = () => {
           align-items: center;
           cursor: pointer;
           flex-shrink: 0;
+          position: relative;
+          font-size: 22px;
+          color: white;
         }
 
         .botonera {
@@ -117,7 +141,7 @@ const Header = () => {
           font-weight: bold;
           border: none;
           border-radius: 1.5rem;
-          width: 160px;           /* un poco más ancho para el texto largo */
+          width: 160px;
           padding: 0.4rem 0;
           font-size: 0.85rem;
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
@@ -130,30 +154,41 @@ const Header = () => {
           cursor: pointer;
         }
 
+        .badge-notificacion {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          width: 10px;
+          height: 10px;
+          background-color: red;
+          border-radius: 50%;
+          border: 2px solid white;
+        }
+
         .dropdown-menu {
-        border-radius: 1rem;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        padding: 0.5rem 0;
-        background-color: #ffffff;
-        min-width: 180px;
-        } 
+          border-radius: 1rem;
+          box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+          padding: 0.5rem 0;
+          background-color: #ffffff;
+          min-width: 180px;
+        }
 
         .dropdown-menu .dropdown-item {
-        padding: 10px 20px;
-        font-weight: 500;
-        font-size: 0.95rem;
-        color: #333;
-        transition: background-color 0.2s ease;
+          padding: 10px 20px;
+          font-weight: 500;
+          font-size: 0.95rem;
+          color: #333;
+          transition: background-color 0.2s ease;
         }
 
         .dropdown-menu .dropdown-item:hover {
-        background-color: #F05941;
-        color: #fff;
+          background-color: #F05941;
+          color: #fff;
         }
 
         .dropdown-divider {
-        margin: 0.3rem 0;
-        border-top: 1px solid #ddd;
+          margin: 0.3rem 0;
+          border-top: 1px solid #ddd;
         }
 
         /* Botón personalizado para Logout */
@@ -167,13 +202,13 @@ const Header = () => {
           color: #333;
           transition: background-color 0.2s ease;
           font-weight: 500;
-        }
+      }
 
         .logout-button:hover {
           background-color: #F05941;
           color: white;
           cursor: pointer;
-        }
+      }
       `}</style>
     </>
   );
