@@ -78,15 +78,29 @@ INSERT INTO distritos (nombre, provincia_id) VALUES ('Laredo', 5);
 INSERT INTO distritos (nombre, provincia_id) VALUES ('Víctor Larco Herrera', 5);
 
 -- ================================
--- Poblar datos bases para inmuebles
+-- Inserta inmuebles requeridos para publicaciones
 -- ================================
 
-INSERT INTO inmuebles (nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
-VALUES ('Departamento A', 'Av. Siempre Viva 123', 'Departamento', 80, 1500.0, 'Wifi,Agua caliente', 'Lima', 'Miraflores', 'Depto bonito', NOW(), 'https://link1.com');
+-- 📌 Inmueble id=1
+INSERT INTO inmuebles (id, nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
+VALUES
+    (1, 'Departamento A', 'Av. Siempre Viva 123', 'Departamento', 80, 1500.0, 'Wifi,Agua caliente', 'Lima', 'Miraflores', 'Depto bonito', NOW(), 'https://link1.com');
 
-INSERT INTO inmuebles (nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
-VALUES ('Casa B', 'Calle Falsa 456', 'Casa', 200, 3500.0, 'Wifi,Jardín,Parrilla', 'Arequipa', 'Cercado', 'Casa familiar', NOW(), 'https://link2.com');
+-- 📌 Inmueble id=2
+INSERT INTO inmuebles (id, nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
+VALUES
+    (2, 'Inmueble 2', 'Av. Siempre Viva 742', 'DEPARTAMENTO', 80, 1000.00, 'agua,luz,internet', 'Lima', 'Miraflores', 'Departamento amplio en Miraflores', CURRENT_TIMESTAMP, 'imagen2.jpg');
 
+-- Otros inmuebles requeridos para casos válidos
+INSERT INTO inmuebles (id, nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
+VALUES
+    (4, 'Inmueble 4', 'Calle Los Rosales 123', 'DEPARTAMENTO', 120, 1500.00, 'agua,luz,internet', 'Lima', 'San Isidro', 'Departamento en San Isidro', CURRENT_TIMESTAMP, 'imagen4.jpg'),
+    (8, 'Inmueble 8', 'Jr. Las Flores 456', 'CUARTO', 20, 800.00, 'agua,luz', 'Lima', 'Surco', 'Cuarto en Surco', CURRENT_TIMESTAMP, 'imagen8.jpg'),
+    (10, 'Inmueble 10', 'Av. Principal 789', 'DEPARTAMENTO', 90, 2000.00, 'agua,luz,internet', 'Lima', 'La Molina', 'Departamento en La Molina', CURRENT_TIMESTAMP, 'imagen10.jpg');
+
+-- ================================
+-- Inserta publicaciones
+-- ================================
 
 -- 📌 Publicacion 1 vinculada a inmueble id=1
 INSERT INTO publicaciones_tr (arrendatario, precio, inmueble_id, servicios_extra, referencias_extra)
@@ -106,3 +120,14 @@ INSERT INTO publicaciontrentity_servicios (publicaciontrentity_id, servicios)
 VALUES (2, 'Wifi'),
        (2, 'Jardin'),
        (2, 'Parrilla');
+
+-- ================================
+-- Inserta usuarios requeridos para los casos válidos
+-- ================================
+
+INSERT INTO usuarios (id, nombre_completo, telefono, correo, activo)
+VALUES
+    (1, 'Usuario1', '999111222', 'usuario1@example.com', true),
+    (3, 'Usuario3', '999333444', 'usuario3@example.com', true),
+    (5, 'Usuario5', '999555666', 'usuario5@example.com', true),
+    (7, 'Usuario7', '999777888', 'usuario7@example.com', true);
