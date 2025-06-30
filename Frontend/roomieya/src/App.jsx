@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Páginas
-import LandingPage from './pages/LadingPage';
+
 import RegisterPage from './pages/RegisterPage';
 import PublicacionesCreadasPage from './pages/PublicacionesCreadasPage';
 import CrearPublicacionPage from './pages/CrearPublicacionPage';
@@ -25,14 +25,14 @@ import CrearReglaPage from './pages/CrearReglaPage';
 import ReglasPendientesPage from './pages/ReglasPendientesPage';
 import MisInmueblesPage from './pages/MisInmueblesPage';
 import GastosPage from './pages/GastosPage';
-import ReseñasPage from './pages/ReseñasPage'; 
+import ReseñasPage from './pages/ReseñasPage';
 import AccountLogin from './components/AccountLogin';
 import PasswordRecovery from './components/PasswordRecovery';
 import AccountEdit from './components/AccountEdit';
 import { Outlet } from 'react-router-dom';
 // Header con notificaciones
-import Header from './components/Header'; 
-
+import Header from './components/Header';
+import MisBienesPage from './pages/MisBienesPage'; // Página para ver los bienes comunes
 
 const LayoutConHeader = () => (
   <>
@@ -73,7 +73,8 @@ const App = () => {
           <Route path="/inmueble-presentacion" element={<TinderLike />} />
           <Route path="/crear-regla" element={<CrearReglaPage />} />
           <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
-          <Route path="/registrar-bienes" element={<InventoryPage />} />
+          <Route path="/registrar-bienes" element={<InventoryPage />} /> {/* ✅ Ruta para registrar bienes */}
+          <Route path="/mis-bienes" element={<MisBienesPage />} /> {/* ✅ Ruta para ver los bienes */}
         </Route>
       </Routes>
     </BrowserRouter>

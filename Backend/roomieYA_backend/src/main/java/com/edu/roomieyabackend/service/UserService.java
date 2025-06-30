@@ -43,6 +43,9 @@ public class UserService {
     public Usuario save(Usuario usuario) {
     return usuarioRepository.save(usuario);
     }
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 
 
 }

@@ -1,11 +1,20 @@
-import React from 'react';
-import InventoryFormContainer from '../containers/InventoryFormContainer';
+// src/pages/InventoryPage.jsx
+import '../styles/PublicacionForm.css';
 
-const InventoryPage = () => (
-  <div>
-    <h1>Registro de Inventario</h1>
-    <InventoryFormContainer />
-  </div>
-);
+import React from 'react';
+import SubirBienForm from '../components/BienComun/SubirBienForm';
+import useBienes from '../hooks/useBienes';
+
+const InventoryPage = () => {
+  const usuarioId = localStorage.getItem('usuarioId');
+  const { subirBien } = useBienes(usuarioId);
+
+  return (
+    <div>
+      <h1>Registrar Bien Común</h1>
+      <SubirBienForm usuarioId={usuarioId} subirBien={subirBien} />
+    </div>
+  );
+};
 
 export default InventoryPage;

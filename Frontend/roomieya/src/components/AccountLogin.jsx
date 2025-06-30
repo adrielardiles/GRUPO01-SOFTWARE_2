@@ -23,19 +23,22 @@ const AccountLogin = () => {
     if (response.ok) {
       const userData = await response.json();
       console.log('✅ Usuario logueado:', userData);
-      localStorage.setItem('user', JSON.stringify(userData)); // opcional
+
+      // Guarda la información relevante (usuarioId o token) en localStorage
+      localStorage.setItem('usuarioId', userData.id);  // Asegúrate de que 'id' es el campo correcto
+
+      // Limpiar el error y redirigir al usuario
       setError('');
-      navigate('/home');
+      navigate('/home');  // Redirige a la página de inicio
     } else {
       const errorMessage = await response.text();
       setError(errorMessage || '❌ Correo o contraseña incorrectos');
     }
   } catch (err) {
     setError('❌ Error de conexión con el servidor');
-    console.error(err);
+    console.error(err); // Esto te ayudará a depurar el error en la consola
   }
 };
-
 
   return (
     <form
@@ -68,7 +71,9 @@ const AccountLogin = () => {
       />
 
       {error && (
-        <p style={{ color: '#D84315', textAlign: 'center', marginBottom: '12px' }}>{error}</p>
+        <p style={{ color: '#D84315', textAlign: 'center', marginBottom: '12px' }}>
+          {error}
+        </p>
       )}
 
       <button
@@ -93,11 +98,11 @@ const AccountLogin = () => {
         </a>
       </p>
       <p style={{ textAlign: 'center', marginTop: '8px' }}>
-         ¿No tienes una cuenta?{' '}
-      <span
-        style={{ color: '#E65100', textDecoration: 'underline', cursor: 'pointer' }}
-        onClick={() => navigate('/register')}
-      >
+        ¿No tienes una cuenta?{' '}
+        <span
+          style={{ color: '#E65100', textDecoration: 'underline', cursor: 'pointer' }}
+          onClick={() => navigate('/register')}
+        >
           Regístrate aquí
         </span>
       </p>
