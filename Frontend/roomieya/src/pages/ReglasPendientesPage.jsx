@@ -1,6 +1,6 @@
-// src/pages/ReglasPendientesPage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importamos useNavigate para redirigir
 
 const ReglasPendientesPage = () => {
   const [reglas, setReglas] = useState([]);
@@ -8,13 +8,16 @@ const ReglasPendientesPage = () => {
   const [loading, setLoading] = useState(true);
   const [mensaje, setMensaje] = useState('');
 
+  const navigate = useNavigate(); // Usamos el hook useNavigate para redirigir
+
   useEffect(() => {
     cargarReglasPendientes();
   }, []);
 
   const cargarReglasPendientes = () => {
     setLoading(true);
-    axios.get('http://localhost:8080/api/reglas/pendientes')
+    axios
+      .get('http://localhost:8081/api/reglas/pendientes')
       .then(({ data }) => {
         setReglas(data);
         setLoading(false);
@@ -26,9 +29,10 @@ const ReglasPendientesPage = () => {
   };
 
   const actualizarEstadoRegla = (id, nuevoEstado) => {
-    axios.put(`http://localhost:8080/api/reglas/${id}/estado`, { estadoAceptacion: nuevoEstado })
+    axios
+      .put(`http://localhost:8081/api/reglas/${id}/aceptar?aceptar=${nuevoEstado}`)
       .then(() => {
-        setMensaje(`Regla ${nuevoEstado === 'aceptada' ? 'aceptada' : 'rechazada'} correctamente.`);
+        setMensaje(`Regla ${nuevoEstado === true ? 'aceptada' : 'rechazada'} correctamente.`);
         setError('');
         cargarReglasPendientes();
       })
@@ -41,13 +45,17 @@ const ReglasPendientesPage = () => {
   const handleAceptar = (id) => {
     setError('');
     setMensaje('');
-    actualizarEstadoRegla(id, 'aceptada');
+    actualizarEstadoRegla(id, true); // Ahora enviamos 'true' para aceptar
   };
 
   const handleRechazar = (id) => {
     setError('');
     setMensaje('');
-    actualizarEstadoRegla(id, 'rechazada');
+    actualizarEstadoRegla(id, false); // Ahora enviamos 'false' para rechazar
+  };
+
+  const handleCrearRegla = () => {
+    navigate('/crear-regla'); // Redirige a la página de crear regla
   };
 
   if (loading) return <p>Cargando reglas pendientes...</p>;
@@ -81,6 +89,16 @@ const ReglasPendientesPage = () => {
           </div>
         ))
       )}
+
+      {/* Botón para crear una nueva regla centrado */}
+      <div className="d-flex justify-content-center mt-4">
+        <button
+          className="btn btn-danger" // Este es el color rojo
+          onClick={handleCrearRegla} // Al hacer clic redirige a la página de crear regla
+        >
+          Crear Nueva Regla
+        </button>
+      </div>
     </div>
   );
 };
