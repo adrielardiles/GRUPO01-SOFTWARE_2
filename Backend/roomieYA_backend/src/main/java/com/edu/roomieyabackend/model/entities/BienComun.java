@@ -1,7 +1,8 @@
 package com.edu.roomieyabackend.model.entities;
 
 import jakarta.persistence.*;
-
+import com.edu.roomieyabackend.model.Enums.EstadoBien;
+import com.edu.roomieyabackend.model.entities.Usuario;
 @Entity
 @Table(name = "bienes_comunes")
 public class BienComun {

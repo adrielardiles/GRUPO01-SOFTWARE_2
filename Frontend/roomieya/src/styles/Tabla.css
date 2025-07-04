@@ -1,0 +1,96 @@
+/* Contenedor principal */
+.mis-bienes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Título */
+h2 {
+  font-size: 2rem;
+  color: #e74c3c;
+  margin-bottom: 20px;
+}
+
+/* Contenedor de la lista de bienes */
+.bienes-lista {
+  width: 100%;
+}
+
+/* Estilo para los ítems de la lista */
+.bien-item {
+  background-color: #ffffff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los párrafos dentro de los bienes */
+.bien-item p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+/* Estilo de las etiquetas fuertes */
+.bien-item strong {
+  color: #333;
+}
+
+/* Contenedor de los botones */
+.botones {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Botón de editar */
+.btn-editar {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-editar:hover {
+  background-color: #2980b9;
+}
+
+/* Botón de eliminar */
+.btn-eliminar {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-eliminar:hover {
+  background-color: #c0392b;
+}
+/* Estilo para los mensajes de éxito */
+/* Estilo para los mensajes de éxito */
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Estilo para los mensajes de error */
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
