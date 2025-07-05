@@ -28,9 +28,17 @@ public class RatingService {
     }
 
     public List<RatingDTO> getRatingsForUser(Long userId) {
-    return ratingRepository.findByUserId(userId).stream()
+        return ratingRepository.findByUserId(userId).stream()
+                .map(r -> new RatingDTO(r.getReviewerName(), r.getComment(), r.getScore(), r.getUserId()))
+                .collect(Collectors.toList());
+    }
+    public List<RatingDTO> getAllRatings() {
+    return ratingRepository.findAll().stream()
         .map(r -> new RatingDTO(r.getReviewerName(), r.getComment(), r.getScore(), r.getUserId()))
         .collect(Collectors.toList());
-}
+    }
+
 
 }
+
+

@@ -28,6 +28,11 @@ public class RatingController {
     public ResponseEntity<RatingDTO> createRating(@RequestBody RatingDTO ratingDTO) {
     RatingDTO savedRating = ratingService.saveRating(ratingDTO);
     return new ResponseEntity<>(savedRating, HttpStatus.CREATED);
+    }
+    @GetMapping
+    public List<RatingDTO> getAllRatings() {
+        return ratingService.getAllRatings();
+
 }
 
 }

@@ -29,7 +29,6 @@ const Header = () => {
     { texto: 'ADMINISTRAR PUBLICACIONES', ruta: '/adminContainer' },
     { texto: 'ZONA 3', ruta: '/zona3' },
     { texto: 'DISPONIBILIDAD DE ALQUILER', ruta: '/PublicacionContainer' },
-    { texto: 'REGISTRAR RESEÑA', ruta: '/agregar-rating' },
     { texto: 'RESEÑAS', ruta: '/reseñas' },
     { texto: 'REGISTRAR INMUEBLE', ruta: '/registrar-inmueble' },
     { texto: 'REGISTRAR BIENES COMPARTIDOS', ruta: '/registrar-bienes' },

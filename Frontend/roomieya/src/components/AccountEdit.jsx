@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <--- AÑADE useEffect
 import InputField from './InputField';
+import { useNavigate } from 'react-router-dom';
+
 
 const AccountEdit = () => {
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [telefono, setTelefono] = useState('');
   const [mensaje, setMensaje] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,8 +19,13 @@ const AccountEdit = () => {
       return;
     }
 
+    if (!nombreCompleto.trim() || !telefono.trim()) {
+      setMensaje('❌ Todos los campos son obligatorios.');
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:8080/api/users/update', {
+      const response = await fetch('http://localhost:8081/api/users/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -33,14 +42,30 @@ const AccountEdit = () => {
       }
 
       const data = await response.json();
+  
+      localStorage.setItem('user', JSON.stringify(data));
+
       setMensaje('✅ Datos actualizados correctamente.');
 
-      // Actualiza los datos del usuario en localStorage si deseas
-      localStorage.setItem('user', JSON.stringify(data));
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000);
+
     } catch (error) {
       setMensaje(`❌ Error al actualizar: ${error.message}`);
     }
   };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('Usuario desde localStorage:', user);
+    if (user) {
+      setNombreCompleto(user.nombreCompleto || '');
+      setTelefono(user.telefono || '');
+    }
+  }, []);
+
+
 
   return (
     <form
