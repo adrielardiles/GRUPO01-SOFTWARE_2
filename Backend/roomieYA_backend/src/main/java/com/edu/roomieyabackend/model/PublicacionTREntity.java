@@ -20,7 +20,7 @@ public class PublicacionTREntity {
 
     private Double precio;
 
-    private String Estado;
+    private String estado;
 
     @ElementCollection
     private List<String> servicios;

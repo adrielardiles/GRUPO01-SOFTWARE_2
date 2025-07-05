@@ -7,6 +7,9 @@ public class PublicacionDTO {
     private String descripcion;
     private Double precio;
     private MultipartFile imagen;
+    private String estado;
+    private String motivoRechazo;
+
 
     public PublicacionDTO() {
     }

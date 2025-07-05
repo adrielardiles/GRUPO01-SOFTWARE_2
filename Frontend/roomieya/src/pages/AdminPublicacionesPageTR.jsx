@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function AdminPublicacionesPage() {
+export default function AdminPublicacionesPageTR() {
   const [publicaciones, setPublicaciones] = useState([]);
 
- 
   const cargarPublicaciones = () => {
     axios.get("http://localhost:8081/api/publicaciones-tr")
       .then(res => setPublicaciones(res.data))
@@ -15,7 +14,6 @@ export default function AdminPublicacionesPage() {
     cargarPublicaciones();
   }, []);
 
-  // Actualizar estado con posible motivo de rechazo
   const actualizarEstado = (id, nuevoEstado, motivo = null) => {
     axios.put(`http://localhost:8081/api/publicaciones-tr/${id}/estado`, null, {
       params: {
@@ -23,13 +21,50 @@ export default function AdminPublicacionesPage() {
         ...(motivo && { motivo })
       }
     })
-    .then(() => {
-      cargarPublicaciones(); // recargar publicaciones luego del cambio
-    })
+    .then(() => cargarPublicaciones())
     .catch(err => {
       console.error("Error al actualizar estado:", err);
       alert("❌ Error al actualizar estado.");
     });
+  };
+
+  const thStyle = {
+    padding: "12px",
+    borderBottom: "2px solid #ddd",
+    color: "#555"
+  };
+
+  const tdStyle = {
+    padding: "10px",
+    borderBottom: "1px solid #eee",
+    color: "#333"
+  };
+
+  const btnBase = {
+    border: "none",
+    padding: "6px 12px",
+    marginRight: "5px",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "16px"
+  };
+
+  const btnGreen = {
+    ...btnBase,
+    backgroundColor: "#4CAF50",
+    color: "white"
+  };
+
+  const btnRed = {
+    ...btnBase,
+    backgroundColor: "#f44336",
+    color: "white"
+  };
+
+  const btnGray = {
+    ...btnBase,
+    backgroundColor: "#555",
+    color: "white"
   };
 
   return (
@@ -60,34 +95,35 @@ export default function AdminPublicacionesPage() {
               <tr key={pub.id} style={{ backgroundColor: index % 2 === 0 ? "#fff" : "#fafafa" }}>
                 <td style={tdStyle}>{pub.id}</td>
                 <td style={tdStyle}>{pub.arrendatario}</td>
-                <td style={tdStyle}>{pub.referenciasExtra}</td>
+                <td style={tdStyle}>{pub.referenciasExtra || "-"}</td>
                 <td style={tdStyle}>{pub.precio}</td>
-                <td style={tdStyle}>{pub.estado || "pendiente"}</td>
+                <td style={tdStyle}>{pub.estado?.toLowerCase() || "pendiente"}</td>
                 <td style={tdStyle}>{pub.motivoRechazo || "-"}</td>
                 <td style={tdStyle}>
                   <button
-                    onClick={() => actualizarEstado(pub.id, "aprobado")}
+                    onClick={() => actualizarEstado(pub.id, "APROBADO")}
                     style={btnGreen}
-                    disabled={pub.estado === "aprobado"}
-                  >✅</button>{" "}
+                    disabled={pub.estado === "APROBADO"}
+                  >✅</button>
                   <button
                     onClick={() => {
                       const motivo = prompt("Ingrese el motivo del rechazo:");
-                      if (motivo !== null) {
-                        actualizarEstado(pub.id, "rechazado", motivo);
+                      if (motivo && motivo.trim() !== "") {
+                        actualizarEstado(pub.id, "RECHAZADO", motivo);
                       }
                     }}
                     style={btnRed}
-                    disabled={pub.estado === "rechazado"}
-                  >❌</button>{" "}
+                    disabled={pub.estado === "RECHAZADO"}
+                  >❌</button>
                   <button
                     onClick={() => {
-                      if (window.confirm("¿Seguro que deseas eliminar esta publicación?")) {
-                        actualizarEstado(pub.id, "eliminado");
+                      const motivo = prompt("¿Motivo de eliminación?");
+                      if (motivo && motivo.trim() !== "" && window.confirm("¿Seguro que deseas eliminar esta publicación?")) {
+                        actualizarEstado(pub.id, "ELIMINADO", motivo);
                       }
                     }}
                     style={btnGray}
-                    disabled={pub.estado === "eliminado"}
+                    disabled={pub.estado === "ELIMINADO"}
                   >🗑️</button>
                 </td>
               </tr>
@@ -98,42 +134,3 @@ export default function AdminPublicacionesPage() {
     </div>
   );
 }
-
-const thStyle = {
-  padding: "12px",
-  borderBottom: "2px solid #ddd",
-  color: "#555"
-};
-
-const tdStyle = {
-  padding: "10px",
-  borderBottom: "1px solid #eee",
-  color: "#333"
-};
-
-const btnBase = {
-  border: "none",
-  padding: "6px 12px",
-  marginRight: "5px",
-  borderRadius: "4px",
-  cursor: "pointer",
-  fontSize: "16px"
-};
-
-const btnGreen = {
-  ...btnBase,
-  backgroundColor: "#4CAF50",
-  color: "white"
-};
-
-const btnRed = {
-  ...btnBase,
-  backgroundColor: "#f44336",
-  color: "white"
-};
-
-const btnGray = {
-  ...btnBase,
-  backgroundColor: "#555",
-  color: "white"
-};

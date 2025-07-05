@@ -16,6 +16,10 @@ public class PublicacionTRDTO {
     private String serviciosExtra;
     private String referenciasExtra;
 
+    // ✅ Agregados
+    private String estado;
+    private String motivoRechazo;
+
     // Atributos del Inmueble asociado
     private Long inmuebleId;
     private String nombreInmueble;
@@ -34,6 +38,10 @@ public class PublicacionTRDTO {
         dto.setServiciosExtra(entity.getServiciosExtra());
         dto.setReferenciasExtra(entity.getReferenciasExtra());
 
+        // ✅ Asignar estado y motivo
+        dto.setEstado(entity.getEstado());
+        dto.setMotivoRechazo(entity.getMotivoRechazo());
+
         if (entity.getInmueble() != null) {
             dto.setInmuebleId(entity.getInmueble().getId());
             dto.setNombreInmueble(entity.getInmueble().getNombre());
@@ -43,6 +51,7 @@ public class PublicacionTRDTO {
             dto.setDistrito(entity.getInmueble().getDistrito());
             dto.setImagenurl(entity.getInmueble().getImagenurl());
         }
+
         return dto;
     }
 }

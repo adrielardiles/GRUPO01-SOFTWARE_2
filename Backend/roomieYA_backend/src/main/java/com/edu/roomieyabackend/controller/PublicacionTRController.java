@@ -47,7 +47,8 @@ public class PublicacionTRController {
     @PutMapping("/{id}/estado")
     public ResponseEntity<String> actualizarEstado(
             @PathVariable Long id,
-            @RequestParam String estado
+            @RequestParam String estado,
+            @RequestParam(required = false) String motivo
     ) {
         Optional<PublicacionTREntity> optional = publicacionService.buscarPorId(id);
         if (optional.isEmpty()) {
@@ -56,8 +57,14 @@ public class PublicacionTRController {
 
         PublicacionTREntity pub = optional.get();
         pub.setEstado(estado);
-        publicacionService.guardar(pub);
 
+        if ("RECHAZADO".equalsIgnoreCase(estado) || "ELIMINADO".equalsIgnoreCase(estado)) {
+            pub.setMotivoRechazo(motivo);
+        } else {
+            pub.setMotivoRechazo(null);
+        }
+
+        publicacionService.guardar(pub);
         return ResponseEntity.ok("Estado actualizado a " + estado);
     }
 

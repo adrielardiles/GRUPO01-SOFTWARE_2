@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Páginas
-
+import AdminPublicacionesPage from './pages/AdminPublicacionesPageTR';
 import RegisterPage from './pages/RegisterPage';
 import PublicacionesCreadasPage from './pages/PublicacionesCreadasPage';
 import CrearPublicacionPage from './pages/CrearPublicacionPage';
@@ -54,7 +54,8 @@ const App = () => {
         <Route element={<LayoutConHeader />}>
           <Route path="/editar-cuenta" element={< AccountEdit/>} />
           <Route path="/publicaciones" element={<PublicacionesCreadasPage />} />
-          <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />
+        <Route path="/publicaciones-admin" element={<AdminPublicacionesPage />} />
+          <Route path="/crear-publicacion" element={<CrearPublicacionPage />} />  
           <Route path="/pago" element={<PaymentPage />} />
           <Route path="/historial" element={<PaymentHistoryPage />} />
           <Route path="/anuncios" element={<AnunciosPage />} />

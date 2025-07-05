@@ -90,12 +90,27 @@ public class PublicacionTRService {
         publicacionRepository.save(publicacion);
     }
 
-    // 👉 NUEVOS MÉTODOS PARA ACTUALIZAR ESTADO
     public Optional<PublicacionTREntity> buscarPorId(Long id) {
         return publicacionRepository.findById(id);
     }
 
     public void guardar(PublicacionTREntity pub) {
         publicacionRepository.save(pub);
+    }
+
+    // ✅ NUEVO MÉTODO para actualizar estado y guardar motivo
+    public void actualizarEstado(Long id, String nuevoEstado, String motivo) {
+        PublicacionTREntity publicacion = publicacionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Publicación no encontrada con ID: " + id));
+
+        publicacion.setEstado(nuevoEstado.toUpperCase());
+
+        if ("RECHAZADO".equalsIgnoreCase(nuevoEstado) || "ELIMINADO".equalsIgnoreCase(nuevoEstado)) {
+            publicacion.setMotivoRechazo(motivo);
+        } else {
+            publicacion.setMotivoRechazo(null);
+        }
+
+        publicacionRepository.save(publicacion);
     }
 }
