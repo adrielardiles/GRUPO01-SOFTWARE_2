@@ -11,3 +11,9 @@ export const addRating = async (ratingData) => {
     throw error;
   }
 };
+
+export const getAllRatings = async () => {
+  const response = await axios.get("http://localhost:8081/api/ratings");
+  return response.data;
+};
+

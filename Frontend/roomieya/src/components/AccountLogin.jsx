@@ -24,8 +24,7 @@ const AccountLogin = () => {
       const userData = await response.json();
       console.log('✅ Usuario logueado:', userData);
 
-      // Guarda la información relevante (usuarioId o token) en localStorage
-      localStorage.setItem('usuarioId', userData.id);  // Asegúrate de que 'id' es el campo correcto
+      localStorage.setItem('user', JSON.stringify(userData));
 
       // Limpiar el error y redirigir al usuario
       setError('');

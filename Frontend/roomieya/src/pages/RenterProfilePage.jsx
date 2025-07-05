@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { addRating } from '../features/ratings/ratingsService';
+import { getAllRatings } from '../features/ratings/ratingsService';
 import RatingsList from '../features/ratings/RatingsList';
 
 const RenterProfilePage = () => {
-  const { userId } = useParams();
   const [ratings, setRatings] = useState([]);
 
   useEffect(() => {
     const loadRatings = async () => {
       try {
-        const data = await addRating(userId);
+        const data = await getAllRatings();
         setRatings(data);
       } catch (error) {
         console.error('Error al cargar calificaciones:', error);
@@ -18,15 +16,16 @@ const RenterProfilePage = () => {
     };
 
     loadRatings();
-  }, [userId]);
+  }, []);
 
   return (
     <div>
-      <h2>Calificaciones de arrendatario (ID: {userId})</h2>
+      <h2>Calificaciones del arrendatario</h2> {/* Eliminado el ID */}
       <RatingsList ratings={ratings} />
     </div>
   );
 };
 
 export default RenterProfilePage;
+
 

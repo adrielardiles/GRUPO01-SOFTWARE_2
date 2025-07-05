@@ -64,7 +64,7 @@ const App = () => {
           <Route path="/ratings" element={<RatingsPage />} />
           <Route path="/ratings-received" element={<RatingsReceivedPage />} />
           <Route path="/agregar-rating" element={<AgregarRatingPage />} />
-          <Route path="/renter/:userId" element={<RenterProfilePage />} />
+          <Route path="/renter-profile" element={<RenterProfilePage />} />
           <Route path="/citas" element={<CitasPage />} />
           <Route path="/gastos" element={<GastosPage />} /> {/* ✅ Gastos compartidos */}
           <Route path="/registrar-inmueble" element={<RegistrarInmueblePage />} />
