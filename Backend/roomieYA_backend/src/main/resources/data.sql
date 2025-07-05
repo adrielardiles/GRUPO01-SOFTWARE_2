@@ -81,12 +81,11 @@ INSERT INTO distritos (nombre, provincia_id) VALUES ('Víctor Larco Herrera', 5)
 -- Inserta inmuebles requeridos para publicaciones
 -- ================================
 
--- 📌 Inmueble id=1
+
 INSERT INTO inmuebles (id, nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
 VALUES
     (1, 'Departamento A', 'Av. Siempre Viva 123', 'Departamento', 80, 1500.0, 'Wifi,Agua caliente', 'Lima', 'Miraflores', 'Depto bonito', NOW(), 'https://link1.com');
 
--- 📌 Inmueble id=2
 INSERT INTO inmuebles (id, nombre, direccion, tipo, tamano, precio, servicios, provincia, distrito, descripcion, fecha_creacion, imagen)
 VALUES
     (2, 'Inmueble 2', 'Av. Siempre Viva 742', 'DEPARTAMENTO', 80, 1000.00, 'agua,luz,internet', 'Lima', 'Miraflores', 'Departamento amplio en Miraflores', CURRENT_TIMESTAMP, 'imagen2.jpg');
@@ -102,7 +101,6 @@ VALUES
 -- Inserta publicaciones
 -- ================================
 
--- 📌 Publicacion 1 vinculada a inmueble id=1
 INSERT INTO publicaciones_tr (arrendatario, precio, inmueble_id, servicios_extra, referencias_extra)
 VALUES ('Juan Pérez', 1600.0, 1, 'Incluye limpieza semanal', 'Cerca de parque');
 
@@ -111,7 +109,6 @@ INSERT INTO publicaciontrentity_servicios (publicaciontrentity_id, servicios)
 VALUES (1, 'Wifi'),
        (1, 'Agua caliente');
 
--- 📌 Publicacion 2 vinculada a inmueble id=2
 INSERT INTO publicaciones_tr (arrendatario, precio, inmueble_id, servicios_extra, referencias_extra)
 VALUES ('María López', 2800.0, 2, 'Incluye mantenimiento mensual', 'A 5 min de supermercado');
 
@@ -131,3 +128,10 @@ VALUES
     (3, 'Usuario3', '999333444', 'usuario3@example.com', true),
     (5, 'Usuario5', '999555666', 'usuario5@example.com', true),
     (7, 'Usuario7', '999777888', 'usuario7@example.com', true);
+
+-- Asociar usuarios a inmuebles en usuario_inmueble
+INSERT INTO usuario_inmueble (usuario_id, inmueble_id, rol)
+VALUES
+    (1, 1, 'ARRENDADOR'), -- Usuario1 es arrendador del Departamento Lima Centro
+    (3, 1, 'ROOMIE'),     -- Usuario3 es roomie del Departamento Lima Centro
+    (1, 2, 'ARRENDADOR'); -- Usuario1 es arrendador del Cuarto en Surco
