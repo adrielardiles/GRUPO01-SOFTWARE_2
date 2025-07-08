@@ -26,16 +26,16 @@ const AccountLogin = () => {
 
       localStorage.setItem('user', JSON.stringify(userData));
 
-      // Limpiar el error y redirigir al usuario
+      
       setError('');
-      navigate('/home');  // Redirige a la página de inicio
+      navigate('/home');  
     } else {
       const errorMessage = await response.text();
       setError(errorMessage || '❌ Correo o contraseña incorrectos');
     }
   } catch (err) {
     setError('❌ Error de conexión con el servidor');
-    console.error(err); // Esto te ayudará a depurar el error en la consola
+    console.error(err); 
   }
 };
 
