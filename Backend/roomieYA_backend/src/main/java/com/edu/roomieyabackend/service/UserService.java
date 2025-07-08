@@ -47,9 +47,5 @@ public class UserService {
         return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
-    public boolean esContrasenaValida(String contrasena) {
-        return contrasena != null && contrasena.length() >= 6;
-    }
-
-
 }
+
