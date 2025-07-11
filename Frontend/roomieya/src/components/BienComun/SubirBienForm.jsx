@@ -1,5 +1,6 @@
 // src/components/BienComun/SubirBienForm.jsx
 
+
 import '../../styles/inventoryForm.css'; // Asegúrate de que la ruta sea correcta
 // src/components/BienComun/SubirBienForm.jsx
 import React, { useState } from 'react';

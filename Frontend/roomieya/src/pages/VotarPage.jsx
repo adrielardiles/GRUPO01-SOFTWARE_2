@@ -10,7 +10,7 @@ export default function VotarPage() {
   const [loading, setLoading] = useState(true);
   const [votado, setVotado] = useState(false);
   const navigate = useNavigate();
-  const usuarioId = 3; // simulado
+  const usuarioId = 5; // simulado
 
   useEffect(() => {
   API.votaciones.votado(id, usuarioId)

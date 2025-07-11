@@ -122,16 +122,16 @@ VALUES (2, 'Wifi'),
 -- Inserta usuarios requeridos para los casos válidos
 -- ================================
 
-INSERT INTO usuarios (id, nombre_completo, telefono, correo, activo)
-VALUES
-    (1, 'Usuario1', '999111222', 'usuario1@example.com', true),
-    (3, 'Usuario3', '999333444', 'usuario3@example.com', true),
-    (5, 'Usuario5', '999555666', 'usuario5@example.com', true),
-    (7, 'Usuario7', '999777888', 'usuario7@example.com', true);
+--INSERT INTO usuarios (id, nombre_completo, telefono, correo, activo)
+--VALUES
+    --(1, 'Usuario1', '999111222', 'usuario1@example.com', true),
+    --(3, 'Usuario3', '999333444', 'usuario3@example.com', true),
+    --(5, 'Usuario5', '999555666', 'usuario5@example.com', true),
+    --(7, 'Usuario7', '999777888', 'usuario7@example.com', true);
 
 -- Asociar usuarios a inmuebles en usuario_inmueble
-INSERT INTO usuario_inmueble (usuario_id, inmueble_id, rol)
-VALUES
-    (1, 1, 'ARRENDADOR'), -- Usuario1 es arrendador del Departamento Lima Centro
-    (3, 1, 'ROOMIE'),     -- Usuario3 es roomie del Departamento Lima Centro
-    (1, 2, 'ARRENDADOR'); -- Usuario1 es arrendador del Cuarto en Surco
+--INSERT INTO usuario_inmueble (usuario_id, inmueble_id, rol)
+--VALUES
+    --(1, 1, 'ARRENDADOR'), -- Usuario1 es arrendador del Departamento Lima Centro
+    --(3, 1, 'ROOMIE'),     -- Usuario3 es roomie del Departamento Lima Centro
+    --(1, 2, 'ARRENDADOR'); -- Usuario1 es arrendador del Cuarto en Surco

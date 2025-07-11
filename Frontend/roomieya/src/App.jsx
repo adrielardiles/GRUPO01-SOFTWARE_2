@@ -1,8 +1,10 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import React, { useState, useEffect } from 'react';
+import { API } from './api/votacionesApi';
 // Páginas
+import ListaNotificaciones from './components/ListaNotificaciones';
+import CrearVotacionPage from './pages/CrearVotacionPage';
 import AdminPublicacionesPage from './pages/AdminPublicacionesPageTR';
 import RegisterPage from './pages/RegisterPage';
 import PublicacionesCreadasPage from './pages/PublicacionesCreadasPage';
@@ -24,6 +26,8 @@ import InventoryPage from './pages/InventoryPage';
 import CrearReglaPage from './pages/CrearReglaPage';
 import ReglasPendientesPage from './pages/ReglasPendientesPage';
 import MisInmueblesPage from './pages/MisInmueblesPage';
+import VotarPage from './pages/VotarPage';
+import ResultadosVotacionPage from './pages/ResultadosVotacionPage';
 import GastosPage from './pages/GastosPage';
 import ReseñasPage from './pages/ReseñasPage';
 import AccountLogin from './components/AccountLogin';
@@ -33,7 +37,32 @@ import { Outlet } from 'react-router-dom';
 // Header con notificaciones
 import Header from './components/Header';
 import MisBienesPage from './pages/MisBienesPage'; // Página para ver los bienes comunes
+// Componente para listar votaciones
+function ListaVotaciones() {
+  const [lista, setLista] = useState([]);
+  useEffect(() => {
+    API.votaciones.activas().then(res => setLista(res.data));
+  }, []);
 
+  return (
+    <div className="container mt-4">
+      <h2>Votaciones Activas</h2>
+
+      {/* ← Aquí */}
+      <Link to="/votaciones/crear" className="btn btn-primary mb-3">
+        Crear nueva votación
+      </Link>
+
+      <ul className="list-group">
+        {lista.map(v => (
+          <li key={v.id} className="list-group-item">
+            <Link to={`/votaciones/${v.id}`}>{v.pregunta}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 const LayoutConHeader = () => (
   <>
     <Header />
@@ -76,6 +105,10 @@ const App = () => {
           <Route path="/reglas-pendientes" element={<ReglasPendientesPage />} />
           <Route path="/registrar-bienes" element={<InventoryPage />} /> {/* ✅ Ruta para registrar bienes */}
           <Route path="/mis-bienes" element={<MisBienesPage />} /> {/* ✅ Ruta para ver los bienes */}
+          <Route path="/votaciones" element={<ListaVotaciones />} />
+          <Route path="/votaciones/crear" element={<CrearVotacionPage />} />
+          <Route path="/votaciones/:id" element={<VotarPage />} />
+          <Route path="/votaciones/:id/resultados" element={<ResultadosVotacionPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
