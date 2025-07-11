@@ -18,9 +18,14 @@ public interface CitaVisitaRepository extends JpaRepository<CitaVisita, Long> {
     // Buscar citas por nombre
     List<CitaVisita> findByNombre(String nombre);
 
+    List<CitaVisita> findByPublicacionId(Long publicacionId);
+
     // Buscar todas las citas que aún no se les ha enviado recordatorio 24h y su fecha es mañana
     List<CitaVisita> findByRecordatorioEnviado24hFalseAndFecha(LocalDate fecha);
 
     // Buscar todas las citas que aún no se les ha enviado recordatorio 48h y su fecha es en dos días
     List<CitaVisita> findByRecordatorioEnviado48hFalseAndFecha(LocalDate fecha);
+
+    List<CitaVisita> findByPublicacionIdAndUsuarioId(Long publicacionId, Long id);
+
 }

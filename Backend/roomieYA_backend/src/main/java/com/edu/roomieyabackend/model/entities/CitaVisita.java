@@ -13,15 +13,23 @@ public class CitaVisita {
     private Long id;
 
     private String nombre;
-    private String email; // Nuevo campo
+
+    private String email;
 
     private LocalDate fecha;
+
     private LocalTime hora;
+
     private String direccion;
 
-    private String estado = "PENDIENTE"; // PENDIENTE, CANCELADO
-    private Boolean recordatorioEnviado24h = false;
-    private Boolean recordatorioEnviado48h = false;
+    private String estado;
+
+    private Boolean recordatorioEnviado24h;
+    private Boolean recordatorioEnviado48h;
+
+    private Long publicacionId; // ✅ OK
+
+    private Long usuarioId; // ✅ Esto es lo que falta
 
     // Constructores
     public CitaVisita() { }
@@ -60,4 +68,7 @@ public class CitaVisita {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public Long getPublicacionId() { return publicacionId; }
+    public void setPublicacionId(Long publicacionId) { this.publicacionId = publicacionId; }
 }

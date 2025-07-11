@@ -60,6 +60,27 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
+sourceSets {
+    testIsolated {
+        java.srcDir 'src/test-isolated/java'
+        resources.srcDir 'src/test-isolated/resources'
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+configurations {
+    testIsolatedImplementation.extendsFrom testImplementation
+}
+
+task testIsolated(type: Test) {
+    description = 'Run only isolated unit tests'
+    group = 'verification'
+    testClassesDirs = sourceSets.testIsolated.output.classesDirs
+    classpath = sourceSets.testIsolated.runtimeClasspath
+}
+
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

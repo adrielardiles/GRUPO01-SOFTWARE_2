@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "votaciones")
@@ -18,6 +20,7 @@ public class VotacionEntity {
     private String estado;
 
     @OneToMany(mappedBy = "votacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("votacion") // evita bucles infinitos
     private List<OpcionVotoEntity> opciones = new ArrayList<>();
     // Getters and Setters...
     public Long getId() { return id; }

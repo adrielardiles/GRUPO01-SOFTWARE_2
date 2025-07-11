@@ -17,45 +17,50 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/votaciones")
 public class VotacionController {
-    private final VotacionService service;
-    private final VotacionRepository repo;
 
-    public VotacionController(VotacionService service, VotacionRepository repo) {
-        this.service = service;
-        this.repo = repo;
+    private final VotacionService votacionService;
+    private final VotacionRepository votacionRepository;
+
+    public VotacionController(VotacionService votacionService, VotacionRepository votacionRepository) {
+        this.votacionService = votacionService;
+        this.votacionRepository = votacionRepository;
     }
 
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody CrearVotacionRequest req) {
-        service.crearVotacion(req);
+        votacionService.crearVotacion(req);
         return ResponseEntity.status(201).build();
     }
 
     @GetMapping("/activas")
     public ResponseEntity<List<VotacionEntity>> activas() {
-        List<VotacionEntity> lista = repo.findByEstadoIgnoreCaseAndFechaInicioBeforeAndFechaFinAfter(
+        List<VotacionEntity> lista = votacionRepository.findByEstadoIgnoreCaseAndFechaInicioBeforeAndFechaFinAfter(
             "activa", LocalDateTime.now(), LocalDateTime.now()
         );
         return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/{id}/votado")
-    public ResponseEntity<Map<String, Boolean>> votado(
-        @PathVariable Long id,
-        @RequestParam Long usuarioId
-    ) {
-        boolean has = service.hasVoted(usuarioId, id);
-        return ResponseEntity.ok(Map.of("votado", has));
+    @GetMapping("/{votacionId}/votado/{usuarioId}")
+    public ResponseEntity<?> yaVotado(@PathVariable Long votacionId, @PathVariable Long usuarioId) {
+        boolean votado = votacionService.hasVoted(usuarioId, votacionId);
+        return ResponseEntity.ok(Map.of("votado", votado));
+    }
+
+    @GetMapping("/{votacionId}")
+    public ResponseEntity<VotacionEntity> getVotacionById(@PathVariable Long votacionId) {
+        return votacionRepository.findById(votacionId)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/{id}/votar")
     public ResponseEntity<?> votar(@PathVariable Long id, @RequestBody VotoRequest req) {
-        service.votar(req, id);
+        votacionService.votar(req, id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/resultados")
     public ResponseEntity<List<ResultadoDTO>> resultados(@PathVariable Long id) {
-        return ResponseEntity.ok(service.obtenerResultados(id));
+        return ResponseEntity.ok(votacionService.obtenerResultados(id));
     }
 }

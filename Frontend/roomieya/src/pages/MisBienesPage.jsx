@@ -19,7 +19,6 @@ const MisBienesPage = () => {
 
   return (
     <div>
-      <h1>Mis Bienes Comunes</h1>
       {loading && <p>Cargando bienes...</p>}
       {error && <p>{error}</p>}
       <MisBienes bienes={bienes} />  {/* Componente para mostrar los bienes */}

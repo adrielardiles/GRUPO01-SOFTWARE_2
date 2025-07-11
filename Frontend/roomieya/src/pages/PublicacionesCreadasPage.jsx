@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API } from "../api/endpoints";
 import {
@@ -8,12 +9,14 @@ import {
   Row,
   Col,
   Badge,
+  Button,
 } from "react-bootstrap";
 
 export default function PublicacionesCreadasPage() {
   const [publicaciones, setPublicaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -45,22 +48,41 @@ export default function PublicacionesCreadasPage() {
               <Card className="h-100 shadow-sm border-0 rounded-4">
                 <Card.Body className="d-flex flex-column justify-content-between">
                   <div>
-                    <Card.Title className="text-primary">{publi.arrendatario}</Card.Title>
+                    <Card.Title className="text-primary">
+                      {publi.arrendatario}
+                    </Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
                       <strong>Precio:</strong> S/.{publi.precio}
                     </Card.Subtitle>
-                    <p><strong>Inmueble:</strong> {publi.nombreInmueble || publi.ubicacion || "No registrado"}</p>
-                    <p><strong>Servicios:</strong> {publi.servicios?.join(", ") || "Ninguno"}</p>
+                    <p>
+                      <strong>Inmueble:</strong>{" "}
+                      {publi.nombreInmueble || publi.ubicacion || "No registrado"}
+                    </p>
+                    <p>
+                      <strong>Servicios:</strong>{" "}
+                      {publi.servicios?.join(", ") || "Ninguno"}
+                    </p>
                     {publi.serviciosExtra && (
-                      <p><strong>Extra:</strong> {publi.serviciosExtra}</p>
+                      <p>
+                        <strong>Extra:</strong> {publi.serviciosExtra}
+                      </p>
                     )}
                     {publi.referenciasExtra && (
-                      <p><strong>Referencias:</strong> {publi.referenciasExtra}</p>
+                      <p>
+                        <strong>Referencias:</strong> {publi.referenciasExtra}
+                      </p>
                     )}
                   </div>
 
-                  <div className="text-end mt-3">
+                  <div className="d-flex justify-content-between align-items-center mt-3">
                     <Badge bg="success">Activa</Badge>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => navigate(`/citas/${publi.id}`)}
+                    >
+                      Ir a citas
+                    </Button>
                   </div>
                 </Card.Body>
               </Card>

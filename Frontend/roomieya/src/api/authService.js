@@ -1,5 +1,3 @@
-// src/api/authService.js
-
 export async function sendVerificationCode(email) {
   console.log(`(Simulado) Enviando código a: ${email}`);
   return new Promise((resolve) => {

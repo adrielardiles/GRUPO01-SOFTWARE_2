@@ -89,7 +89,9 @@ public class CitaVisitaService {
             }
         });
     }
-
+public List<CitaVisita> getCitasByPublicacionAndUsuario(Long publicacionId, Long usuarioId) {
+    return citaVisitaRepository.findByPublicacionIdAndUsuarioId(publicacionId, usuarioId);
+}
     // 7. Consultar citas para recordatorio 24h
     public List<CitaVisita> citasParaRecordatorio24h(LocalDate fecha) {
         return citaVisitaRepository.findByRecordatorioEnviado24hFalseAndFecha(fecha);
@@ -99,4 +101,7 @@ public class CitaVisitaService {
     public List<CitaVisita> citasParaRecordatorio48h(LocalDate fecha) {
         return citaVisitaRepository.findByRecordatorioEnviado48hFalseAndFecha(fecha);
     }
+    public List<CitaVisita> getCitasByPublicacionId(Long publicacionId) {
+    return citaVisitaRepository.findByPublicacionId(publicacionId);
+}
 }

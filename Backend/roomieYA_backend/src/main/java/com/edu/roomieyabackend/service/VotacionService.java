@@ -11,6 +11,8 @@ import com.edu.roomieyabackend.repository.VotacionRepository;
 import com.edu.roomieyabackend.repository.VotoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.edu.roomieyabackend.service.VotacionService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -83,8 +85,7 @@ public class VotacionService {
         }).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public boolean hasVoted(Long usuarioId, Long votacionId) {
-        return vRepo.existsByUsuarioIdAndVotacionId(usuarioId, votacionId);
+    return vRepo.existsByUsuarioIdAndVotacionId(usuarioId, votacionId);
     }
 }

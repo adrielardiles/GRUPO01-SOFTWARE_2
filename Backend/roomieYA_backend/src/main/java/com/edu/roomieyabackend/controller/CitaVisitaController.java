@@ -61,10 +61,14 @@ public class CitaVisitaController {
     public List<CitaVisita> citasParaRecordatorio24h(@PathVariable String fecha) {
         return citaVisitaService.citasParaRecordatorio24h(LocalDate.parse(fecha));
     }
-
     @GetMapping("/paraRecordatorio48h/{fecha}")
     public List<CitaVisita> citasParaRecordatorio48h(@PathVariable String fecha) {
         return citaVisitaService.citasParaRecordatorio48h(LocalDate.parse(fecha));
     }
 
+    @GetMapping("/publicacion/{publicacionId}")
+    public List<CitaVisita> getCitasByPublicacionId(@PathVariable Long publicacionId) {
+        return citaVisitaService.getCitasByPublicacionId(publicacionId);
+    }
+    
 }
