@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/api/bienes")
@@ -33,6 +32,9 @@ public class BienComunController {
     @PostMapping("/subir")
     public ResponseEntity<BienComun> subirBien(@RequestBody BienComun bienComun, @RequestParam Long usuarioId) {
         Usuario usuario = userService.obtenerUsuarioPorId(usuarioId); // Obtener el usuario
+        if (usuario == null) {
+            return ResponseEntity.badRequest().body(null);  // Usuario no encontrado
+        }
         bienComun.setUsuario(usuario); // Asociar el bien con el usuario
         BienComun nuevoBien = bienComunService.registrarBien(bienComun); // Guardar el bien
         return ResponseEntity.ok(nuevoBien);
@@ -60,37 +62,39 @@ public class BienComunController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);  // Retornar error 500
         }
     }
+
+    // Editar el estado de un bien
     @PutMapping("/{id}")
-public ResponseEntity<BienComun> editarEstadoBien(@PathVariable Long id, @RequestBody Map<String, String> estado) {
-    try {
-        // Convertimos el String recibido en 'estado' a un valor de la enumeración EstadoBien
-        EstadoBien estadoEnum = EstadoBien.valueOf(estado.get("estado"));  // Aquí se convierte el String a EstadoBien
+    public ResponseEntity<BienComun> editarEstadoBien(@PathVariable Long id, @RequestBody Map<String, String> estado) {
+        try {
+            // Convertimos el String recibido en 'estado' a un valor de la enumeración EstadoBien
+            EstadoBien estadoEnum = EstadoBien.valueOf(estado.get("estado"));  // Aquí se convierte el String a EstadoBien
 
-        Optional<BienComun> bienOptional = bienComunRepository.findById(id);
+            Optional<BienComun> bienOptional = bienComunRepository.findById(id);
 
-        if (bienOptional.isPresent()) {
-            BienComun bien = bienOptional.get();
-            bien.setEstado(estadoEnum);  // Establecemos el estado del bien con el valor convertido
-            bienComunRepository.save(bien);  // Guardamos el bien con el nuevo estado
-            return ResponseEntity.ok(bien);  // Devolvemos el bien actualizado
-        } else {
-            return ResponseEntity.notFound().build();  // Si el bien no se encuentra, retornar 404
+            if (bienOptional.isPresent()) {
+                BienComun bien = bienOptional.get();
+                bien.setEstado(estadoEnum);  // Establecemos el estado del bien con el valor convertido
+                bienComunRepository.save(bien);  // Guardamos el bien con el nuevo estado
+                return ResponseEntity.ok(bien);  // Devolvemos el bien actualizado
+            } else {
+                return ResponseEntity.notFound().build();  // Si el bien no se encuentra, retornar 404
+            }
+        } catch (IllegalArgumentException e) {
+            // Si el valor de "estado" no es válido, retornar error 400 correctamente
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    } catch (IllegalArgumentException e) {
-    // Si el valor de "estado" no es válido, retornar error 400 correctamente
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-}
-@DeleteMapping("/{id}")
-public ResponseEntity<?> eliminarBien(@PathVariable Long id) {
-    Optional<BienComun> bienOptional = bienComunRepository.findById(id);
-    if (bienOptional.isPresent()) {
-        bienComunRepository.delete(bienOptional.get());  // Elimina el bien
-        return ResponseEntity.ok().build();  // Responde con éxito
-    } else {
-        return ResponseEntity.notFound().build();  // Si el bien no se encuentra, responde con 404
+    // Eliminar un bien
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarBien(@PathVariable Long id) {
+        Optional<BienComun> bienOptional = bienComunRepository.findById(id);
+        if (bienOptional.isPresent()) {
+            bienComunRepository.delete(bienOptional.get());  // Elimina el bien
+            return ResponseEntity.ok().build();  // Responde con éxito
+        } else {
+            return ResponseEntity.notFound().build();  // Si el bien no se encuentra, responde con 404
+        }
     }
-}
-
 }
