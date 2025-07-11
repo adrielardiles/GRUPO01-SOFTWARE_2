@@ -9,35 +9,48 @@ const AccountLogin = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const credentials = { correo, contrasena };
+    const credentials = { correo, contrasena };
 
-  try {
-    const response = await fetch('http://localhost:8081/api/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
+    try {
+      const response = await fetch('http://localhost:8081/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
 
-    if (response.ok) {
-      const userData = await response.json();
-      console.log('✅ Usuario logueado:', userData);
+      if (response.ok) {
+        const userData = await response.json();
+        console.log('✅ Usuario logueado:', userData);
+          // Guardando todos los datos del usuario
 
-      localStorage.setItem('user', JSON.stringify(userData));
 
-      
-      setError('');
-      navigate('/home');  
-    } else {
-      const errorMessage = await response.text();
-      setError(errorMessage || '❌ Correo o contraseña incorrectos');
+        // Verifica el valor de userData.id
+        console.log('ID del usuario:', userData.id);
+        console.log('Correo del usuario:', userData.correo);  // Asegúrate de que este ID sea correcto
+
+        // Guarda la información relevante (usuarioId) en localStorage
+        localStorage.setItem('usuarioId', userData.id);  // Asegúrate de que 'id' es el campo correcto
+        localStorage.setItem('nombre_completo', userData.nombreCompleto);
+        localStorage.setItem('correo',userData.correo); // Guarda el nombre completo
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        console.log(userData);  // Asegúrate de que este objeto contiene un campo 'correo'
+
+
+
+        setError('');
+        navigate('/home');  // Redirige a la página de inicio
+      } else {
+        const errorMessage = await response.text();
+        setError(errorMessage || '❌ Correo o contraseña incorrectos');
+      }
+    } catch (err) {
+      setError('❌ Error de conexión con el servidor');
+      console.error(err);
     }
-  } catch (err) {
-    setError('❌ Error de conexión con el servidor');
-    console.error(err); 
-  }
-};
+  };
 
   return (
     <form
